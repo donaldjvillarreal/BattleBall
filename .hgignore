@@ -6,3 +6,4 @@ syntax: glob
 **.log
 .git/
 .gitignore
+db.sqlite3
