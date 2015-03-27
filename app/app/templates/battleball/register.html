@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang='en-us'>
+    <head>
+        <meta charset='utf-8'>
+        <title>BattleBall Registration</title>
+    </head>
+
+    <body>
+        <h1>Register with BattleBall</h1>
+
+        {% if registered %}
+        <strong>Thank you for registering!</strong>
+        <a href="/battleball/">Return to the homepage.</a><br />
+        {% else %}
+        <strong>Register here!</strong><br />
+
+        <form id="user_form" method="post" action="/battleball/register/"
+                enctype="multipart/form-data">
+
+            {% csrf_token %}
+
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+
+            <input type="submit" name="submit" value="Register" />
+        </form>
+        {% endif %}
+    </body>
+</html>
