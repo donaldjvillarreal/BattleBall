@@ -1,0 +1,44 @@
+body{
+    background-color: black;
+}
+
+.gameboard {
+    width: 1300px;
+    height:600px;
+    border:3px solid white;
+    background-color: green;
+}
+
+.ten-yards-even{
+	width: 129px;
+	height: 100%;
+	float:left;
+}
+
+.ten-yards-odd{
+	width: 126px;
+	height: 100%;
+	float: left;
+}
+.row {
+    width: 40px;
+    height: 100%;
+    padding: 0;
+    border-right: solid white 3px;
+    float: left;
+}
+
+.row div{
+    width: 40px;
+    height: 3.05%;
+    float: bottom;
+    background-color: red;
+}
+
+.border-top{
+    border-top: solid white 1px;
+}
+
+.border-bottom{
+    border-bottom: solid white 1px;
+}
