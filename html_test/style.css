@@ -1,18 +1,44 @@
+body{
+    background-color: black;
+}
+
 .wrapper {
     width: 330px;
     margin:0 auto;
 }
 .gameboard {
-    width: 330px;
-    height:310px;
+    width: 832px;
+    height:165px;
     border:3px solid white;
-    z-index: 1;
+    background-color: green;
 }
-.gameboard div {
-    width: 100px;
-    height: 100px;
+
+.row {
+    width: 832px;
+    height: 50px;
+    padding: 0;
+    border: solid white;
     float: left;
 }
+.row div{
+    width: 25px;
+    height: 50px;
+    float: left;
+}
+
+.border-left{
+    border-left: solid white 1px;
+}
+
+.border-right{
+    border-right: solid white 1px;
+}
+
+.border-left-right{
+    border-right: solid white 1px;
+    border-left: solid white 1px;
+}
+
 .middle {
     border: 1px solid;
 }
