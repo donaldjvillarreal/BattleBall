@@ -8,4 +8,4 @@ Battle Ball is an intense and competitive computer based board game.  Chock-full
 * HTML
 * CSS
 
-Use requirements.txt to install the appropriate packages for this project.
+Use requirements.txt to install the appropriate packages for this project
