@@ -3,13 +3,20 @@ from django.contrib.auth.models import User
 
 # This block of code is added by Donald
 class UserProfile(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, unique=True)
 
     picture = models.ImageField(upload_to='profile_images', blank=True)
 
     def __str__(self):
         return self.user.username
-	
+
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        profile, created = UserProfile.objects.get_or_create(user=instance)
+
+from django.db.models.signals import post_save
+post_save.connect(create_profile, sender=User)
+
 # These blocks of code is added by Tenzin
 class Team(models.Model):
 	teamName = models.CharField(max_length = 30)
@@ -18,7 +25,7 @@ class Team(models.Model):
 	rank = models.IntegerField()
 	def __str__(self):
 		return self.teamName
-	
+
 class User(models.Model):
 	team = models.ForeignKey(Team)
 	fullName = models.CharField(max_length = 30)
