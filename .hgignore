@@ -7,3 +7,7 @@ syntax: glob
 .git/
 .gitignore
 db.sqlite3
+media/
+.jpg
+.png
+.jpeg

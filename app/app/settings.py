@@ -101,6 +101,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # Enhanced Password Security
 
 PASSWORD_HASHERS = (
-'django.contril.auth.hashers.PBKDF2PasswordHasher',
+'django.contrib.auth.hashers.PBKDF2PasswordHasher',
 'django.contrib.auth.hashers.PBKDF2SHA1PasswordHasher',
 )

@@ -39,3 +39,6 @@ def register(request):
     return render(request,
             'battleball/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+
+def board(request):
+    return render(request, 'battleball/gameboard.html')
