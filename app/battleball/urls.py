@@ -17,5 +17,6 @@ urlpatterns = patterns('',
     url(r"^users/(?P<slug>\w+)/$", UserProfileDetailView.as_view(),
         name="profile"),
     url(r"edit_profile/$", auth(UserProfileEditView.as_view()),
-        name="edit_profile")
+        name="edit_profile"),
+    url(r'^board/$', views.board, name='board'),
     )

@@ -1,0 +1,76 @@
+body{
+    background-color: black;
+}
+
+.gameboard {
+    width: 1300px;
+    height:600px;
+    border:4px solid white;
+    background-color: green;
+}
+
+.endzone{
+    width: 6.1%;
+    height: 100%;
+    float:left;
+    border-left: solid white 1px;
+}
+
+.ten-yards-even{
+	width: 8.45%;
+	height: 100%;
+	float:left;
+}
+
+.fifty-yard{
+    width: 2.8%;
+    height: 100%;
+    float:left;
+    border-right: solid white 2px;
+    border-left: solid white 2px;
+}
+
+.ten-yards-odd{
+	width: 8.45%;
+	height: 100%;
+	float: left;
+}
+
+.fifty-yard div{
+    width: 100%;
+    height: 3.16%;
+    float: bottom;
+}
+
+.row {
+    width: 29.5%;
+    height: 100%;
+    padding: 0;
+    border-right: solid white 2px;
+    border-left: solid white 2px;
+    float: left;
+}
+
+.row div{
+    width: 100%;
+    height: 3.16%;
+    float: bottom;
+
+}
+
+.border-top{
+    border-top: solid white 1px;
+}
+
+.border-bottom{
+    border-bottom: solid white 1px;
+}
+
+.border-bottom{
+    border-bottom: solid white 1px;
+}
+
+.border-top-bottom{
+    border-top: solid white 1px;
+    border-bottom: solid white 1px;
+}

@@ -65,3 +65,6 @@ class UserProfileEditView(UpdateView):
 
     def get_success_url(self):
         return reverse("profile", kwargs={"slug": self.request.user})
+
+def board(request):
+    return render(request, 'battleball/gameboard.html')
