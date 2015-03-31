@@ -1,20 +1,18 @@
-{% extends "battleball/index.html" %}
+ {% extends "battleball/index.html" %}
 
-{% block content %}
+{% block body_block %}
 <h2>{{ object.username }}'s Profile</h2>
 
-{% if object.userprofile.picture %}
+{% if object.UserProfile.picture %}
 <div>
-  <b>Picture:</b>
-  <img src="{{ object.userprofile.picture }}" />
+  <b>Picture:</b>  <img src="{{ object.UserProfile.picture }}" /> <br>
 </div>
 {% endif %}
 
 {% if object.username == user.username %}
+<b>email: </b>  {{ user.email }} <br>
 <p><a href='{% url "edit_profile" %}'>Edit my profile</a></p>
-<p><a href='/battleball/board/'>PLAY NOW!</a></p>
+
 {% endif %}
-
-
 
 {% endblock %}
