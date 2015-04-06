@@ -3,7 +3,7 @@ from unittest.mock import Mock, patch
 from battleball.game_pieces import game_piece
 
 class test_pieces(unittest.TestCase):
-	#testing for general game_piece
+
     def test_game_piece_has_ball_initialized(self):
         piece = game_piece(20, 1)
         self.assertEqual(0, piece.has_ball)
@@ -25,6 +25,10 @@ class test_pieces(unittest.TestCase):
     	piece = game_piece(20, 1)
     	self.assertEqual(-1, piece.position['ypos'])
 
+    def test_game_piece_y_position2_psize2_initialize(self):
+    	piece = game_piece(20, 2)
+    	self.assertEqual(-2, piece.position['ypos2'])
+
     def test_game_piece_roll_size_initialized(self):
     	piece = game_piece(20, 1)
     	self.assertEqual(20, piece.roll_size)
@@ -39,12 +43,27 @@ class test_pieces(unittest.TestCase):
     	self.assertEqual(3, piece.position['xpos'])
     	self.assertEqual(2, piece.position['ypos'])
 
+    def test_game_piece_place_psize2_on_board(self):
+    	piece = game_piece(20, 2)
+    	piece.place_on_board(3,2)
+    	self.assertEqual(3, piece.position['xpos'])
+    	self.assertEqual(2, piece.position['ypos'])
+    	self.assertEqual(3, piece.position['ypos2'])
+
     def test_game_piece_movement(self):
     	piece = game_piece(20, 1)
     	piece.place_on_board(5,2)
     	piece.move(1,2)
     	self.assertEqual(6, piece.position['xpos'])
     	self.assertEqual(4, piece.position['ypos'])
+
+    def test_game_piece_psize2_movement(self):
+    	piece = game_piece(20, 2)
+    	piece.place_on_board(5,2)
+    	piece.move(1,2)
+    	self.assertEqual(6, piece.position['xpos'])
+    	self.assertEqual(4, piece.position['ypos'])
+    	self.assertEqual(5, piece.position['ypos2'])
 
     def test_game_piece_low_injury(self):
         piece = game_piece(20, 1)
@@ -59,7 +78,7 @@ class test_pieces(unittest.TestCase):
 @patch('random.randint', return_value=3)
 class TestDice(unittest.TestCase):
     def test_six_sided_dice(self, mocked_randint):
-    	piece = game_piece(6,1)
+    	piece = game_piece(6,2)
     	result = piece.roll()
     	mocked_randint.assert_called_with(1,6)
     	self.assertEqual(result, 3)
