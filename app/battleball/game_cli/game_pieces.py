@@ -1,7 +1,7 @@
 import random
 
 class game_piece:
-    def __init__(self, roll_size, psize):
+    def __init__(self, roll_size, psize, name):
         self.has_ball = 0
         self.injured = 0
         self.position = {'xpos':-1, 'ypos':-1}
@@ -9,6 +9,7 @@ class game_piece:
             self.position['ypos2'] = -2
         self.roll_size = roll_size
         self.psize = psize
+        self.name = name
 
     def ball_toggle(self):
         self.has_ball = not self.has_ball
@@ -50,29 +51,29 @@ def instatiate_pieces():
     '''
 
     #instatiate pieces
-    heavy_tackle_h = game_piece(6, 2)
-    tackle_h = game_piece(6, 1)
-    lineman1_h = game_piece(8, 1)
-    lineman2_h = game_piece(8, 1)
-    linebacker1_h = game_piece(10, 1)
-    linebacker2_h = game_piece(10, 1)
-    safety1_h = game_piece(12, 1)
-    safety2_h = game_piece(12, 1)
-    running_back1_h = game_piece(20, 1)
-    running_back2_h = game_piece(20, 1)
-    running_back3_h = game_piece(20, 1)
+    heavy_tackle_h = game_piece(6, 2, 'heavy tackle')
+    tackle_h = game_piece(6, 1, 'tackle')
+    lineman1_h = game_piece(8, 1, 'lineman 1')
+    lineman2_h = game_piece(8, 1, 'lineman 2')
+    linebacker1_h = game_piece(10, 1, 'linebacker 1')
+    linebacker2_h = game_piece(10, 1, 'linebacker 2')
+    safety1_h = game_piece(12, 1, 'safety 1')
+    safety2_h = game_piece(12, 1, 'safety 2')
+    running_back1_h = game_piece(20, 1, 'running back 1')
+    running_back2_h = game_piece(20, 1, 'running back 2')
+    running_back3_h = game_piece(20, 1, 'running back 3')
 
-    heavy_tackle_a = game_piece(6, 2)
-    tackle_a = game_piece(6, 1)
-    lineman1_a = game_piece(8, 1)
-    lineman2_a = game_piece(8, 1)
-    linebacker1_a = game_piece(10, 1)
-    linebacker2_a = game_piece(10, 1)
-    safety1_a = game_piece(12, 1)
-    safety2_a = game_piece(12, 1)
-    running_back1_a = game_piece(20, 1)
-    running_back2_a = game_piece(20, 1)
-    running_back3_a = game_piece(20, 1)
+    heavy_tackle_a = game_piece(6, 2, 'heavy tackle')
+    tackle_a = game_piece(6, 1, 'tackle')
+    lineman1_a = game_piece(8, 1, 'lineman 1')
+    lineman2_a = game_piece(8, 1, 'lineman 2')
+    linebacker1_a = game_piece(10, 1, 'linebacker 1')
+    linebacker2_a = game_piece(10, 1, 'linebacker 2')
+    safety1_a = game_piece(12, 1, 'safety 1')
+    safety2_a = game_piece(12, 1, 'safety 2')
+    running_back1_a = game_piece(20, 1, 'running back 1')
+    running_back2_a = game_piece(20, 1, 'running back 2')
+    running_back3_a = game_piece(20, 1, 'running back 3')
 
     #place into dictionary
     player_dict = {'home': [ heavy_tackle_h, tackle_h, lineman1_h, lineman2_h, 
