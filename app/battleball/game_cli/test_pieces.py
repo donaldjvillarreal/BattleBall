@@ -106,3 +106,4 @@ class TestDice(unittest.TestCase):
     	result = piece.roll()
     	mocked_randint.assert_called_with(1,20)
     	self.assertEqual(result, 3)
+
