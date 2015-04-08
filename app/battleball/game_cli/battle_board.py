@@ -12,21 +12,21 @@ def create_gameboard():
     gameboard = []
 
     #creates first endzone
-    gameboard.append(['0']*16)
+    gameboard.append(['E']*16)
 
     #create field
     for i in range(0, 31):
         if i == 15:
-            row = ['0']*15
-            row[7] = '1'
+            row = ['E']*15
+            row[7] = 'B'
             gameboard.append(row)
         elif i%2 == 0:
-            gameboard.append(['0']*16)
+            gameboard.append(['E']*16)
         else:
-            gameboard.append(['0']*15)
+            gameboard.append(['E']*15)
 
     #creates second endzone
-    gameboard.append(['0']*16)
+    gameboard.append(['E']*16)
 
     return gameboard
     
@@ -44,3 +44,20 @@ def print_board(gameboard):
             print " " +" ".join(gameboard[i])
 
     print " ".join(gameboard[32])
+
+def place_piece(piece_index, location, gameboard):
+    '''
+    This function updates gameboard by placing a piece
+    objects index and the location provided
+
+    location is a tuple (x,y)
+    '''
+    x = location[0]
+    y = location[1]
+    
+    if(gameboard[x][y] != 'E' and gameboard[x][y] != 'X'):
+        return False
+    else:
+        gameboard[x][y] = str(piece_index)
+        return True
+    
