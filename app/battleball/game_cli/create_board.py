@@ -17,7 +17,11 @@ def create_gameboard():
 
     #create field
     for i in range(0, 31):
-        if i%2 == 0:
+        if i == 15:
+            row = [0]*15
+            row[7] = 1
+            gameboard.append(row)
+        elif i%2 == 0:
             gameboard.append([0]*16)
         else:
             gameboard.append([0]*15)

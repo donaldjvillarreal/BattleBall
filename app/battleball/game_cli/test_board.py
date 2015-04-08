@@ -1,5 +1,5 @@
 import unittest
-import create_board as br
+import battle_board as br
 
 class BoardTest(unittest.TestCase):
 
@@ -56,6 +56,9 @@ class BoardTest(unittest.TestCase):
 
     def test_length_of_row16(self):
         self.assertEqual(len(br.create_gameboard()[16]),15)
+
+    def test_for_ball(self):
+        self.assertEqual(br.create_gameboard()[16][7],1)
 
     def test_length_of_row17(self):
         self.assertEqual(len(br.create_gameboard()[17]),16)
