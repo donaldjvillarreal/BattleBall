@@ -35,15 +35,15 @@ def print_board(gameboard):
     This function takes the current game board and prints it neatly to 
     the console
     '''
-    print " ".join(gameboard[0])
+    print(" ".join(gameboard[0]))
 
     for i in range(1, 32):
         if i%2 == 1:
-            print " ".join(gameboard[i])
+            print(" ".join(gameboard[i]))
         else:
-            print " " +" ".join(gameboard[i])
+            print(" " +" ".join(gameboard[i]))
 
-    print " ".join(gameboard[32])
+    print(" ".join(gameboard[32]))
 
 def place_piece(piece_index, location, gameboard):
     '''
@@ -60,4 +60,19 @@ def place_piece(piece_index, location, gameboard):
     else:
         gameboard[x][y] = str(piece_index)
         return True
+
+def resolve_fumble(location, gameboard):
+    '''
+    This function updates gameboard with the ball after
+    a fumble occurs
+
+    location is a tuple (x,y)
+    '''
+    x = location[0]
+    y = location[1]
     
+    if(gameboard[x][y] != 'E' and gameboard[x][y] != 'X'):
+        return False
+    else:
+        gameboard[x][y] = 'B'
+        return True
