@@ -112,9 +112,9 @@ class TestPlacePiece(unittest.TestCase):
     
     def test_place_piece(self):
         board = br.create_gameboard()
-        location = (1,1)
-        br.place_piece('0',location,board)
-        self.assertEqual(board[1][1],'0')
+        location = (0,0)
+        br.place_piece('0', location,board)
+        self.assertEqual(board[0][0],'0')
 
     def test_place_piece_on_piece(self):
         board = br.create_gameboard()
