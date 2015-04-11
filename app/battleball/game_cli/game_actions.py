@@ -11,25 +11,36 @@ def prompt_place_piece(piece, piece_index, gameboard):
     at the ive x y location
     '''
     while True:
-    	print 'Place your ' + piece.name
-    	x = int(raw_input('Row: '))
-    	y = int(raw_input('Column: '))
+        print 'Place your ' + piece.name
 
-    	# Ensure input is correct
-    	if (x < 0 or x > 32):
-    		print 'Row out of range'
-    		continue
-    	if (y < 0 or y > 15):
-    		print 'Column our of range'
-    		continue
-    	if(x % 2 == 0 and y > 14):
-    		print 'Column out of range'
-    		continue
-    	if not bb.empty_space(gameboard, x,y):
-    		print 'Space is occupied'
-    		continue
-    	else:
-    		bb.place_piece(piece_index, (x,y), gameboard)
-    		piece.place_on_board(x,y)
-    		break
+        x = int(raw_input('Row: '))
+        y = int(raw_input('Column: '))
+        y2 = -1
+
+        if piece.name == 'heavy tackle':
+            y2 = y + 1
+
+        # Ensure input is correct
+        if (x < 0 or x > 32):
+            print 'Row out of range'
+            continue
+        if (y < 0 or y > 15 or y2 > 15):
+            print 'Column our of range'
+            continue
+        if(x % 2 == 0 and y > 14 and y2 > 14):
+            print 'Column out of range'
+            continue
+        if not bb.empty_space(gameboard, x,y):
+            print 'Space is occupied'
+            continue
+
+        if (piece.name == 'heavy tackle' and not bb.empty_space(gameboard, x, y2)):
+            print 'Space is occunpied'
+            continue
+        else:
+            bb.place_piece(piece_index, (x,y), gameboard)
+            piece.place_on_board(x,y)
+            if piece.name == 'heavy tackle':
+                bb.place_piece(piece_index, (x,y2), gameboard)
+            break
 
