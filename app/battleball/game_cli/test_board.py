@@ -130,3 +130,17 @@ class TestResolveFumble(unittest.TestCase):
         br.resolve_fumble(location,board)
         self.assertEqual(board[1][1],'B')
 
+class TestEmptySpace(unittest.TestCase):
+
+    def test_empty_space(self):
+        board = br.create_gameboard()
+        x = 16
+        y = 7
+        self.assertEqual(br.empty_space(board, x, y), True)
+
+    def test_full_space(self):
+        board = br.create_gameboard()
+        x = 16
+        y = 7
+        board[x][y] = '0'
+        self.assertEqual(br.empty_space(board, x, y), False)

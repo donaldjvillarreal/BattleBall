@@ -47,6 +47,15 @@ def print_board(gameboard):
     print " ".join(gameboard[32])
     print '      Away       '
 
+def empty_space(gameboard, x, y):
+    '''
+    This function checks if a given space is taken up by another piece
+    '''
+
+    if (gameboard[x][y] == 'E' or gameboard[x][y] == 'B'):
+        return True
+    else:
+        return False
 
 def place_piece(piece_index, location, gameboard):
     '''
@@ -57,22 +66,12 @@ def place_piece(piece_index, location, gameboard):
     '''
     x = location[0]
     y = location[1]
- 
-    if(x < 0 or x > 33 or y > 15 or y < 0):
-        print "Bad input"
-        return False
 
-    elif(x % 2 == 0):
-        if(y>14):
-            print "bad column"
-            return False
-    
-    if(gameboard[x][y] != 'E' and gameboard[x][y] != 'B'):
-        print "There is already a piece there"
-        return False
-    else:
-        gameboard[x][y] = str(piece_index)
+    if empty_space(gameboard, x, y):
+        gameboard[x][y]  = piece_index
         return True
+    else:
+        return False
 
 def resolve_fumble(location, gameboard):
     '''
