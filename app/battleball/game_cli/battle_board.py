@@ -68,7 +68,7 @@ def place_piece(piece_index, location, gameboard):
     y = location[1]
 
     if empty_space(gameboard, x, y):
-        gameboard[x][y]  = piece_index
+        gameboard[x][y]  = str(piece_index)
         return True
     else:
         return False
