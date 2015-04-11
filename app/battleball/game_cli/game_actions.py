@@ -5,7 +5,7 @@ player turns and game setup
 import battle_board as bb
 import game_pieces as gp
 
-def prompt_place_piece(piece, piece_index, gameboard):
+def prompt_place_piece(piece, piece_index, gameboard, team):
     '''
     prompts user to place a piece and ensures it can be placed
     at the ive x y location
@@ -21,7 +21,10 @@ def prompt_place_piece(piece, piece_index, gameboard):
             y2 = y + 1
 
         # Ensure input is correct
-        if (x < 0 or x > 32):
+        if (team == 'home' and (x < 1 or x > 6)):
+            print 'Row out of range'
+            continue
+        elif (team =='away' and (x < 26 or x > 31)):
             print 'Row out of range'
             continue
         if (y < 0 or y > 15 or y2 > 15):

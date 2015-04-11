@@ -12,5 +12,5 @@ for team in ['home','away']:
     for piece_index in range(len(piece_dictionary[team])):
         
         piece = piece_dictionary[team][piece_index]
-        ga.prompt_place_piece(piece, piece_index, gameboard)
+        ga.prompt_place_piece(piece, piece_index, gameboard, team)
         bb.print_board(gameboard)
