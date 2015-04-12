@@ -85,3 +85,14 @@ def instatiate_pieces():
                              running_back1_a, running_back2_a, running_back3_a]}
 
     return player_dict
+
+def check_movement(piece, roll_value, to_position):
+    '''
+    This function is called when a player picks
+    a location to move a piece
+
+    It returns true if the move is legal and false
+    otherwise
+    '''
+
+    pass

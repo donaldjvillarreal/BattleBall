@@ -83,7 +83,7 @@ def resolve_fumble(location, gameboard):
     x = location[0]
     y = location[1]
     
-    if(gameboard[x][y] != 'E' and gameboard[x][y] != 'X'):
+    if(gameboard[x][y] != 'E'):
         return False
     else:
         gameboard[x][y] = 'B'

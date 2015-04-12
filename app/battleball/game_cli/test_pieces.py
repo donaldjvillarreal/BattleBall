@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces
+from game_pieces import game_piece, instatiate_pieces, check_movement
 
 class test_pieces(unittest.TestCase):
 
@@ -203,3 +203,21 @@ class TestCreate(unittest.TestCase):
     def test_runningback3_away(self):
         players = instatiate_pieces()
         self.assertEqual(players['away'][10].name, 'running back 3' )
+
+class TestCheckMovement(unittest.TestCase):
+
+    def test_legal_movement(self):
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(1, 1)
+        roll_value = 10
+        to_position = (2, 3)
+        check = check_movement(piece, roll_value, to_position)
+        self.assertEqual(check, True)
+
+    def test_illegal_movement(self):
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(1, 1)
+        roll_value = 1
+        to_position = (2, 3)
+        check = check_movement(piece, roll_value, to_position)
+        self.assertEqual(check, False)
