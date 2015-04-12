@@ -95,4 +95,13 @@ def check_movement(piece, roll_value, to_position):
     otherwise
     '''
 
-    pass
+    from_position = piece.position
+    change_in_x = abs(to_position[0] - from_position['xpos'])
+    change_in_y = abs(to_position[1] - from_position['ypos'])
+    total = change_in_x + change_in_y
+
+    if (total > roll_value):
+        return False
+    else:
+        return True
+
