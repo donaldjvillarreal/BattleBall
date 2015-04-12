@@ -69,3 +69,59 @@ def choose_piece_to_move(piece_dictionary, team):
                 return piece_index
         else:
             print "Invalid input"
+
+def prompt_move_piece(piece, piece_index, rolled_value, gameboard, team):
+    '''
+    Prompts the player to choose a location based on
+    the rolled value
+    '''
+    while True:
+        print 'Choose a location for ' + piece.name
+
+        x = int(raw_input('Row: '))
+        y = int(raw_input('Column: '))
+        y2 = -1
+
+        if piece.name == 'heavy tackle':
+            y2 = y + 1
+
+        # Ensure input is correct
+        within_roll = gp.check_movement(piece, rolled_value, (x,y))
+        if (not within_roll):
+            print "You can't move that far"
+            continue
+        if (y < 0 or y > 15 or y2 > 15):
+            print 'Column out of range'
+            continue
+        if(x % 2 == 0 and y > 14 and y2 > 14):
+            print 'Column out of range'
+            continue
+        if not bb.empty_space(gameboard, x,y):
+            print 'Space is occupied'
+            continue
+
+        if (piece.name == 'heavy tackle' and not bb.empty_space(gameboard, x, y2)):
+            print 'Space is occunpied'
+            continue
+        else:
+            # empty old position
+            old_position = piece.position
+            gameboard[old_position['xpos']][old_position['ypos']] = 'E'
+            if piece.name == 'heavy tackle':
+                gameboard[old_position['xpos']][old_position['ypos2']] = 'E'
+
+            # check for ball
+            if (gameboard[x][y] == 'B'):
+                piece.ball_toggle()
+
+            # place piece
+            bb.place_piece(piece_index, (x,y), gameboard)
+            piece.place_on_board(x,y)
+
+            # heavy tackle
+            if piece.name == 'heavy tackle':
+                if (gameboard[x][y2] == 'B'):
+                    piece.ball_toggle()
+                bb.place_piece(piece_index, (x,y2), gameboard)
+            break
+

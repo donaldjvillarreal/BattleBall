@@ -22,3 +22,5 @@ for team in teams:
     piece = piece_dictionary[team][piece_index]
     rolled_value = piece.roll()
     print 'You rolled a ' + str(rolled_value) + ' for ' + piece.name
+    ga.prompt_move_piece(piece, piece_index, rolled_value, gameboard, team)
+    bb.print_board(gameboard)
