@@ -41,6 +41,13 @@ def index(request):
         #user_form = UserForm()
         #profile_form = UserProfileForm()
 
+<<<<<<< working copy
+    return render(request,
+            'battleball/register.html',
+            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+
+
+=======
     #return render(request,
             #'battleball/register.html',
             #{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
@@ -68,3 +75,4 @@ class UserProfileEditView(UpdateView):
 
 def board(request):
     return render(request, 'battleball/gameboard.html')
+>>>>>>> destination
