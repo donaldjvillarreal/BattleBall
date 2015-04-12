@@ -5,6 +5,7 @@ import game_actions as ga
 # Set up initial board and pieces
 gameboard = bb.create_gameboard()
 piece_dictionary = gp.instatiate_pieces()
+teams = ['home', 'away']
 
 
 for team in ['home','away']:
@@ -14,3 +15,10 @@ for team in ['home','away']:
         piece = piece_dictionary[team][piece_index]
         ga.prompt_place_piece(piece, piece_index, gameboard, team)
         bb.print_board(gameboard)
+
+for team in teams:
+    print team + ' team, choose a piece to move'
+    piece_index = ga.choose_piece_to_move(piece_dictionary, team)
+    piece = piece_dictionary[team][piece_index]
+    rolled_value = piece.roll()
+    print 'You rolled a ' + str(rolled_value) + ' for ' + piece.name

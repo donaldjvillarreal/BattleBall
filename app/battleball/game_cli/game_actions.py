@@ -47,3 +47,25 @@ def prompt_place_piece(piece, piece_index, gameboard, team):
                 bb.place_piece(piece_index, (x,y2), gameboard)
             break
 
+def choose_piece_to_move(piece_dictionary, team):
+    '''
+    This function lets a player chose a uninjured piece to move.
+    It returns the chosen piece.
+    '''
+    while True:
+        available_pieces = []
+        for piece in piece_dictionary[team]:
+            if (not piece.injured):
+                available_pieces.append(piece)
+
+        print "You can move one of the following pieces."
+        for piece in available_pieces:
+            print piece.name
+        chosen_one = raw_input("Please select one: ")
+
+        for piece in available_pieces:
+            if (piece.name == chosen_one):
+                piece_index = piece_dictionary[team].index(piece)
+                return piece_index
+        else:
+            print "Invalid input"
