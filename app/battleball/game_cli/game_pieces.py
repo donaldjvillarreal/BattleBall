@@ -105,3 +105,26 @@ def check_movement(piece, roll_value, to_position):
     else:
         return True
 
+def touchdown(piece, to_location, team):
+
+    '''
+    This function checks if a piece with the ball enters
+    the endzone
+    '''
+
+    if (piece.has_ball):
+        if (team == 'home'):
+            row = to_location[0]
+            if (row == 31 or row == 32):
+                piece.has_ball = False
+                print 'The ' + team + ' has scored a touchdown'
+                return True
+        else:
+            row = to_location[0]
+            if (row == 0 or row == 1):
+                piece.has_ball = False
+                print 'The ' + team + ' has scored a touchdown'
+                return True
+    else:
+        return False
+

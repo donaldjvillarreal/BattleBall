@@ -125,31 +125,9 @@ def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
                 bb.place_piece(piece_index, (x,y2), gameboard)
 
             # check if touchdown
-            if (touchdown(piece, (x,y), team)):
+            if (gp.touchdown(piece, (x,y), team)):
                 score[team] += 1
                 return True
             else:
                 return False
 
-def touchdown(piece, to_location, team):
-
-    '''
-    This function checks if a piece with the ball enters
-    the endzone
-    '''
-
-    if (piece.has_ball):
-        if (team == 'home'):
-            row = to_location[0]
-            if (row == 31 or row == 32):
-                piece.has_ball = False
-                print 'The ' + team + ' has scored a touchdown'
-                return True
-        else:
-            row = to_location[0]
-            if (row == 0 or row == 1):
-                piece.has_ball = False
-                print 'The ' + team + ' has scored a touchdown'
-                return True
-    else:
-        return False

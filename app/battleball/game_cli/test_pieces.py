@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces, check_movement
+from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown
 
 class test_pieces(unittest.TestCase):
 
@@ -221,3 +221,69 @@ class TestCheckMovement(unittest.TestCase):
         to_position = (2, 3)
         check = check_movement(piece, roll_value, to_position)
         self.assertEqual(check, False)
+
+class TestTouchdown(unittest.TestCase):
+
+    def test_home_touchdown_row_31(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = True
+        team = 'home'
+        to_location = (31, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, True)
+
+    def test_home_touchdown_row_32(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = True
+        team = 'home'
+        to_location = (32, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, True)
+
+    def test_home_not_touchdown_row_31(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = False
+        team = 'home'
+        to_location = (31, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, False)
+
+    def test_home_touchdown_row_32(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = False
+        team = 'home'
+        to_location = (32, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, False)
+
+    def test_away_touchdown_row_01(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = True
+        team = 'away'
+        to_location = (1, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, True)
+
+    def test_away_touchdown_row_00(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = True
+        team = 'away'
+        to_location = (0, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, True)
+
+    def test_away_not_touchdown_row_01(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = False
+        team = 'away'
+        to_location = (1, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, False)
+
+    def test_away_touchdown_row_00(self):
+        piece = game_piece(20, 1, 'name')
+        piece.has_ball = False
+        team = 'away'
+        to_location = (0, 7)
+        scored = touchdown(piece, to_location, team)
+        self.assertEqual(scored, False)
