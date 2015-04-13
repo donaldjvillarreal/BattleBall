@@ -70,7 +70,7 @@ def choose_piece_to_move(piece_dictionary, team):
         else:
             print "Invalid input"
 
-def prompt_move_piece(piece, piece_index, rolled_value, gameboard, team):
+def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
     '''
     Prompts the player to choose a location based on
     the rolled value
@@ -123,5 +123,33 @@ def prompt_move_piece(piece, piece_index, rolled_value, gameboard, team):
                 if (gameboard[x][y2] == 'B'):
                     piece.ball_toggle()
                 bb.place_piece(piece_index, (x,y2), gameboard)
-            break
 
+            # check if touchdown
+            if (touchdown(piece, (x,y), team)):
+                score[team] += 1
+                return True
+            else:
+                return False
+
+def touchdown(piece, to_location, team):
+
+    '''
+    This function checks if a piece with the ball enters
+    the endzone
+    '''
+
+    if (piece.has_ball):
+        if (team == 'home'):
+            row = to_location[0]
+            if (row == 31 or row == 32):
+                piece.has_ball = False
+                print 'The ' + team + ' has scored a touchdown'
+                return True
+        else:
+            row = to_location[0]
+            if (row == 0 or row == 1):
+                piece.has_ball = False
+                print 'The ' + team + ' has scored a touchdown'
+                return True
+    else:
+        return False
