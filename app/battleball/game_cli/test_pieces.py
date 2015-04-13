@@ -1,7 +1,7 @@
 import unittest
 from mock import Mock, patch
 from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown
-from battle_board import create_gameboard, check_adjacent
+from battle_board import create_gameboard, check_adjacent, move
 
 class test_pieces(unittest.TestCase):
 
@@ -223,6 +223,41 @@ class TestCheckMovement(unittest.TestCase):
         check = check_movement(piece, roll_value, to_position)
         self.assertEqual(check, False)
 
+    def test_return_as_expected(self):
+        gameboard = create_gameboard()
+        gameboard[9][8] = 'B'
+        gameboard[9][9] = 'X'
+        gameboard[10][7] = 'E'
+        gameboard[10][9] = 2
+        gameboard[11][8] = 10
+        gameboard[11][9] = 8
+        adjacent = check_adjacent(gameboard, 10, 8)
+        self.assertEqual(adjacent['ul'], 'B')
+        self.assertEqual(adjacent['ur'], 'X')
+        self.assertEqual(adjacent['l'], 'E')
+        self.assertEqual(adjacent['r'], 2)
+        self.assertEqual(adjacent['dl'], 10)
+        self.assertEqual(adjacent['dr'], 8)
+
+    def test_board_move_ht(self):
+        gameboard = create_gameboard()
+        gameboard[10][8] = 0
+        gameboard[10][9] = 0
+        move(gameboard, 0, 10, 8, 11, 8)
+        self.assertEqual(gameboard[10][8], 'E')
+        self.assertEqual(gameboard[10][9], 'E')
+        self.assertEqual(gameboard[11][8], 0)
+        self.assertEqual(gameboard[11][9], 0)
+
+    def test_board_move_other(self):
+        gameboard = create_gameboard()
+        gameboard[10][8] = 8
+        move(gameboard, 8, 10, 8, 11, 8)
+        self.assertEqual(gameboard[10][8], 'E')
+        self.assertEqual(gameboard[10][9], 'E')
+        self.assertEqual(gameboard[11][8], 8)
+        self.assertEqual(gameboard[11][9], 'E')
+
 class TestTouchdown(unittest.TestCase):
 
     def test_home_touchdown_row_31(self):
@@ -288,20 +323,3 @@ class TestTouchdown(unittest.TestCase):
         to_location = (0, 7)
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
-
-class Test_Adjacent(unittest.TestCase):
-    def test_return_as_expected(self):
-        gameboard = create_gameboard()
-        gameboard[9][8] = 'B'
-        gameboard[9][9] = 'X'
-        gameboard[10][7] = 'E'
-        gameboard[10][9] = 2
-        gameboard[11][8] = 10
-        gameboard[11][9] = 8
-        adjacent = check_adjacent(gameboard, 10, 8)
-        self.assertEqual(adjacent['ul'], 'B')
-        self.assertEqual(adjacent['ur'], 'X')
-        self.assertEqual(adjacent['l'], 'E')
-        self.assertEqual(adjacent['r'], 2)
-        self.assertEqual(adjacent['dl'], 10)
-        self.assertEqual(adjacent['dr'], 8)

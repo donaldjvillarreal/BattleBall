@@ -105,3 +105,10 @@ def check_adjacent(gameboard, x, y):
             occupied['dl'] = gameboard[x+1][y-1]
             occupied['dr'] = gameboard[x+1][y]
     return occupied
+
+def move(gameboard, p_index, x1, y1, x2, y2):
+    gameboard[x1][y1] = 'E'
+    gameboard[x2][y2] = p_index
+    if(p_index==0):
+        gameboard[x1][y1+1] = 'E'
+        gameboard[x2][y2+1] = p_index
