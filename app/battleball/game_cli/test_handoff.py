@@ -2,6 +2,7 @@
 # between two players: 'handoff.py'
 # Test code is incomplete ... 
 
+'''
 from game_pieces import game_piece
 from handoff import handoff
 import random
@@ -18,4 +19,13 @@ print 'player2 has ball? ', player2.has_ball
 handoff(player1, player2)
 print 'player1 has ball? ', player1.has_ball
 print 'player2 has ball? ', player2.has_ball
+'''
+
+import unittest
+from mock import Mock, patch
+from handoff import handoff
+from game_pieces import game_pieces, instatiate_pieces, check_movement, touchdown, check_move
+from battle_board import create_gameboard, check_adjacent, move
+
+
 
