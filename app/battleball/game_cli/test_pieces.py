@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown
+from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
 from battle_board import create_gameboard, check_adjacent, move
 
 class test_pieces(unittest.TestCase):
@@ -323,3 +323,52 @@ class TestTouchdown(unittest.TestCase):
         to_location = (0, 7)
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
+
+class TestCheckMove(unittest.TestCase):
+
+    def test_legal_move(self):
+        piece = game_piece(20, 2, 'heavy tackle')
+        location = (1, 14)
+        gameboard = create_gameboard()
+        gameboard[location[0]][location[1]] = 'E'
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, True)
+
+    def test_move_heavy_tackle_off_column(self):
+        piece = game_piece(20, 2, 'heavy tackle')
+        location = (1, 15)
+        gameboard = create_gameboard()
+        gameboard[location[0]][location[1]] = 'E'
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+    def test_move_other_piece_off_column(self):
+        piece = game_piece(20, 1, 'name')
+        location = (1, 16)
+        gameboard = create_gameboard()
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+    def test_move_piece_off_top(self):
+        piece = game_piece(20, 1, 'name')
+        location = (-1, 7)
+        gameboard = create_gameboard()
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+    def test_move_piece_off_bottom(self):
+        piece = game_piece(20, 1, 'name')
+        location = (33, 7)
+        gameboard = create_gameboard()
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+    def test_move_piece_on_another_piece(self):
+        piece = game_piece(20, 1, 'name')
+        location = (1, 7)
+        gameboard = create_gameboard()
+        gameboard[location[0]][location[1]] = '1'
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+

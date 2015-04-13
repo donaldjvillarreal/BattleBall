@@ -169,3 +169,40 @@ def calculate_move(piece, move):
             row = row + 1
 
     return (row, column)
+
+def check_move(piece, position, gameboard):
+    '''
+    This function will check to see the position is valid
+    '''
+
+    x = position[0]
+    y = position[1]
+    y2 = y + 1
+
+    if (x < 0 or x > 32):
+        print 'Row out of range'
+        return False
+    if (piece.name == 'heavy tackle'):
+        if (y < 0 or y > 15 or y2 > 15):
+            print 'Column out of range'
+            return False
+        if(x % 2 == 0 and y > 14 and y2 > 14):
+            print 'Column out of range'
+            return False
+    else:
+        if (y < 0 or y > 15):
+            print 'Column out of range'
+            return False
+        if(x % 2 == 0 and y > 14):
+            print 'Column out of range'
+            return False
+    if not (gameboard[x][y] == 'E' or gameboard[x][y] == 'B'):
+        print 'Space is occupied'
+        return False
+    if (piece.name == 'heavy tackle' and
+            not (gameboard[x][y] == 'E' or gameboard[x][y] == 'B')):
+        print 'Space is occupied'
+        return False
+    else:
+        return True
+
