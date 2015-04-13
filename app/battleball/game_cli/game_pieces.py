@@ -2,7 +2,7 @@ import random
 
 class game_piece:
     def __init__(self, roll_size, psize, name):
-        self.has_ball = 0
+        self.has_ball = False
         self.injured = 0
         self.position = {'xpos':-1, 'ypos':-1}
         if(psize==2):
