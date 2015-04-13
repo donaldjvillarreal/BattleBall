@@ -128,3 +128,44 @@ def touchdown(piece, to_location, team):
     else:
         return False
 
+def calculate_move(piece, move):
+    '''
+    This function will calculate a pieces new position after
+    a move
+    '''
+
+    current_location = piece.position
+    row = current_location['xpos']
+    column = current_location['ypos']
+    if row % 2 == 0:
+        if move == 'ul':
+            row = row - 1
+        elif move == 'ur':
+            row = row -1
+            column = column + 1
+        elif move == 'l':
+            column = column - 1
+        elif move == 'r':
+            column = column + 1
+        elif move == 'dl':
+            row = row + 1
+        else:
+            row = row + 1
+            column = column + 1
+    else:
+        if move == 'ul':
+            row = row - 1
+            column = column - 1
+        elif move == 'ur':
+            row = row -1
+        elif move == 'l':
+            column = column - 1
+        elif move == 'r':
+            column = column + 1
+        elif move == 'dl':
+            row = row + 1
+            column = column - 1
+        else:
+            row = row + 1
+
+    return (row, column)

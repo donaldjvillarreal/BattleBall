@@ -6,13 +6,13 @@ import game_actions as ga
 piece_dictionary = gp.instatiate_pieces()
 teams = ['home', 'away']
 scores = {'home': 0, 'away': 0}
-
+gameboard = bb.create_gameboard()
 
 while (not (scores['home'] == 2 or scores['away'] == 2)):
 
-    gameboard = bb.create_gameboard()
+    
 
-    for team in ['home','away']:
+    for team in teams:
         print team + ' team, place your pieces behind the 20 yard line'
         for piece_index in range(len(piece_dictionary[team])):
             

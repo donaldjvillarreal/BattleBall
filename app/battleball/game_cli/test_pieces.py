@@ -1,6 +1,6 @@
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown
+from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, calculate_move
 
 class test_pieces(unittest.TestCase):
 
@@ -287,3 +287,11 @@ class TestTouchdown(unittest.TestCase):
         to_location = (0, 7)
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
+
+class TestCalculateMove(unittest.TestCase):
+
+    def test_return_location(self):
+        piece = game_piece(20, 1, 'name')
+        piece.position['xpos'] = 2
+        piece.position['ypos'] = 2
+        self.assertEqual(calculate_move(piece, 'ul'), (1,2))
