@@ -88,3 +88,20 @@ def resolve_fumble(location, gameboard):
     else:
         gameboard[x][y] = 'B'
         return True
+
+def check_adjacent(gameboard, x, y):
+    occupied = {}
+    occupied['l'] = gameboard[x][y-1]
+    occupied['r'] = gameboard[x][y+1]
+    if(1 < x < 31):
+        if(x%2 == 0):
+            occupied['ul'] = gameboard[x-1][y]
+            occupied['ur'] = gameboard[x-1][y+1]
+            occupied['dl'] = gameboard[x+1][y]
+            occupied['dr'] = gameboard[x+1][y+1]
+        else:
+            occupied['ul'] = gameboard[x-1][y-1]
+            occupied['ur'] = gameboard[x-1][y]
+            occupied['dl'] = gameboard[x+1][y-1]
+            occupied['dr'] = gameboard[x+1][y]
+    return occupied

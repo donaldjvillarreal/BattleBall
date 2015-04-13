@@ -1,6 +1,7 @@
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, calculate_move
+from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown
+from battle_board import create_gameboard, check_adjacent
 
 class test_pieces(unittest.TestCase):
 
@@ -288,10 +289,19 @@ class TestTouchdown(unittest.TestCase):
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
 
-class TestCalculateMove(unittest.TestCase):
-
-    def test_return_location(self):
-        piece = game_piece(20, 1, 'name')
-        piece.position['xpos'] = 2
-        piece.position['ypos'] = 2
-        self.assertEqual(calculate_move(piece, 'ul'), (1,2))
+class Test_Adjacent(unittest.TestCase):
+    def test_return_as_expected(self):
+        gameboard = create_gameboard()
+        gameboard[9][8] = 'B'
+        gameboard[9][9] = 'X'
+        gameboard[10][7] = 'E'
+        gameboard[10][9] = 2
+        gameboard[11][8] = 10
+        gameboard[11][9] = 8
+        adjacent = check_adjacent(gameboard, 10, 8)
+        self.assertEqual(adjacent['ul'], 'B')
+        self.assertEqual(adjacent['ur'], 'X')
+        self.assertEqual(adjacent['l'], 'E')
+        self.assertEqual(adjacent['r'], 2)
+        self.assertEqual(adjacent['dl'], 10)
+        self.assertEqual(adjacent['dr'], 8)
