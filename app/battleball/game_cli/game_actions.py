@@ -112,7 +112,7 @@ def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
 
             # check for ball
             if (gameboard[x][y] == 'B'):
-                piece.ball_toggle()
+                piece.has_ball = True
 
             # place piece
             bb.place_piece(piece_index, (x,y), gameboard)
@@ -121,7 +121,7 @@ def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
             # heavy tackle
             if piece.name == 'heavy tackle':
                 if (gameboard[x][y2] == 'B'):
-                    piece.ball_toggle()
+                    piece.has_ball = True
                 bb.place_piece(piece_index, (x,y2), gameboard)
 
             # check if touchdown
