@@ -5,7 +5,6 @@ The function should roll the respective pieces die,
 compare which one is smaller, update the losing pieces 
 is_injured attribute and return the losing piece.
 '''
-
 from game_pieces import game_piece
 
 def tackle(player1, player2):
