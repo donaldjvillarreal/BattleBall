@@ -15,7 +15,7 @@ from game_pieces import game_piece
 def handoff(player1, player2):
 	# test if the two players are instances of 'game_piece' class
 	# if either one of them are not, exception is thrown by 'assert' function
-	assert (isinstance(player1, game_piece)) or (isinstance(player2, game_piece))
+	assert (isinstance(player1, game_piece)) and (isinstance(player2, game_piece))
 
 	# roll the dice for both players
 	result1 = player1.roll()
