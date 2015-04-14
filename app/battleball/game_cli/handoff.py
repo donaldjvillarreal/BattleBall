@@ -3,6 +3,7 @@ This program implements the ball handoff function between two players.
 'handoff' function is the main/only function of the program
 '''
 
+from game_pieces import game_piece
 ''' 
 This function takes as input two game_piece objects. Their dices are rolled.	
 If the dice are not the same, the handoff is successful and the the player
