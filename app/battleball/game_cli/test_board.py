@@ -4,44 +4,47 @@ import battle_board as br
 class BoardTest(unittest.TestCase):
 
     def test_board_size(self):
-        self.assertEqual(len(br.create_gameboard()),33)
+        self.assertEqual(len(br.create_gameboard()),13)
 
     def test_length_of_endzone1(self):
-        self.assertEqual(len(br.create_gameboard()[0]),16)
+        self.assertEqual(len(br.create_gameboard()[0]),6)
 
     def test_length_of_row1(self):
-        self.assertEqual(len(br.create_gameboard()[1]),16)
+        self.assertEqual(len(br.create_gameboard()[1]),6)
 
     def test_length_of_row2(self):
-        self.assertEqual(len(br.create_gameboard()[2]),15)
+        self.assertEqual(len(br.create_gameboard()[2]),5)
 
     def test_length_of_row3(self):
-        self.assertEqual(len(br.create_gameboard()[3]),16)
+        self.assertEqual(len(br.create_gameboard()[3]),6)
 
     def test_length_of_row4(self):
-        self.assertEqual(len(br.create_gameboard()[4]),15)
+        self.assertEqual(len(br.create_gameboard()[4]),5)
 
     def test_length_of_row5(self):
-        self.assertEqual(len(br.create_gameboard()[5]),16)
+        self.assertEqual(len(br.create_gameboard()[5]),6)
 
     def test_length_of_row6(self):
-        self.assertEqual(len(br.create_gameboard()[6]),15)
+        self.assertEqual(len(br.create_gameboard()[6]),5)
 
     def test_length_of_row7(self):
-        self.assertEqual(len(br.create_gameboard()[7]),16)
+        self.assertEqual(len(br.create_gameboard()[7]),6)
 
     def test_length_of_row8(self):
-        self.assertEqual(len(br.create_gameboard()[8]),15)
+        self.assertEqual(len(br.create_gameboard()[8]),5)
 
     def test_length_of_row9(self):
-        self.assertEqual(len(br.create_gameboard()[9]),16)
+        self.assertEqual(len(br.create_gameboard()[9]),6)
 
     def test_length_of_row10(self):
-        self.assertEqual(len(br.create_gameboard()[10]),15)
+        self.assertEqual(len(br.create_gameboard()[10]),5)
 
     def test_length_of_row11(self):
-        self.assertEqual(len(br.create_gameboard()[11]),16)
+        self.assertEqual(len(br.create_gameboard()[11]),6)
 
+    def test_for_ball(self):
+        self.assertEqual(br.create_gameboard()[6][3],'B')
+    '''
     def test_length_of_row12(self):
         self.assertEqual(len(br.create_gameboard()[12]),15)
 
@@ -104,9 +107,9 @@ class BoardTest(unittest.TestCase):
 
     def test_length_of_row31(self):
         self.assertEqual(len(br.create_gameboard()[31]),16)
-
+    '''
     def test_length_of_endzone2(self):
-        self.assertEqual(len(br.create_gameboard()[32]),16)
+        self.assertEqual(len(br.create_gameboard()[12]),6)
 
 class TestPlacePiece(unittest.TestCase):
     

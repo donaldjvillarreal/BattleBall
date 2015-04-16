@@ -72,10 +72,7 @@ def choose_piece_to_move(piece_dictionary, team):
 
 '''
 def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
-    '''
-    Prompts the player to choose a location based on
-    the rolled value
-    '''
+
     while True:
         print 'Choose a location for ' + piece.name
 

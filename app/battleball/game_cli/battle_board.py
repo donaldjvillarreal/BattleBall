@@ -5,28 +5,28 @@ This file contains functions related to the gameboard
 def create_gameboard():
     '''
     Creates a list of lists that represent the rows of a game board
-    The board has 33 rows. The first and last rows are the endzones
-    and have 16 spaces.The other 31 rows are the field made up of
-    alternating rows of length 15 and 16
+    The board has 13 rows. The first and last rows are the endzones
+    and have 11 spaces.The other 31 rows are the field made up of
+    alternating rows of length 6 and 5
     '''
     gameboard = []
 
     #creates first endzone
-    gameboard.append(['E']*16)
+    gameboard.append(['E']*6)
 
     #create field
-    for i in range(0, 31):
-        if i == 15:
-            row = ['E']*15
-            row[7] = 'B'
+    for i in range(0, 11):
+        if i == 5:
+            row = ['E']*5
+            row[2] = 'B'
             gameboard.append(row)
         elif i%2 == 0:
-            gameboard.append(['E']*16)
+            gameboard.append(['E']*6)
         else:
-            gameboard.append(['E']*15)
+            gameboard.append(['E']*5)
 
     #creates second endzone
-    gameboard.append(['E']*16)
+    gameboard.append(['E']*6)
 
     return gameboard
     
@@ -38,13 +38,13 @@ def print_board(gameboard):
     print '      Home       '
     print " ".join(gameboard[0])
 
-    for i in range(1, 32):
+    for i in range(1, 12):
         if i%2 == 1:
             print " ".join(gameboard[i])
         else:
             print " " +" ".join(gameboard[i])
 
-    print " ".join(gameboard[32])
+    print " ".join(gameboard[12])
     print '      Away       '
 
 def empty_space(gameboard, x, y):
