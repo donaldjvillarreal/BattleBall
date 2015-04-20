@@ -28,6 +28,8 @@ def play_game(request,game_id):
     '''
     return HttpResponse('This will be the json for game: %s' % game_id)
 
+class GameListView(ListView):
+    model = GameRoom
 
 '''
 from django.views.generic import ListView, DetailView
