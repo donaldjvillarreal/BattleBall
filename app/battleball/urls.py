@@ -21,4 +21,5 @@ urlpatterns = patterns('',
     url(r'^board/$', views.list_games, name='games'),
     url(r'^board/(?P<game_id>[0-9]+)/$', views.load_game_html, name='load_game_html'),
     url(r'^board/(?P<game_id>[0-9]+)/game/$', views.play_game, name='play_game'),
+    url(r'^gamelist/', views.GameListView.as_view(), name='gamelist'),
     )

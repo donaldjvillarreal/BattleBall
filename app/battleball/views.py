@@ -2,6 +2,8 @@
 For now, this will be the front page of the website and it'll have fields for team 1 and team 2 and a button to create the game. Hitting the button sends a post request to /gameboard containing team 1 and team 22.
 '''
 
+from django.views.generic import ListView
+from .models import GameRoom
 from django.http import HttpResponse
 from django.shortcuts import render
 
