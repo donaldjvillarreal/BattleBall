@@ -99,7 +99,7 @@ def prompt_move_piece(piece, piece_index, rolled_value, score, gameboard, team):
             continue
 
         if (piece.name == 'heavy tackle' and not bb.empty_space(gameboard, x, y2)):
-            print 'Space is occunpied'
+            print 'Space is occupied'
             continue
         else:
             # empty old position

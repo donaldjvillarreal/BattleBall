@@ -29,10 +29,10 @@ def create_gameboard():
     gameboard.append(['E']*6)
 
     return gameboard
-    
+
 def print_board(gameboard):
     '''
-    This function takes the current game board and prints it neatly to 
+    This function takes the current game board and prints it neatly to
     the console
     '''
     print '      Home       '
@@ -47,28 +47,28 @@ def print_board(gameboard):
     print " ".join(gameboard[12])
     print '      Away       '
 
-def empty_space(gameboard, x, y):
-    '''
-    This function checks if a given space is taken up by another piece
-    '''
-
-    if (gameboard[x][y] == 'E' or gameboard[x][y] == 'B'):
-        return True
-    else:
-        return False
-
 def place_piece(piece_index, location, gameboard):
     '''
     This function updates gameboard by placing a piece
     objects index and the location provided
 
-    location is a tuple (x,y)
+    location is a tuple (col,row)
     '''
-    x = location[0]
-    y = location[1]
+    col = location[0]
+    row = location[1]
 
-    if empty_space(gameboard, x, y):
-        gameboard[x][y]  = str(piece_index)
+    if empty_space(gameboard, col, row):
+        gameboard[col][row] = str(piece_index)
+        return True
+    else:
+        return False
+
+def empty_space(gameboard, col, row):
+    '''
+    This function checks if a given space is taken up by another piece
+    '''
+
+    if gameboard[col][row] == 'E' or gameboard[col][row] == 'B':
         return True
     else:
         return False
@@ -78,37 +78,44 @@ def resolve_fumble(location, gameboard):
     This function updates gameboard with the ball after
     a fumble occurs
 
-    location is a tuple (x,y)
+    location is a tuple (col,row)
     '''
-    x = location[0]
-    y = location[1]
-    
-    if(gameboard[x][y] != 'E'):
+    col = location[0]
+    row = location[1]
+
+    if gameboard[col][row] != 'E':
         return False
     else:
-        gameboard[x][y] = 'B'
+        gameboard[col][row] = 'B'
         return True
 
-def check_adjacent(gameboard, x, y):
+def check_adjacent(gameboard, col, row):
+    '''
+    This function will check the neighboring squares
+    and return a dictionary of it's neighbors
+    '''
     occupied = {}
-    occupied['l'] = gameboard[x][y-1]
-    occupied['r'] = gameboard[x][y+1]
-    if(1 < x < 31):
-        if(x%2 == 0):
-            occupied['ul'] = gameboard[x-1][y]
-            occupied['ur'] = gameboard[x-1][y+1]
-            occupied['dl'] = gameboard[x+1][y]
-            occupied['dr'] = gameboard[x+1][y+1]
+    occupied['l'] = gameboard[col][row-1]
+    occupied['r'] = gameboard[col][row+1]
+    if 1 < col < 31:
+        if col%2 == 0:
+            occupied['ul'] = gameboard[col-1][row]
+            occupied['ur'] = gameboard[col-1][row+1]
+            occupied['dl'] = gameboard[col+1][row]
+            occupied['dr'] = gameboard[col+1][row+1]
         else:
-            occupied['ul'] = gameboard[x-1][y-1]
-            occupied['ur'] = gameboard[x-1][y]
-            occupied['dl'] = gameboard[x+1][y-1]
-            occupied['dr'] = gameboard[x+1][y]
+            occupied['ul'] = gameboard[col-1][row-1]
+            occupied['ur'] = gameboard[col-1][row]
+            occupied['dl'] = gameboard[col+1][row-1]
+            occupied['dr'] = gameboard[col+1][row]
     return occupied
 
-def move(gameboard, p_index, x1, y1, x2, y2):
-    gameboard[x1][y1] = 'E'
-    gameboard[x2][y2] = p_index
-    if(p_index==0):
-        gameboard[x1][y1+1] = 'E'
-        gameboard[x2][y2+1] = p_index
+def move(gameboard, p_index, start, end):
+    '''
+    This function will move a piece from col1, row1 to col2, row2
+    '''
+    gameboard[start.col][start.row] = 'E'
+    gameboard[end.col][end.row] = p_index
+    if p_index == 0:
+        gameboard[start.col][start.row+1] = 'E'
+        gameboard[end.col][end.row+1] = p_index

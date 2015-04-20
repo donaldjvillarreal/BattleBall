@@ -19,17 +19,16 @@ def create_game_file(game_id):
     home_piece = gp.create_piece()
     away_piece = gp.create_piece()
 
-    game_dict = { 'game' : {
-                  'board' : board,
-                  'home' : vars(home_piece),
-                  'away' : vars(away_piece)
-                  }
+    game_dict = {'game' : {'board' : board,
+                           'home' : vars(home_piece),
+                           'away' : vars(away_piece)
+                          }
                 }
 
     game_json = json.dumps(game_dict)
     filename = str(game_id) + '_board.json'
-    with open(filename, 'w') as f:
-        f.write(game_json)
+    with open(filename, 'w') as wfile:
+        wfile.write(game_json)
 
     return filename
 
