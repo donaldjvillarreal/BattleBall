@@ -36,11 +36,11 @@ class User(models.Model):
 		return self.userName
 
 class Game(models.Model):
-	boardState = models.CharField(max_length = 30, default = 0)
+	boardFile = models.CharField(max_length = 30, default = 0)
 	homeTeam = models.CharField(max_length = 30)
 	awayTeam = models.CharField(max_length = 30)
+	turn = models.BooleanField(default = True)
 	homeScore = models.IntegerField(default=0)
 	awayScore = models.IntegerField(default=0)
-	def __str__(self):
-		return self.boardState
+
 
