@@ -1,9 +1,13 @@
 from django.contrib import admin
 from battleball.models import UserProfile
+from battleball.models import GameRoom
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 
 #admin.site.register(UserProfile)
+
+class GameAdmin(admin.ModelAdmin): pass
+admin.site.register(GameRoom, GameAdmin)
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
