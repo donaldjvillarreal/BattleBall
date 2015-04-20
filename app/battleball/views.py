@@ -1,3 +1,14 @@
+'''
+For now, this will be the front page of the website and it'll have fields for team 1 and team 2 and a button to create the game. Hitting the button sends a post request to /gameboard containing team 1 and team 22.
+'''
+
+from django.http import HttpResponse
+
+def index(request):
+	return HttpResponse("Hello, world. You're at the battleball index.")
+
+
+'''
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
 from battleball.forms import UserForm, UserProfileForm
@@ -41,13 +52,12 @@ def index(request):
         #user_form = UserForm()
         #profile_form = UserProfileForm()
 
-<<<<<<< working copy
+#<<<<<<< working copy
     return render(request,
             'battleball/register.html',
             {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
 
 
-=======
     #return render(request,
             #'battleball/register.html',
             #{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
@@ -75,4 +85,5 @@ class UserProfileEditView(UpdateView):
 
 def board(request):
     return render(request, 'battleball/gameboard.html')
->>>>>>> destination
+#>>>>>>> destination
+'''
