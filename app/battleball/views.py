@@ -3,9 +3,30 @@ For now, this will be the front page of the website and it'll have fields for te
 '''
 
 from django.http import HttpResponse
+from django.shortcuts import render
 
 def index(request):
 	return HttpResponse("Hello, world. You're at the battleball index.")
+
+def list_games(request):
+    '''
+    List all playable games in database
+    '''
+    return HttpResponse('This will be a list of all games')
+
+def load_game_html(request,game_id):
+    '''
+    This function will return the base html for the 
+    game board
+    '''
+    return HttpResponse('This will be an html page for game: %s' % game_id)
+
+def play_game(request,game_id):
+    '''
+    This function will return the status of the game 
+    board using json
+    '''
+    return HttpResponse('This will be the json for game: %s' % game_id)
 
 
 '''
