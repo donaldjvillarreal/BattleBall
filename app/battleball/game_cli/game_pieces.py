@@ -32,6 +32,9 @@ class game_piece:
     def roll(self):
         return random.randint(1,self.roll_size)
 
+def create_piece():
+    running_back = game_piece(20, 1, 'running back')
+    return running_back
 
 def instatiate_pieces():
     '''
