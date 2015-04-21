@@ -1,45 +1,8 @@
-'''
-For now, this will be the front page of the website and it'll have fields for team 1 and team 2 and a button to create the game. Hitting the button sends a post request to /gameboard containing team 1 and team 22.
-'''
 
-from django.views.generic import ListView
-from .models import GameRoom
-from django.http import HttpResponse
-from django.shortcuts import render
-from django.template.loader import get_template
-
-def index(request):
-	#return HttpResponse("Hello, world. You're at the battleball index.")
-	return render(request, 'startgame.html')
-
-def list_games(request):
-    '''
-    List all playable games in database
-    '''
-    return HttpResponse('This will be a list of all games')
-
-def load_game_html(request,game_id):
-    '''
-    This function will return the base html for the 
-    game board
-    '''
-    return HttpResponse('This will be an html page for game: %s' % game_id)
-
-def play_game(request,game_id):
-    '''
-    This function will return the status of the game 
-    board using json
-    '''
-    return HttpResponse('This will be the json for game: %s' % game_id)
-
-class GameListView(ListView):
-    model = GameRoom
-
-'''
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
 from battleball.forms import UserForm, UserProfileForm
-from battleball.models import UserProfile
+from battleball.models import UserProfile, GameRoom, Game
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
@@ -113,4 +76,30 @@ class UserProfileEditView(UpdateView):
 def board(request):
     return render(request, 'battleball/gameboard.html')
 #>>>>>>> destination
-'''
+
+def index(request):
+    return HttpResponse("Hello, world. You're at the battleball index.")
+
+def list_games(request):
+    '''
+    List all playable games in database
+    '''
+    return HttpResponse('This will be a list of all games')
+
+def load_game_html(request,game_id):
+    '''
+    This function will return the base html for the 
+    game board
+    '''
+    return render(request, 'battleball/game.html')
+
+def play_game(request,game_id):
+    '''
+    This function will return the status of the game 
+    board using json
+    '''
+    return HttpResponse('This will be the json for game: %s' % game_id)
+
+class GameListView(ListView):
+    model = GameRoom
+
