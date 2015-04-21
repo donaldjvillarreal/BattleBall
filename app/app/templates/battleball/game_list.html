@@ -1,0 +1,11 @@
+<ol>
+{% for game in object_list %}
+	<li>
+	<a href="{{ game.url }}">
+		<b>{{ game.title }}</b>
+	</a>
+	<p>Home: {{ game.homeTeam }} Score: {{ game.homeScore }}</p>
+	<p>Away: {{ game.awayTeam }} Score: {{ game.awayScore }}</p>
+	</li>
+{% endfor %}
+</ol>

@@ -17,14 +17,27 @@ def create_profile(sender, instance, created, **kwargs):
 from django.db.models.signals import post_save
 post_save.connect(create_profile, sender=User)
 
-class GameRoom(models.Model):
-    title = models.CharField("Title", max_length=100)
-    Creator = models.ForeignKey(User)
-    created_on = models.DateTimeField(auto_now_add=True)
-    url = models.URLField("URL", max_length=250, blank=True)
+#class GameRoom(models.Model):
+    #title = models.CharField("Title", max_length=100)
+    #Creator = models.ForeignKey(User)
+    #created_on = models.DateTimeField(auto_now_add=True)
+    #url = models.URLField("URL", max_length=250, blank=True)
 
-    def __unicode__(self):
-        return self.title
+    #def __unicode__(self):
+        #return self.title
+
+class Game(models.Model):
+        title = models.CharField("Title", max_length=100, default='untitled')
+        url = models.URLField("URL", max_length=250, blank=True)
+	boardFile = models.CharField(max_length = 30, default = 0)
+	homeTeam = models.CharField(max_length = 30)
+	awayTeam = models.CharField(max_length = 30)
+	turn = models.BooleanField(default = True)
+	homeScore = models.IntegerField(default=0)
+	awayScore = models.IntegerField(default=0)
+
+        def __unicode__(self):
+            return self.title
 
 # These blocks of code is added by Tenzin
 class Team(models.Model):
@@ -44,10 +57,3 @@ class User(models.Model):
 	def __str__(self):
 		return self.userName
 
-class Game(models.Model):
-	boardFile = models.CharField(max_length = 30, default = 0)
-	homeTeam = models.CharField(max_length = 30)
-	awayTeam = models.CharField(max_length = 30)
-	turn = models.BooleanField(default = True)
-	homeScore = models.IntegerField(default=0)
-	awayScore = models.IntegerField(default=0)

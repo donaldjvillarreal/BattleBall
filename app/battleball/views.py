@@ -2,7 +2,7 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
 from battleball.forms import UserForm, UserProfileForm
-from battleball.models import UserProfile, GameRoom, Game
+from battleball.models import UserProfile, Game
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
@@ -79,11 +79,12 @@ def board(request):
     return render(request, 'battleball/gameboard.html')
 #>>>>>>> destination
 
-def list_games(request):
+class list_games(ListView):
     '''
     List all playable games in database
     '''
-    return HttpResponse('This will be a list of all games')
+    model = Game
+    #return HttpResponse('This will be a list of all games')
 
 def load_game_html(request,game_id):
     '''
@@ -107,6 +108,6 @@ def play_game(request,game_id):
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
 
-class GameListView(ListView):
-    model = GameRoom
+#class GameListView(ListView):
+    #model = GameRoom
 
