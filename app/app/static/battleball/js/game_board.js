@@ -1,3 +1,7 @@
+window.onload = function(){
+    draw();
+}
+
 //These variables can be changed to create a bigger/smaller field
 var field_width = 12;
 var sqSize = 100;
@@ -8,7 +12,7 @@ var long_row = 5;
 var hsqSize = sqSize/2;
 var short_row = long_row-1;
 
-'''
+
 var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['0h', 'E', 'E', '1h', 'E', 'E'],
                 ['E', '2h', 'E', '4h', 'E'],
@@ -22,7 +26,7 @@ var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', '2a', 'E', '4a', 'E'],
                 ['Oa', 'E', 'E', '1a', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E']      ];
-'''
+
 
 //This is the main function and will paint in the football field
 function draw() {
