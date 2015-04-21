@@ -32,4 +32,4 @@ def create_game_file(game_id):
 
     return filename
 
-print type(create_game_file(1))
+create_game_file(1)

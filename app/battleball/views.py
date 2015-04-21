@@ -6,6 +6,9 @@ from battleball.models import UserProfile, GameRoom, Game
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
+from django.http import HttpResponse
+
+import json
 
 def index(request):
 	return render(request, 'startgame.html')
@@ -87,14 +90,22 @@ def load_game_html(request,game_id):
     This function will return the base html for the 
     game board
     '''
-    return render(request, 'battleball/game.html')
+    game = Game.objects.get(id=game_id)
+    context_dict = {'game_id': game_id,
+                    'home_team': game.homeTeam,
+                    'away_team': game.awayTeam}
+    return render(request, 'battleball/game.html', context_dict)
 
 def play_game(request,game_id):
     '''
     This function will return the status of the game 
     board using json
     '''
-    return HttpResponse('This will be the json for game: %s' % game_id)
+    game = Game.objects.get(id=game_id)
+    with open(str(game.boardFile)) as f:
+        game_dict = json.load(f)
+
+    return HttpResponse(json.dumps(game_dict), content_type="application/json")
 
 class GameListView(ListView):
     model = GameRoom
