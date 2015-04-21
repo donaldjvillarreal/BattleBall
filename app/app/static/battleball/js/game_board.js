@@ -1,4 +1,12 @@
 window.onload = function(){
+    var request = new XMLHttpRequest();
+    request.open('GET', 'http://localhost:8000/battleball/board/1/game/', false);  // `false` makes the request synchronous
+    request.send(null);
+
+    if (request.status === 200) {
+        json = JSON.parse(request.responseText);
+    }
+    arr = json.game.board;
     draw();
 }
 

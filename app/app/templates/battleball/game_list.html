@@ -1,7 +1,7 @@
 <ol>
 {% for game in object_list %}
 	<li>
-	<a href="{{ game.url }}">
+	<a href="{{ game.id }}">
 		<b>{{ game.title }}</b>
 	</a>
 	<p>Home: {{ game.homeTeam }} Score: {{ game.homeScore }}</p>
