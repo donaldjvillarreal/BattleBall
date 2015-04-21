@@ -1,1 +1,10 @@
 {% extends "battleball/index.html" %}
+{% load staticfiles %}
+
+
+
+{% block body_block %}
+<canvas id="canvas" width="1500" height="600"></canvas>
+<script type='text/javascript' src="{% static 'battleball/js/game_board.js' %}"></script>
+{% endblock %}
+
