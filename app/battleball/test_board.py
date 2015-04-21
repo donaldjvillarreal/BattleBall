@@ -2,7 +2,7 @@
 This file tests for the validity of the board
 '''
 import unittest
-import battle_board as br
+import game_cli.battle_board as br
 
 class BoardTest(unittest.TestCase):
     ''' Test board creation from command line '''
@@ -60,7 +60,7 @@ class BoardTest(unittest.TestCase):
 
     def test_for_ball(self):
         ''' Test that ball is on board '''
-        self.assertEqual(br.create_gameboard()[6][3], 'B')
+        self.assertEqual(br.create_gameboard()[6][2], 'B')
     '''
     def test_length_of_row12(self):
         self.assertEqual(len(br.create_gameboard()[12]), 15)
@@ -165,14 +165,14 @@ class TestEmptySpace(unittest.TestCase):
     def test_empty_space(self):
         ''' test an empty space '''
         board = br.create_gameboard()
-        posx = 16
-        posy = 7
+        posx = 9
+        posy = 4
         self.assertEqual(br.empty_space(board, posx, posy), True)
 
     def test_full_space(self):
         ''' test a full space '''
         board = br.create_gameboard()
-        posx = 16
-        posy = 7
+        posx = 9
+        posy = 3
         board[posx][posy] = '0'
         self.assertEqual(br.empty_space(board, posx, posy), False)

@@ -8,7 +8,8 @@ the function that calls it.
 '''
 
 import unittest
-from tackle import tackle
+from game_cli.tackle import tackle
+from game_cli.game_pieces import game_piece
 
 '''
 Two instances of game piece (player) are created.
@@ -38,7 +39,7 @@ class test_tackle(unittest.TestCase):
 		# make sure the player who lost tackle is injured and other is not
 		if playerInjured == player1:
 			self.assertEqual(1, player1.injured)
-			self.assertEqual(0, plauer2.injured)
+			self.assertEqual(0, player2.injured)
 		else:
 			self.assertEqual(1, player2.injured)
 			self.assertEqual(0, player1.injured)

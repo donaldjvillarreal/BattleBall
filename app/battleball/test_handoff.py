@@ -29,8 +29,8 @@ print 'player2 has ball? ', player2.has_ball
 '''
 
 import unittest
-from handoff import handoff
-from game_pieces import game_piece
+from game_cli.handoff import handoff
+from game_cli.game_pieces import game_piece
 
 class test_handoff(unittest.TestCase):
     '''

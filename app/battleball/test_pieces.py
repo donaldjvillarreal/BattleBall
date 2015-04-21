@@ -3,8 +3,8 @@ This file tests the pieces object
 '''
 import unittest
 from mock import Mock, patch
-from game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
-from battle_board import create_gameboard, check_adjacent, move
+from game_cli.game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
+from game_cli.battle_board import create_gameboard, check_adjacent, move
 
 class test_pieces(unittest.TestCase):
 
