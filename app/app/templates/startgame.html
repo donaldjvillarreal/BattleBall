@@ -1,0 +1,22 @@
+<!--This html page will be the front/main page of the website.
+		It will basically show the two teams, and a button to start 
+		a new game -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>This is the page where you can start a new game!</title>
+</head>
+<body>
+    <ul id="navigation">
+    {% for item in navigation %}
+        <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+    {% endfor %}
+    </ul>
+
+    <h1>My Webpage</h1>
+    {{ a_variable }}
+
+    {# a comment #}
+</body>
+</html>

@@ -6,9 +6,11 @@ from django.views.generic import ListView
 from .models import GameRoom
 from django.http import HttpResponse
 from django.shortcuts import render
+from django.template.loader import get_template
 
 def index(request):
-	return HttpResponse("Hello, world. You're at the battleball index.")
+	#return HttpResponse("Hello, world. You're at the battleball index.")
+	return render(request, 'startgame.html')
 
 def list_games(request):
     '''
