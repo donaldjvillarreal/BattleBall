@@ -1,3 +1,6 @@
+{% extends "battleball/index.html" %}
+
+{% block body_block %}
 <ol>
 {% for game in object_list %}
 	<li>
@@ -9,3 +12,4 @@
 	</li>
 {% endfor %}
 </ol>
+{% endblock %}
