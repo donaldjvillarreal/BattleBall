@@ -51,5 +51,3 @@ class Game(models.Model):
 	turn = models.BooleanField(default = True)
 	homeScore = models.IntegerField(default=0)
 	awayScore = models.IntegerField(default=0)
-
-

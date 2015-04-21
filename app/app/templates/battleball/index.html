@@ -20,7 +20,8 @@
 	          </button>
 	          <a class="navbar-brand" href="/battleball/">Battleball</a>
 	        </div>
-	        <div class="navbar-collapse collapse">
+	        
+	        <div class="navbar-collapse collapse"> 
 	          <ul class="nav navbar-nav navbar-right">
                 {% if user.is_authenticated %}
                     <li><a href="{% url 'profile' slug=user.username %}">View Profile</a></li>
@@ -32,6 +33,7 @@
                 {% endif %}
 	          </ul>
 	        </div>
+	       
 	      </div>
 	    </div>
 
