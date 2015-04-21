@@ -8,8 +8,7 @@ from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 
 def index(request):
-    context_dict = {'boldmessage': "I am bold font from the context"}
-    return render(request, 'battleball/index.html', context_dict)
+	return render(request, 'startgame.html')
 
 #def register(request):
 
@@ -43,9 +42,9 @@ def index(request):
         #profile_form = UserProfileForm()
 
 #<<<<<<< working copy
-    return render(request,
-            'battleball/register.html',
-            {'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
+    #return render(request,
+            #'battleball/register.html',
+           #{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
 
 
     #return render(request,
@@ -76,9 +75,6 @@ class UserProfileEditView(UpdateView):
 def board(request):
     return render(request, 'battleball/gameboard.html')
 #>>>>>>> destination
-
-def index(request):
-    return HttpResponse("Hello, world. You're at the battleball index.")
 
 def list_games(request):
     '''
