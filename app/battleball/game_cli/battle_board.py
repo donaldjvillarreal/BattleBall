@@ -110,12 +110,12 @@ def check_adjacent(gameboard, col, row):
             occupied['dr'] = gameboard[col+1][row]
     return occupied
 
-def move(gameboard, p_index, start, end):
+def move(gameboard, p_index, posx1, posy1, posx2, posy2):
     '''
     This function will move a piece from col1, row1 to col2, row2
     '''
-    gameboard[start.col][start.row] = 'E'
-    gameboard[end.col][end.row] = p_index
+    gameboard[posx1][posy1] = 'E'
+    gameboard[posx2][posy2] = p_index
     if p_index == 0:
-        gameboard[start.col][start.row+1] = 'E'
-        gameboard[end.col][end.row+1] = p_index
+        gameboard[posx1][posy1+1] = 'E'
+        gameboard[posx2][posy2+1] = p_index

@@ -1,48 +1,71 @@
+'''
+This file controls the game_piece objects, which are placed on the board.
+'''
 import random
 
 class game_piece:
+    '''
+    Below is the game_piece class which contains it's own roll, move, place_on_board
+    and injury functions.
+    The board has it's own class as well
+    '''
     def __init__(self, roll_size, psize, name):
         self.has_ball = False
         self.injured = 0
         self.position = {'xpos':-1, 'ypos':-1}
-        if(psize==2):
+        if psize == 2:
             self.position['ypos2'] = -2
         self.roll_size = roll_size
         self.psize = psize
         self.name = name
 
     def ball_toggle(self):
+        '''
+        toggles has_ball
+        '''
         self.has_ball = not self.has_ball
 
-    def place_on_board(self, x, y):
-        self.position['xpos'] = x
-        self.position['ypos'] = y
-        if(self.psize==2):
-            self.position['ypos2'] = y+1
+    def place_on_board(self, col, row):
+        '''
+        starting position on the board
+        '''
+        self.position['xpos'] = col
+        self.position['ypos'] = row
+        if self.psize == 2:
+            self.position['ypos2'] = row+1
 
-    def move(self, x, y):
-        self.position['xpos'] = self.position['xpos']+x
-        self.position['ypos'] = self.position['ypos']+y
-        if(self.psize==2):
-            self.position['ypos2'] = self.position['ypos2']+y
+    def move(self, col, row):
+        '''
+        incremental move on board
+        '''
+        self.position['xpos'] = self.position['xpos']+col
+        self.position['ypos'] = self.position['ypos']+row
+        if self.psize == 2:
+            self.position['ypos2'] = self.position['ypos2']+row
 
     def injury(self, severity):
+        '''
+        injury of 0 = no injury, injury of 1 = out for game
+        injury of 2 = outpermanenty
+        '''
         self.injured = severity
 
     def roll(self):
-        return random.randint(1,self.roll_size)
+        '''     rolls dice depending on type of player      '''
+        return random.randint(1, self.roll_size)
 
 def create_piece():
+    '''     create piece for short board        '''
     running_back = game_piece(20, 1, 'running back')
     return running_back
 
 def instatiate_pieces():
     '''
     This function returns a dictionary containing the initial game pieces
-    
+
     pieces = {home: [],
               away: []}
-    
+
     and the indicies of the list are as follow:
 
     0        - heavy tackle
@@ -79,13 +102,13 @@ def instatiate_pieces():
     running_back3_a = game_piece(20, 1, 'running back 3')
 
     #place into dictionary
-    player_dict = {'home': [ heavy_tackle_h, tackle_h, lineman1_h, lineman2_h, 
-                             linebacker1_h, linebacker2_h, safety1_h, safety2_h, 
-                             running_back1_h, running_back2_h, running_back3_h],
+    player_dict = {'home': [heavy_tackle_h, tackle_h, lineman1_h, lineman2_h,
+                            linebacker1_h, linebacker2_h, safety1_h, safety2_h,
+                            running_back1_h, running_back2_h, running_back3_h],
 
-                   'away': [ heavy_tackle_a, tackle_a, lineman1_a, lineman2_a, 
-                             linebacker1_a, linebacker2_a, safety1_a, safety2_a, 
-                             running_back1_a, running_back2_a, running_back3_a]}
+                   'away': [heavy_tackle_a, tackle_a, lineman1_a, lineman2_a,
+                            linebacker1_a, linebacker2_a, safety1_a, safety2_a,
+                            running_back1_a, running_back2_a, running_back3_a]}
 
     return player_dict
 
@@ -103,7 +126,7 @@ def check_movement(piece, roll_value, to_position):
     change_in_y = abs(to_position[1] - from_position['ypos'])
     total = change_in_x + change_in_y
 
-    if (total > roll_value):
+    if total > roll_value:
         return False
     else:
         return True
@@ -115,16 +138,16 @@ def touchdown(piece, to_location, team):
     the endzone
     '''
 
-    if (piece.has_ball):
-        if (team == 'home'):
+    if piece.has_ball:
+        if team == 'home':
             row = to_location[0]
-            if (row == 31 or row == 32):
+            if row == 31 or row == 32:
                 piece.has_ball = False
                 print 'The ' + team + ' has scored a touchdown'
                 return True
         else:
             row = to_location[0]
-            if (row == 0 or row == 1):
+            if row == 0 or row == 1:
                 piece.has_ball = False
                 print 'The ' + team + ' has scored a touchdown'
                 return True
@@ -178,32 +201,32 @@ def check_move(piece, position, gameboard):
     This function will check to see the position is valid
     '''
 
-    x = position[0]
-    y = position[1]
-    y2 = y + 1
+    col = position[0]
+    row = position[1]
+    row2 = row + 1
 
-    if (x < 0 or x > 32):
+    if col < 0 or col > 32:
         print 'Row out of range'
         return False
-    if (piece.name == 'heavy tackle'):
-        if (y < 0 or y > 15 or y2 > 15):
+    if piece.name == 'heavy tackle':
+        if  row < 0 or row > 15 or row2 > 15:
             print 'Column out of range'
             return False
-        if(x % 2 == 0 and y > 14 and y2 > 14):
+        if col % 2 == 0 and row > 14 and row2 > 14:
             print 'Column out of range'
             return False
     else:
-        if (y < 0 or y > 15):
+        if row < 0 or row > 15:
             print 'Column out of range'
             return False
-        if(x % 2 == 0 and y > 14):
+        if col % 2 == 0 and row > 14:
             print 'Column out of range'
             return False
-    if not (gameboard[x][y] == 'E' or gameboard[x][y] == 'B'):
+    if not (gameboard[col][row] == 'E' or gameboard[col][row] == 'B'):
         print 'Space is occupied'
         return False
     if (piece.name == 'heavy tackle' and
-            not (gameboard[x][y] == 'E' or gameboard[x][y] == 'B')):
+            not (gameboard[col][row] == 'E' or gameboard[col][row] == 'B')):
         print 'Space is occupied'
         return False
     else:
