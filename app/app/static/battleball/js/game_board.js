@@ -51,12 +51,9 @@ function draw() {
 
 //Returns the coordinates of the mouse
 function getPosition(event) {
-    var canvas = document.getElementById("canvas");
-    x = event.x;
-    y = event.y;
-    x -= canvas.offsetLeft;
-    y -= canvas.offsetTop;
-    clickpos = position(x-border, y-border)
+    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    clickpos = position(x, y)
 
     alert("x: " + clickpos.col + "  y: " + clickpos.row);
 }
@@ -69,6 +66,10 @@ function gameboard(ctx) {
         for (j = 0; j <= short_row; j++) move(i, j, arr[i][j], ctx);
     for (i = 0; i <= field_width; i+=field_width)
         for (j = 0; j <= long_row; j++) move(i, j, arr[i][j], ctx);
+
+    for(i = 0; i < pieces; i++) move(i, -1, '0h', ctx);
+    
+    for(i=field_width-pieces+1; i<=field_width; i++) move(i, -1, '0a', ctx);
 
 }
 
@@ -95,7 +96,7 @@ function move(col, row, ind, ctx) {
 function coordinates(col, row) {
     var o = new Object({});
     o.x= sqSize*col;
-    if(col%2 !== 0 || col === 0 || col === field_width) {
+    if(col%2 !== 0 || col === 0 || col === field_width || row < 0) {
         if(row==long_row) {
             o.y = 0;
             o.size = hsqSize;
@@ -116,12 +117,21 @@ function coordinates(col, row) {
 
 function position(posx, posy) {
     var o = new Object({});
-    o.col = Math.floor(posx/sqSize);
-    var yfix = -(posy - long_row*sqSize);
-    if(o.col%2 !== 0 || o.col === 0 || o.col === field_width) {
-        if(yfix < hsqSize) o.row = 0;
-        else o.row = Math.floor((yfix+hsqSize)/sqSize);
+    o.col = Math.floor((posx-border)/sqSize);
+    var board_bottom = long_row*sqSize+border;
+    var yfix = -(posy - border - long_row*sqSize);
+    var edge_right = (field_width+1)*sqSize+border;
+    if(posy <= board_bottom && posy >= border) {
+        if(o.col%2 !== 0 || o.col === 0 || o.col === field_width) {
+            if(yfix < hsqSize) o.row = 0;
+            else o.row = Math.floor((yfix+hsqSize)/sqSize);
+        }
+        else o.row = Math.floor(yfix/sqSize);
     }
-    else o.row = Math.floor(yfix/sqSize);
+    else if (posy <= board_bottom+sqSize+hsqSize && posy >= board_bottom+hsqSize &&
+              ((posx >= border && posx <=border+sqSize*pieces) ||
+                (posx <= edge_right && posx >= edge_right - pieces*sqSize))
+            ) o.row = -2;
+    else o.row = -1;
     return o;
 }

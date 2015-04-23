@@ -2,7 +2,7 @@
 This file tests for the validity of the board
 '''
 import unittest
-import game_cli.battle_board as br
+import battleball.game_cli.battle_board as br
 
 class BoardTest(unittest.TestCase):
     ''' Test board creation from command line '''
