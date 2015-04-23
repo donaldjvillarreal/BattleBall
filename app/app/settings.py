@@ -42,6 +42,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'registration',
     'battleball',
+    'django_nose',
 )
 
 ACCOUNT_ACTIVATION_DAYS = 7
@@ -69,6 +70,14 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
+# Use nose to run all tests
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+NOSE_ARGS = [
+    '--with-coverage',
+    '--cover-package=battleball',
+]
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.7/topics/i18n/
