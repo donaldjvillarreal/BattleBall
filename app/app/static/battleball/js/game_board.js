@@ -15,6 +15,7 @@ var field_width = 12;
 var sqSize = 100;
 var border = 25;
 var long_row = 5;
+var pieces = 3;
 
 //these variables should not be changed
 var hsqSize = sqSize/2;
