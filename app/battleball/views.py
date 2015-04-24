@@ -77,7 +77,6 @@ class UserProfileEditView(UpdateView):
 
 def board(request):
     return render(request, 'battleball/gameboard.html')
-#>>>>>>> destination
 
 class list_games(ListView):
     '''
@@ -107,7 +106,3 @@ def play_game(request,game_id):
         game_dict = json.load(f)
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
-
-#class GameListView(ListView):
-    #model = GameRoom
-
