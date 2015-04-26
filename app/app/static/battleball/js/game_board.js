@@ -100,6 +100,11 @@ function getPosition(event) {
     else processMove(clickedBlock);
 }
 
+function roll(int) {
+    proll = Math.floor((Math.random() * int) + 1);
+    return proll;
+}
+
 //This function will create a board with no pieces on it
 function gameboard() {
     for (var i = 1; i <= (field_width-1); i+=2)
