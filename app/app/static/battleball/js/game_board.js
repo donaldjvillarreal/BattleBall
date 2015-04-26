@@ -11,20 +11,25 @@ window.onload = function(){
 }
 
 //These variables can be changed to create a bigger/smaller field
-var field_width = 12;
-var sqSize = 100;
-var border = 25;
-var long_row = 5;
-var pieces = 3;
+var field_width = 12,
+    sqSize = 100,
+    border = 25,
+    long_row = 5,
+    pieces = 3,
+    selectedPiece = null,
+    ctx = null,
+    HOME_TEAM = 0,
+    AWAY_TEAM = 1,
+    currentTurn = HOME_TEAM;
 
 //these variables should not be changed
-var hsqSize = sqSize/2;
-var short_row = long_row-1;
+var hsqSize = sqSize/2,
+    short_row = long_row-1;
 
 /*
 var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', 'E', 'E', 'E', 'E'],
+                ['E', '8h', 'E', '2h', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
@@ -32,51 +37,83 @@ var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', 'E', 'E', 'E', 'E'],
+                ['E', '2a', 'E', '8a', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E']      ];
+
+var home = [
+                {"injured": 0,
+                 "name": "running back",
+                 "psize": 1,
+                 "has_ball": false,
+                 "roll_size": 20,
+                 "position": {"xpos": 2, "ypos": 1}},
+                {"injured": 0,
+                 "name": "lineman",
+                 "psize": 1,
+                 "has_ball": false,
+                 "roll_size": 8,
+                 "position": {"xpos": 2, "ypos": 3}}
+            ];
+var away =  [
+                {"injured": 0,
+                 "name": "running back",
+                 "psize": 1,
+                 "has_ball": false,
+                 "roll_size": 20,
+                 "position": {"xpos": 10, "ypos": 3}},
+                {"injured": 0,
+                 "name": "lineman",
+                 "psize": 1,
+                 "has_ball": false,
+                 "roll_size": 8,
+                 "position": {"xpos": 10, "ypos": 1}}
+            ];
 */
 
 document.addEventListener("DOMContentLoaded", draw, false);
 
 //This is the main function and will paint in the football field
 function draw() {
-  var canvas = document.getElementById('canvas');
-  if (canvas.getContext) {
-    var ctx = canvas.getContext('2d');
+    var canvas = document.getElementById('canvas');
+    if (canvas.getContext) {
+        ctx = canvas.getContext('2d');
 
-    gameboard(ctx, arr);
-    canvas.addEventListener("mousedown", getPosition, false);
-  }
+        gameboard();
+        canvas.addEventListener("click", getPosition, false);
+    }
+    else alert("Canvas not supported!");
 }
 
 //Returns the coordinates of the mouse
 function getPosition(event) {
-    x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
-    y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
-    clickpos = position(x, y)
+    var x = event.pageX,
+        y = event.pageY;
+    if (x === undefined) {
+        x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft;
+        y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop;
+    }
 
-    alert("x: " + clickpos.col + "  y: " + clickpos.row);
+    var clickedBlock = position(x, y);
+
+    if (selectedPiece === null) checkIfPieceClicked(clickedBlock);
+    else processMove(clickedBlock);
 }
 
 //This function will create a board with no pieces on it
-function gameboard(ctx) {
+function gameboard() {
     for (var i = 1; i <= (field_width-1); i+=2)
-        for (var j = 0; j <= long_row; j++) move(i, j, arr[i][j], ctx);
+        for (var j = 0; j <= long_row; j++) move(i, j, arr[i][j]);
     for (i = 2; i <= (field_width-1); i+=2)
-        for (j = 0; j <= short_row; j++) move(i, j, arr[i][j], ctx);
+        for (j = 0; j <= short_row; j++) move(i, j, arr[i][j]);
     for (i = 0; i <= field_width; i+=field_width)
-        for (j = 0; j <= long_row; j++) move(i, j, arr[i][j], ctx);
-
-    for(i = 0; i < pieces; i++) move(i, -1, '0h', ctx);
-    
-    for(i=field_width-pieces+1; i<=field_width; i++) move(i, -1, '0a', ctx);
-
+        for (j = 0; j <= long_row; j++) move(i, j, arr[i][j]);
 }
 
 //This function will take in the desired spot and piece indicator to move the piece to that location
-function move(col, row, ind, ctx) {
+function move(col, row, ind) {
     ctx.strokeStyle = 'white';
+    ctx.lineWidth = 1;
     var team = ind.charAt(ind.length-1)
     if (col === 0 && ind =='E') ctx.fillStyle = '#09D';
     else if (col == field_width && ind =='E') ctx.fillStyle = '#F55';
@@ -129,10 +166,146 @@ function position(posx, posy) {
         }
         else o.row = Math.floor(yfix/sqSize);
     }
-    else if (posy <= board_bottom+sqSize+hsqSize && posy >= board_bottom+hsqSize &&
-              ((posx >= border && posx <=border+sqSize*pieces) ||
-                (posx <= edge_right && posx >= edge_right - pieces*sqSize))
-            ) o.row = -2;
     else o.row = -1;
     return o;
+}
+
+
+function checkIfPieceClicked(clickedBlock) {
+    var pieceAtBlock = getPieceAtBlock(clickedBlock);
+    if (pieceAtBlock !== null)
+        selectPiece(pieceAtBlock);
+}
+
+function getPieceAtBlock(clickedBlock) {
+    var team = (currentTurn === HOME_TEAM ? home : away);
+
+    return getPieceAtBlockForTeam(team, clickedBlock);
+}
+
+function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
+
+    var curPiece = null,
+        iPieceCounter = 0,
+        pieceAtBlock = null;
+
+    for (iPieceCounter = 0; iPieceCounter < teamOfPieces.length; iPieceCounter++) {
+
+        curPiece = teamOfPieces[iPieceCounter];
+
+        if (curPiece.injured === 0 && curPiece.position.xpos === clickedBlock.col &&
+            curPiece.position.ypos === clickedBlock.row) {
+                curPiece.itr = iPieceCounter;
+                pieceAtBlock = curPiece;
+                iPieceCounter = teamOfPieces.length;
+        }
+    }
+
+    return pieceAtBlock;
+}
+
+function selectPiece(pieceAtBlock) {
+    // Draw outline
+    ctx.strokeStyle = 'white';
+    ctx.lineWidth = 4;
+
+    var piece = coordinates(pieceAtBlock.position.xpos, pieceAtBlock.position.ypos);
+    ctx.strokeRect(border + piece.x+2, border + piece.y+2, sqSize-4, piece.size-4);
+
+    selectedPiece = pieceAtBlock;
+}
+
+function removeSelection(selectedPiece) {
+
+    move(selectedPiece.position.xpos, selectedPiece.position.ypos,
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
+    // add line to draw sprite
+}
+
+function processMove(clickedBlock) {
+    var pieceAtBlock = getPieceAtBlock(clickedBlock);
+    if (pieceAtBlock !== null) {
+        removeSelection(selectedPiece);
+        checkIfPieceClicked(clickedBlock);
+    }
+
+    else if (canSelectedMoveToBlock(selectedPiece, clickedBlock) === true)
+        //move(clickedBlock.col, clickedBlock.row, arr[clickedBlock.col][clickedBlock.row]);
+        movePiece(clickedBlock);
+}
+
+//This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
+function canSelectedMoveToBlock(selectedPiece, clickedBlock)
+{
+    var col = selectedPiece.position.xpos,
+        row = selectedPiece.position.ypos,
+        occounter, nextMove=[], bNextRowEmpty,
+        u={}, d={}, ul={}, dl={}, ur={}, dr={}, l={}, r={},
+        occupied=[];
+    d.col = u.col = col;
+    ul.col = dl.col = l.col = col-1;
+    ur.col = dr.col = r.col = col+1;
+    d.row = row-1;
+    u.row = row+1;
+    if(col === 0) {
+        ul.row = row+1;
+        l.row = ur.row = row;
+        dl.row = dr.row = row-1;
+    }
+    else if(col === 0) {
+        ur.row = row;
+        ul.row = r.row = row;
+        dl.row = dr.row = row-1;
+    }
+    else if(col%2 !== 0) {
+        ul.row = dl.row = row-1;
+        ur.row = dr.row = row;
+    }
+    else {
+        dr.row = dl.row = row;
+        ur.row = ul.row = row+1;
+    }
+    occupied.push(u, d, ul, dl, ur, dr, l, r);
+    nextMove.col = selectedPiece.position.xpos;
+    nextMove.row = selectedPiece.position.ypos;
+
+    for(occounter=0; occounter<occupied.length; occounter++) {
+        if (occupied[occounter].row == clickedBlock.row &&
+            occupied[occounter].col == clickedBlock.col) {
+            nextMove = occupied[occounter];
+        }
+    }
+    //alert(arr[nextMove.col][nextMove.row]);
+    if(arr[nextMove.col][nextMove.row]=='E')
+        bNextRowEmpty = true;
+    else bNextRowEmpty = false;
+    return bNextRowEmpty;
+}
+
+//A better draw function thatn the one currently used
+function movePiece(clickedBlock) {
+    // Clear the block in the original position
+    move(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
+
+    move(clickedBlock.col, clickedBlock.row, 
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
+
+    var team = (currentTurn === AWAY_TEAM ? away : home),
+        opposite = (currentTurn !== AWAY_TEAM ? away : home);
+
+    team[selectedPiece.itr].position.xpos = clickedBlock.col;
+    team[selectedPiece.itr].position.ypos = clickedBlock.row;
+
+    arr[clickedBlock.col][clickedBlock.row] =
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
+
+    arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
+
+
+    // Draw the piece in the new position
+    // drawPiece(selectedPiece, (currentTurn === HOME_TEAM));
+
+    selectedPiece = null;
+
+    currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
 }
