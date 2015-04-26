@@ -100,6 +100,11 @@ function getPosition(event) {
     else processMove(clickedBlock);
 }
 
+function roll(int) {
+    proll = Math.floor((Math.random() * int) + 1);
+    return proll;
+}
+
 //This function will create a board with no pieces on it
 function gameboard() {
     for (var i = 1; i <= (field_width-1); i+=2)
@@ -258,8 +263,8 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
         dl.row = dr.row = row-1;
     }
     else if(col%2 !== 0) {
-        ul.row = dl.row = row-1;
-        ur.row = dr.row = row;
+        dr.row = dl.row = row-1;
+        ur.row = ul.row = row;
     }
     else {
         dr.row = dl.row = row;
@@ -271,7 +276,8 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 
     for(occounter=0; occounter<occupied.length; occounter++) {
         if (occupied[occounter].row == clickedBlock.row &&
-            occupied[occounter].col == clickedBlock.col) {
+            occupied[occounter].col == clickedBlock.col &&
+            occupied[occounter].col>=0 && occupied[occounter].col<=field_width) {
             nextMove = occupied[occounter];
         }
     }
@@ -285,22 +291,21 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 //A better draw function thatn the one currently used
 function movePiece(clickedBlock) {
     // Clear the block in the original position
+    var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
+
     move(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
 
-    move(clickedBlock.col, clickedBlock.row, 
-        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
+    move(clickedBlock.col, clickedBlock.row, ind);
+
+    arr[clickedBlock.col][clickedBlock.row] = ind;
+
+    arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
 
     var team = (currentTurn === AWAY_TEAM ? away : home),
         opposite = (currentTurn !== AWAY_TEAM ? away : home);
 
     team[selectedPiece.itr].position.xpos = clickedBlock.col;
     team[selectedPiece.itr].position.ypos = clickedBlock.row;
-
-    arr[clickedBlock.col][clickedBlock.row] =
-        arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
-
-    arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
-
 
     // Draw the piece in the new position
     // drawPiece(selectedPiece, (currentTurn === HOME_TEAM));
