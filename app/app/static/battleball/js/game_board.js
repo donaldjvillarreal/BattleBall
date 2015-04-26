@@ -70,6 +70,7 @@ var away =  [
                  "position": {"xpos": 10, "ypos": 1}}
             ];
 */
+
 document.addEventListener("DOMContentLoaded", draw, false);
 
 //This is the main function and will paint in the football field
@@ -172,13 +173,11 @@ function position(posx, posy) {
 
 function checkIfPieceClicked(clickedBlock) {
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
-    if (pieceAtBlock !== null) {
+    if (pieceAtBlock !== null)
         selectPiece(pieceAtBlock);
-    }
 }
 
 function getPieceAtBlock(clickedBlock) {
-
     var team = (currentTurn === HOME_TEAM ? home : away);
 
     return getPieceAtBlockForTeam(team, clickedBlock);
@@ -201,6 +200,7 @@ function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
                 iPieceCounter = teamOfPieces.length;
         }
     }
+
     return pieceAtBlock;
 }
 
@@ -216,62 +216,96 @@ function selectPiece(pieceAtBlock) {
 }
 
 function removeSelection(selectedPiece) {
-    alert(selectedPiece.position.xpos+"\t"+ selectedPiece.position.ypos);
-    move(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
+
+    move(selectedPiece.position.xpos, selectedPiece.position.ypos,
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
     // add line to draw sprite
 }
 
 function processMove(clickedBlock) {
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
-
-    removeSelection(selectedPiece);
-    checkIfPieceClicked(clickedBlock);
-    move(clickedBlock.col, clickedBlock.row,
-        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
-
-    currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
-
-    selectedPiece = null;
-}
-
-function processMove(clickedBlock) {
-    var pieceAtBlock = getPieceAtBlock(clickedBlock);
-
     if (pieceAtBlock !== null) {
         removeSelection(selectedPiece);
         checkIfPieceClicked(clickedBlock);
     }
+
     else if (canSelectedMoveToBlock(selectedPiece, clickedBlock) === true)
-        movePiece(clickedBlock, enemyPiece);
+        //move(clickedBlock.col, clickedBlock.row, arr[clickedBlock.col][clickedBlock.row]);
+        movePiece(clickedBlock);
 }
 
-/*
 //This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
-function canSelectedMoveToBlock(selectedPiece, clickedBlock, enemyPiece) {
+function canSelectedMoveToBlock(selectedPiece, clickedBlock)
+{
+    var col = selectedPiece.position.xpos,
+        row = selectedPiece.position.ypos,
+        occounter, nextMove=[], bNextRowEmpty,
+        u={}, d={}, ul={}, dl={}, ur={}, dr={}, l={}, r={},
+        occupied=[];
+    d.col = u.col = col;
+    ul.col = dl.col = l.col = col-1;
+    ur.col = dr.col = r.col = col+1;
+    d.row = row-1;
+    u.row = row+1;
+    if(col === 0) {
+        ul.row = row+1;
+        l.row = ur.row = row;
+        dl.row = dr.row = row-1;
+    }
+    else if(col === 0) {
+        ur.row = row;
+        ul.row = r.row = row;
+        dl.row = dr.row = row-1;
+    }
+    else if(col%2 !== 0) {
+        ul.row = dl.row = row-1;
+        ur.row = dr.row = row;
+    }
+    else {
+        dr.row = dl.row = row;
+        ur.row = ul.row = row+1;
+    }
+    occupied.push(u, d, ul, dl, ur, dr, l, r);
+    nextMove.col = selectedPiece.position.xpos;
+    nextMove.row = selectedPiece.position.ypos;
 
+    for(occounter=0; occounter<occupied.length; occounter++) {
+        if (occupied[occounter].row == clickedBlock.row &&
+            occupied[occounter].col == clickedBlock.col) {
+            nextMove = occupied[occounter];
+        }
+    }
+    //alert(arr[nextMove.col][nextMove.row]);
+    if(arr[nextMove.col][nextMove.row]=='E')
+        bNextRowEmpty = true;
+    else bNextRowEmpty = false;
+    return bNextRowEmpty;
 }
 
 //A better draw function thatn the one currently used
-function movePiece(clickedBlock, enemyPiece) {
+function movePiece(clickedBlock) {
     // Clear the block in the original position
-    drawBlock(selectedPiece.col, selectedPiece.row);
+    move(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
+
+    move(clickedBlock.col, clickedBlock.row, 
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
 
     var team = (currentTurn === AWAY_TEAM ? away : home),
         opposite = (currentTurn !== AWAY_TEAM ? away : home);
 
-    team[selectedPiece.position].col = clickedBlock.col;
-    team[selectedPiece.position].row = clickedBlock.row;
+    team[selectedPiece.itr].position.xpos = clickedBlock.col;
+    team[selectedPiece.itr].position.ypos = clickedBlock.row;
 
-    if (enemyPiece !== null) {
-        // Clear the piece your about to take
-        drawBlock(enemyPiece.col, enemyPiece.row);
-        opposite[enemyPiece.position].status = TAKEN;
-    }
+    arr[clickedBlock.col][clickedBlock.row] =
+        arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
+
+    arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
+
 
     // Draw the piece in the new position
-    drawPiece(selectedPiece, (currentTurn === BLACK_TEAM));
-
-    currentTurn = (currentTurn === WHITE_TEAM ? BLACK_TEAM : WHITE_TEAM);
+    // drawPiece(selectedPiece, (currentTurn === HOME_TEAM));
 
     selectedPiece = null;
-}*/
+
+    currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+}
