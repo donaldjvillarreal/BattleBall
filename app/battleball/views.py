@@ -11,7 +11,15 @@ from django.http import HttpResponse
 import json
 
 def index(request):
-	return render(request, 'startgame.html')
+		return render(request, 'battleball/newgame_home.html')
+
+def board(request):
+		'''
+		This function will create a game in the database
+		and it fills info like team's name and so on.
+		It will return gameboard.html
+		'''	
+		return render(request, 'battleball/gameboard.html')
 
 #def register(request):
 
@@ -74,10 +82,7 @@ class UserProfileEditView(UpdateView):
 
     def get_success_url(self):
         return reverse("profile", kwargs={"slug": self.request.user})
-
-def board(request):
-    return render(request, 'battleball/gameboard.html')
-#>>>>>>> destination
+		#>>>>>>> destination
 
 class list_games(ListView):
     '''

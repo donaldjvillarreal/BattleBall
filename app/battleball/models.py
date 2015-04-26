@@ -64,3 +64,5 @@ class User(models.Model):
     dateJoined = models.DateTimeField('Date Joined')
     def __str__(self):
         return self.userName
+
+
