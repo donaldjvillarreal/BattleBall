@@ -44,18 +44,3 @@ class Team(models.Model):
     rank = models.IntegerField(default=0)
     def __str__(self):
         return self.teamName
-+<<<<<<< destination:f23f2a17fe34eb7a18062f619150694c91b97ea9:app/battleball/models.py
-
-class User(models.Model):
-    ''' Individual user '''
-    team = models.ForeignKey(Team)
-    fullName = models.CharField(max_length=30)
-    userName = models.CharField(max_length=30)
-    password = models.CharField(max_length=30)
-    dateJoined = models.DateTimeField('Date Joined')
-    def __str__(self):
-        return self.userName
-
-
-+=======
-+>>>>>>> source:2874c772243ffeb972811792619e91db5e6ac9b7:app/battleball/models.py
