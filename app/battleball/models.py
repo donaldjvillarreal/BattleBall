@@ -51,7 +51,7 @@ class Team(models.Model):
     teamName = models.CharField(max_length=30)
     gamesPlayed = models.IntegerField(default=0)
     gamesWon = models.IntegerField(default=0)
-    rank = models.IntegerField()
+    rank = models.IntegerField(default=0)
     def __str__(self):
         return self.teamName
 
