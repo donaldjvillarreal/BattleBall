@@ -44,7 +44,6 @@ class Team(models.Model):
     rank = models.IntegerField(default=0)
     def __str__(self):
         return self.teamName
-<<<<<<< destination:038a0dc73d88512d8c422779270f624d1bf5b36c:app/battleball/models.py
 
 class User(models.Model):
     ''' Individual user '''
@@ -57,5 +56,3 @@ class User(models.Model):
         return self.userName
 
 
-=======
->>>>>>> source:2874c772243ffeb972811792619e91db5e6ac9b7:app/battleball/models.py
