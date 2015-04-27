@@ -1,12 +1,12 @@
 window.onload = function(){
-    var request = new XMLHttpRequest();
-    request.open('GET', 'http://localhost:8000/battleball/board/1/game/', false);  // `false` makes the request synchronous
-    request.send(null);
+    //var request = new XMLHttpRequest();
+    //request.open('GET', 'http://localhost:8000/battleball/board/1/game/', false);  // `false` makes the request synchronous
+    //request.send(null);
 
-    if (request.status === 200) {
-        json = JSON.parse(request.responseText);
-    }
-    arr = json.game.board;
+    //if (request.status === 200) {
+    //    json = JSON.parse(request.responseText);
+    //}
+    //arr = json.game.board;
     draw();
 }
 
@@ -26,7 +26,7 @@ var field_width = 12,
 var hsqSize = sqSize/2,
     short_row = long_row-1;
 
-/*
+
 var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', '8h', 'E', '2h', 'E'],
@@ -69,7 +69,7 @@ var away =  [
                  "roll_size": 8,
                  "position": {"xpos": 10, "ypos": 1}}
             ];
-*/
+
 
 document.addEventListener("DOMContentLoaded", draw, false);
 
@@ -100,26 +100,38 @@ function getPosition(event) {
     else processMove(clickedBlock);
 }
 
-function roll(int) {
-    proll = Math.floor((Math.random() * int) + 1);
+/*
+    This function creates a random number from 1- roll size
+*/
+function roll(roll_size) {
+    proll = Math.floor((Math.random() * roll_size) + 1);
     return proll;
 }
 
-//This function will create a board with no pieces on it
+//This function will create a board
 function gameboard() {
     for (var i = 1; i <= (field_width-1); i+=2)
-        for (var j = 0; j <= long_row; j++) move(i, j, arr[i][j]);
+        for (var j = 0; j <= long_row; j++) fill_space(i, j, arr[i][j]);
     for (i = 2; i <= (field_width-1); i+=2)
-        for (j = 0; j <= short_row; j++) move(i, j, arr[i][j]);
+        for (j = 0; j <= short_row; j++) fill_space(i, j, arr[i][j]);
     for (i = 0; i <= field_width; i+=field_width)
-        for (j = 0; j <= long_row; j++) move(i, j, arr[i][j]);
+        for (j = 0; j <= long_row; j++) fill_space(i, j, arr[i][j]);
 }
 
-//This function will take in the desired spot and piece indicator to move the piece to that location
-function move(col, row, ind) {
+/* 
+   This function will take in the desired spot and piece indicator 
+   and create a space
+
+   Input: col = column that the square will will occupy
+          row = row that the square will occupy
+          square_identifier = E, X, B, #a, identifies what type of square
+                               is created
+
+*/
+function fill_space(col, row, square_identifier) {
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 1;
-    var team = ind.charAt(ind.length-1)
+    var team = square_identifier.charAt(ind.length-1)
     if (col === 0 && ind =='E') ctx.fillStyle = '#09D';
     else if (col == field_width && ind =='E') ctx.fillStyle = '#F55';
     else if (ind == 'E') ctx.fillStyle = '#6C0';
