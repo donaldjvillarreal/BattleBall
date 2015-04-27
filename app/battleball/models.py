@@ -4,7 +4,7 @@ Databases for battleball
 
 from django.db import models
 from django.contrib.auth.models import User
-
+from django.db.models.signals import post_save
 # This block of code is added by Donald
 
 class UserProfile(models.Model):
@@ -19,17 +19,7 @@ def create_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = UserProfile.objects.get_or_create(user=instance)
 
-from django.db.models.signals import post_save
 post_save.connect(create_profile, sender=User)
-
-#class GameRoom(models.Model):
-    #title = models.CharField("Title", max_length=100)
-    #Creator = models.ForeignKey(User)
-    #created_on = models.DateTimeField(auto_now_add=True)
-    #url = models.URLField("URL", max_length=250, blank=True)
-
-    #def __unicode__(self):
-        #return self.title
 
 class Game(models.Model):
     ''' crucial items for game board '''
@@ -54,6 +44,7 @@ class Team(models.Model):
     rank = models.IntegerField(default=0)
     def __str__(self):
         return self.teamName
+<<<<<<< destination:038a0dc73d88512d8c422779270f624d1bf5b36c:app/battleball/models.py
 
 class User(models.Model):
     ''' Individual user '''
@@ -66,3 +57,5 @@ class User(models.Model):
         return self.userName
 
 
+=======
+>>>>>>> source:2874c772243ffeb972811792619e91db5e6ac9b7:app/battleball/models.py

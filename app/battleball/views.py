@@ -112,7 +112,7 @@ def board(request):
 		and it fills info like team's name and so on.
 		It will return gameboard.html
 		'''	
-		team1 = Team(teamName = 'Red', gamesPlayed = 0, gamesWon = 0, rank = 0)
+		team1 = Team(teamName = 'temp_name', gamesPlayed = 0, gamesWon = 0, rank = 0)
 		team1.save()
 		#team2 = Team(teamName = team2_name, gamesPlayed = 0, gamesWon = 0, rank = 0)
 		#team2.save()
