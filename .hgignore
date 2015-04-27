@@ -13,3 +13,4 @@ media/
 *.png
 *.jpeg
 *.json
+.DS_store
