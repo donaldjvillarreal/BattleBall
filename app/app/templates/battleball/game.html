@@ -4,8 +4,11 @@
 
 
 {% block body_block %}
-<p> Game {{ game_id }} - {{home_team}} vs {{away_team}}
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<div id="log"></div>
+<p> Game {{ game_id }} - {{home_team}} vs {{away_team}} </p>
 <canvas id="canvas" width="1500" height="600"></canvas>
 <script type='text/javascript' src="{% static 'battleball/js/game_board.js' %}"></script>
+
 {% endblock %}
 
