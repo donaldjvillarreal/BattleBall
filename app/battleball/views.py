@@ -7,7 +7,6 @@ from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
-from .models import Team, Game
 
 import json
 
@@ -75,7 +74,9 @@ class UserProfileEditView(UpdateView):
 
     def get_success_url(self):
         return reverse("profile", kwargs={"slug": self.request.user})
-		#>>>>>>> destination
+
+def board(request):
+		return render(request, 'battleball/gameboard.html')
 
 class list_games(ListView):
     '''
@@ -105,19 +106,3 @@ def play_game(request,game_id):
         game_dict = json.load(f)
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
-
-def board(request):
-		'''
-		This function will create a game in the database
-		and it fills info like team's name and so on.
-		It will return gameboard.html
-		'''	
-		team1 = Team(teamName = 'temp_name', gamesPlayed = 0, gamesWon = 0, rank = 0)
-		team1.save()
-		#team2 = Team(teamName = team2_name, gamesPlayed = 0, gamesWon = 0, rank = 0)
-		#team2.save()
-		return render(request, 'battleball/gameboard.html')
-
-#class GameListView(ListView):
-    #model = GameRoom
-
