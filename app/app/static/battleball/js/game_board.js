@@ -150,7 +150,7 @@ function fill_space(col, row, square_identifier) {
     else if (square_identifier === 'E') ctx.fillStyle = '#6C0';
     else if (square_identifier === 'B') ctx.fillStyle = 'yellow';
     else if (square_identifier === 'X') ctx.fillStyle = 'black';
-    //else if (team === 'h') ctx.fillStyle = 'blue';
+    else if (team === 'h') ctx.fillStyle = 'blue';
     else if (team === 'a') ctx.fillStyle = 'red';
     
     // get pieces coordinate and size
@@ -161,7 +161,9 @@ function fill_space(col, row, square_identifier) {
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
     if (team === 'h') 
-        ctx.drawImage(pieces,1,1,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        ctx.drawImage(pieces,0,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+    else if (team === 'a')
+        ctx.drawImage(pieces,1*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
 }
 
 //This function will take in a row and column.
