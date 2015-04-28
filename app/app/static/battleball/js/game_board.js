@@ -293,32 +293,9 @@ function processMove(clickedBlock) {
 //This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
 function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 {
-    var col = selectedPiece.position.xpos,
-        row = selectedPiece.position.ypos,
-        occounter, nextMove=[], bNextRowEmpty,
-        u={}, d={}, ul={}, dl={}, ur={}, dr={}, l={}, r={},
-        occupied=[];
-    d.col = u.col = col;
-    ul.col = dl.col = l.col = col-1;
-    ur.col = dr.col = r.col = col+1;
-    d.row = row-1;
-    u.row = row+1;
-    //endzone 1
-    if(col === 0) {
-        ul.row = row+1;
-        l.row = ur.row = row;
-        dl.row = dr.row = row-1;
-    }
-
-    else if(col%2 !== 0) {
-        dr.row = dl.row = row-1;
-        ur.row = ul.row = row;
-    }
-    else {
-        dr.row = dl.row = row;
-        ur.row = ul.row = row+1;
-    }
-    occupied.push(u, d, ul, dl, ur, dr, l, r);
+    var occupied = surroundingSpaces(selectedPiece);
+    var occounter, nextMove=[], bNextRowEmpty;
+    
     nextMove.col = selectedPiece.position.xpos;
     nextMove.row = selectedPiece.position.ypos;
 
@@ -367,6 +344,41 @@ function movePiece(clickedBlock) {
     currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
 }
 
+function surroundingSpaces(selectedPiece){
+    /* 
+    This function returns a list of the surrounding spaces
+    relative to the selected piece
+    */
+    var col = selectedPiece.position.xpos,
+        row = selectedPiece.position.ypos,
+        u={}, d={}, ul={}, dl={}, ur={}, dr={}, l={}, r={},
+        occupied=[];
+    d.col = u.col = col;
+    ul.col = dl.col = l.col = col-1;
+    ur.col = dr.col = r.col = col+1;
+    d.row = row-1;
+    u.row = row+1;
+    //endzone 1
+    if(col === 0) {
+        ul.row = row+1;
+        l.row = ur.row = row;
+        dl.row = dr.row = row-1;
+    }
+
+    else if(col%2 !== 0) {
+        dr.row = dl.row = row-1;
+        ur.row = ul.row = row;
+    }
+    else {
+        dr.row = dl.row = row;
+        ur.row = ul.row = row+1;
+    }
+    occupied.push(u, d, ul, dl, ur, dr, l, r);
+    return occupied
+}
+
 function pickupBall(piece){
+    // This function allows a piece to pick up
+    // the game ball
     piece['has_ball'] = true;
 }
