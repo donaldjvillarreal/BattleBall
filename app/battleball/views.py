@@ -11,7 +11,7 @@ from django.http import HttpResponse
 import json
 
 def index(request):
-		return render(request, 'battleball/newgame_home.html')
+    return render(request, 'startgame.html')
 
 #def register(request):
 
@@ -76,7 +76,7 @@ class UserProfileEditView(UpdateView):
         return reverse("profile", kwargs={"slug": self.request.user})
 
 def board(request):
-		return render(request, 'battleball/gameboard.html')
+    return render(request, 'battleball/gameboard.html')
 
 class list_games(ListView):
     '''
