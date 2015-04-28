@@ -440,6 +440,7 @@ function processTackle(clickedBlock){
 
             enemy_piece.injured = 1;
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
+            arr[clickedBlock.col][clickedBlock.row] = 'X';
         }
 
          //if defending piece wins
@@ -449,6 +450,7 @@ function processTackle(clickedBlock){
             }
             selectedPiece.injured = 1;
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
+            arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
         }
         
         else {
@@ -462,6 +464,8 @@ function processTackle(clickedBlock){
                 }
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X')
+            arr[clickedBlock.col][clickedBlock.row] = 'X';
+            arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
         }
         tackle = false;
         selectedPiece = null;    
