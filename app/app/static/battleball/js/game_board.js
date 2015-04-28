@@ -102,8 +102,10 @@ function getPosition(event) {
 
     console.log(x + ' , ' + y);
     console.log(clickedBlock.row +' , ' + clickedBlock.col);
-
+    
+    // Check to see if block contains a piece
     if (selectedPiece === null) checkIfPieceClicked(clickedBlock);
+    // if there is a selected piece, move it
     else processMove(clickedBlock);
 }
 
@@ -231,7 +233,7 @@ function getPieceAtBlock(clickedBlock) {
 }
 
 function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
-
+    // Returns the piece located at a space, otherwise returns null
     var curPiece = null,
         iPieceCounter = 0,
         pieceAtBlock = null;
@@ -251,14 +253,16 @@ function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
     return pieceAtBlock;
 }
 
+
 function selectPiece(pieceAtBlock) {
-    // Draw outline
+    // Draw outline around selected piece
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 4;
 
     var piece = coordinates(pieceAtBlock.position.xpos, pieceAtBlock.position.ypos);
     ctx.strokeRect(border + piece.x+2, border + piece.y+2, sqSize-4, piece.size-4);
 
+    // selected piece is global
     selectedPiece = pieceAtBlock;
 }
 
@@ -270,6 +274,11 @@ function removeSelection(selectedPiece) {
 }
 
 function processMove(clickedBlock) {
+    /* When a piece is selected this function checks whether
+       There is a piece at the location clicked
+       if there is it removes the current selection and selects the next piece
+       Otherwise if the move is allowed, the piece is moved
+    */
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
     if (pieceAtBlock !== null) {
         removeSelection(selectedPiece);
@@ -294,16 +303,13 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
     ur.col = dr.col = r.col = col+1;
     d.row = row-1;
     u.row = row+1;
+    //endzone 1
     if(col === 0) {
         ul.row = row+1;
         l.row = ur.row = row;
         dl.row = dr.row = row-1;
     }
-    else if(col === 0) {
-        ur.row = row;
-        ul.row = r.row = row;
-        dl.row = dr.row = row-1;
-    }
+
     else if(col%2 !== 0) {
         dr.row = dl.row = row-1;
         ur.row = ul.row = row;
@@ -332,27 +338,29 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 
 //A better draw function thatn the one currently used
 function movePiece(clickedBlock) {
-    // Clear the block in the original position
+    
     var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
-
+    // Clear the block in the original position
     fill_space(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
-
+    // fill next space
     fill_space(clickedBlock.col, clickedBlock.row, ind);
-
+    
+    //update game board
     arr[clickedBlock.col][clickedBlock.row] = ind;
-
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
+    
+    // TODO: pick up ball
+    // TODO: Tackle function
 
+    // update piece object to match board status, possibly it's own function later
     var team = (currentTurn === AWAY_TEAM ? away : home),
         opposite = (currentTurn !== AWAY_TEAM ? away : home);
 
     team[selectedPiece.itr].position.xpos = clickedBlock.col;
     team[selectedPiece.itr].position.ypos = clickedBlock.row;
 
-    // Draw the piece in the new position
-    // drawPiece(selectedPiece, (currentTurn === HOME_TEAM));
-
     selectedPiece = null;
-
+    
+    // change turn
     currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
 }
