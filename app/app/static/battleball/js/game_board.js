@@ -329,8 +329,8 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
             nextMove = occupied[occounter];
         }
     }
-    //alert(arr[nextMove.col][nextMove.row]);
-    if(arr[nextMove.col][nextMove.row]=='E')
+    // Ensure next space is empty or has a ball on it 
+    if(arr[nextMove.col][nextMove.row]=='E' || arr[nextMove.col][nextMove.row] == 'B')
         bNextRowEmpty = true;
     else bNextRowEmpty = false;
     return bNextRowEmpty;
