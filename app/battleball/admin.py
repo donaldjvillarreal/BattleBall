@@ -3,16 +3,15 @@ This file contains everything for the admins
 '''
 from django.contrib import admin
 from battleball.models import UserProfile
-from battleball.models import Game
+from battleball.models import Game, Coach, Piece
 from django.contrib.auth.admin import UserAdmin
 from django.contrib.auth import get_user_model
 
 #admin.site.register(UserProfile)
 
-class GameAdmin(admin.ModelAdmin):
-    ''' No custom values yet '''
-    pass
-admin.site.register(Game, GameAdmin)
+admin.site.register(Game)
+admin.site.register(Coach)
+admin.site.register(Piece)
 
 class UserProfileInline(admin.StackedInline):
     ''' Inline for User Profile '''

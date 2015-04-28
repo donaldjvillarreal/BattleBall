@@ -2,7 +2,7 @@
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
 from battleball.forms import UserForm, UserProfileForm
-from battleball.models import UserProfile, Game
+from battleball.models import UserProfile, Game, Piece
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
@@ -106,5 +106,23 @@ def play_game(request,game_id):
         game_dict = json.load(f)
 
 
+
+    return HttpResponse(json.dumps(game_dict), content_type="application/json")
+
+def place_piece(request,game_id):
+    '''
+    This function will update a pieces position on json
+    '''
+    game = Game.objects.get(id=game_id)
+    piece = game.pieces['home'][2];
+    piece.str_position = '{"xpos":2,"ypos":2}'
+    pos = json.loads(piece.str_position)
+    piece.name = '2h'
+    with open(str(game.boardFile), 'r+') as f:
+        game_dict = json.load(f)
+        game_dict[pos["xpos"]][pos["ypos"]] = piece.name
+        f.seek(0)
+        f.write(json.dumps(game_dict))
+        f.truncate()
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
