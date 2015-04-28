@@ -330,6 +330,12 @@ function movePiece(clickedBlock) {
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     
     // TODO: Tackle function
+    /*
+    occupied = surroundingSpaces(selectedPiece);
+    for(var i = 0; i < occupied.length; i++){
+
+    }
+    */
 
     // update piece object to match board status, possibly it's own function later
     var team = (currentTurn === AWAY_TEAM ? away : home),
