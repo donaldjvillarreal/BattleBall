@@ -105,4 +105,6 @@ def play_game(request,game_id):
     with open(str(game.boardFile)) as f:
         game_dict = json.load(f)
 
+
+
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
