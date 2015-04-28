@@ -345,11 +345,13 @@ function movePiece(clickedBlock) {
     // fill next space
     fill_space(clickedBlock.col, clickedBlock.row, ind);
     
+    if(arr[clickedBlock.col][clickedBlock.row] === 'B'){
+        pickupBall(selectedPiece);
+    }
     //update game board
     arr[clickedBlock.col][clickedBlock.row] = ind;
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     
-    // TODO: pick up ball
     // TODO: Tackle function
 
     // update piece object to match board status, possibly it's own function later
@@ -363,4 +365,8 @@ function movePiece(clickedBlock) {
     
     // change turn
     currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+}
+
+function pickupBall(piece){
+    piece['has_ball'] = true;
 }
