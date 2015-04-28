@@ -2,12 +2,14 @@
 This file tests the pieces object
 '''
 import unittest
-from mock import Mock, patch
-from battleball.game_cli.game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
+from mock import patch
+from battleball.game_cli.game_pieces import game_piece, instatiate_pieces, \
+                                            check_movement, touchdown, check_move
+
 from battleball.game_cli.battle_board import create_gameboard, check_adjacent, move
 
-class test_pieces(unittest.TestCase):
-
+class test_game_pieces(unittest.TestCase):
+    ''' testing of pieces '''
     def test_game_piece_has_ball_initialized(self):
         ''' test ball_toggle '''
         piece = game_piece(20, 1, 'name')
@@ -50,12 +52,14 @@ class test_pieces(unittest.TestCase):
         self.assertEqual(1, piece.psize)
 
     def test_game_piece_place_on_board(self):
+        ''' test placement of piece on board '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(3, 2)
         self.assertEqual(3, piece.position['xpos'])
         self.assertEqual(2, piece.position['ypos'])
 
     def test_game_piece_place_psize2_on_board(self):
+        ''' test placement of size 2 piece on board '''
         piece = game_piece(20, 2, 'name')
         piece.place_on_board(3, 2)
         self.assertEqual(3, piece.position['xpos'])
@@ -63,6 +67,7 @@ class test_pieces(unittest.TestCase):
         self.assertEqual(3, piece.position['ypos2'])
 
     def test_game_piece_movement(self):
+        ''' test movement of piece '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(5, 2)
         piece.move(1, 2)
@@ -70,6 +75,7 @@ class test_pieces(unittest.TestCase):
         self.assertEqual(4, piece.position['ypos'])
 
     def test_game_piece_psize2_movement(self):
+        ''' test movement of size 2 piece '''
         piece = game_piece(20, 2, 'name')
         piece.place_on_board(5, 2)
         piece.move(1, 2)
@@ -78,147 +84,181 @@ class test_pieces(unittest.TestCase):
         self.assertEqual(5, piece.position['ypos2'])
 
     def test_game_piece_low_injury(self):
+        ''' test mild injury '''
         piece = game_piece(20, 1, 'name')
         piece.injury(1)
         self.assertEqual(1, piece.injured)
 
     def test_game_piece_high_injury(self):
+        ''' test severe injury '''
         piece = game_piece(20, 1, 'name')
         piece.injury(2)
         self.assertEqual(2, piece.injured)
 
 @patch('random.randint', return_value=3)
 class TestDice(unittest.TestCase):
+    ''' tests rolls of dice '''
     def test_six_sided_dice(self, mocked_randint):
+        ''' test the roll of a 6 sided dice '''
         piece = game_piece(6, 2, 'name')
         result = piece.roll()
         mocked_randint.assert_called_with(1, 6)
         self.assertEqual(result, 3)
 
     def test_eight_sided_dice(self, mocked_randint):
+        ''' test the roll of an 8 sided dice '''
         piece = game_piece(8, 1, 'name')
         result = piece.roll()
         mocked_randint.assert_called_with(1, 8)
         self.assertEqual(result, 3)
 
     def test_ten_sided_dice(self, mocked_randint):
+        ''' test the roll of a 10 sided dice '''
         piece = game_piece(10, 1, 'name')
         result = piece.roll()
         mocked_randint.assert_called_with(1, 10)
         self.assertEqual(result, 3)
 
     def test_twelve_sided_dice(self, mocked_randint):
+        ''' test the roll of a 12 sided dice '''
         piece = game_piece(12, 1, 'name')
         result = piece.roll()
         mocked_randint.assert_called_with(1, 12)
         self.assertEqual(result, 3)
 
     def test_twenty_sided_dice(self, mocked_randint):
+        ''' test the roll of a 20 sided dice '''
         piece = game_piece(20, 1, 'name')
         result = piece.roll()
         mocked_randint.assert_called_with(1, 20)
         self.assertEqual(result, 3)
 
 class TestCreate(unittest.TestCase):
-    def test_correct_length_home(self):
-        players = instatiate_pieces()
-        self.assertEqual(len(players['home']), 11)
-
-    def test_correct_length_away(self):
-        players = instatiate_pieces()
-        self.assertEqual(len(players['away']), 11)
-
-    def test_heavy_tackle_home(self):
-        players = instatiate_pieces()
-        self.assertEqual(players['home'][0].name, 'heavy tackle')
-
-    def test_tackle_home(self):
-        players = instatiate_pieces()
-        self.assertEqual(players['home'][1].name, 'tackle')
+    ''' test creation functions '''
 
     def test_lineman1_home(self):
+        ''' test creation of first lineman, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][2].name, 'lineman 1')
 
     def test_lineman2_home(self):
+        ''' test creation of second lineman, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][3].name, 'lineman 2')
 
     def test_linebacker1_home(self):
+        ''' test creation of linebacker 1, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][4].name, 'linebacker 1')
 
     def test_linebacker2_home(self):
+        ''' test creation of linebacker 2, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][5].name, 'linebacker 2')
 
     def test_safety1_home(self):
+        ''' test creation of safety 1, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][6].name, 'safety 1')
 
     def test_safety2_home(self):
+        ''' test creation of safety 2, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][7].name, 'safety 2')
 
     def test_runningback1_home(self):
+        ''' test creation of running back 1, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][8].name, 'running back 1')
 
     def test_runningback2_home(self):
+        ''' test creation of running back 2, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][9].name, 'running back 2')
 
     def test_runningback3_home(self):
+        ''' test creation of running back 3, home '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][10].name, 'running back 3')
 
     def test_heavy_tackle_away(self):
+        ''' test creation of heavy tackle, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][0].name, 'heavy tackle')
 
     def test_tackle_away(self):
+        ''' test creation of tackle, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][1].name, 'tackle')
 
     def test_lineman1_away(self):
+        ''' test creation of lineman 1, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][2].name, 'lineman 1')
 
     def test_lineman2_away(self):
+        ''' test creation of lineman 2, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][3].name, 'lineman 2')
 
     def test_linebacker1_away(self):
+        ''' test creation of linebacker 1, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][4].name, 'linebacker 1')
 
     def test_linebacker2_away(self):
+        ''' test creation of linebacker 2, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][5].name, 'linebacker 2')
 
     def test_safety1_away(self):
+        ''' test creation of safety 1, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][6].name, 'safety 1')
 
     def test_safety2_away(self):
+        ''' test creation of safety 2, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][7].name, 'safety 2')
 
     def test_runningback1_away(self):
+        ''' test creation of running back 1, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][8].name, 'running back 1')
 
     def test_runningback2_away(self):
+        ''' test creation of running back 2, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][9].name, 'running back 2')
 
     def test_runningback3_away(self):
+        ''' test creation of running back 3, away '''
         players = instatiate_pieces()
         self.assertEqual(players['away'][10].name, 'running back 3')
 
 class TestCheckMovement(unittest.TestCase):
+    ''' test piece movements '''
+    def test_correct_length_home(self):
+        ''' test number of home pieces '''
+        players = instatiate_pieces()
+        self.assertEqual(len(players['home']), 11)
 
+    def test_correct_length_away(self):
+        ''' test number of away pieces '''
+        players = instatiate_pieces()
+        self.assertEqual(len(players['away']), 11)
+
+    def test_heavy_tackle_home(self):
+        ''' test creation of heavy tackle, home team '''
+        players = instatiate_pieces()
+        self.assertEqual(players['home'][0].name, 'heavy tackle')
+
+    def test_tackle_home(self):
+        ''' test creation of tackle, home team '''
+        players = instatiate_pieces()
+        self.assertEqual(players['home'][1].name, 'tackle')
     def test_legal_movement(self):
+        ''' proper movement '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(1, 1)
         roll_value = 10
@@ -227,6 +267,7 @@ class TestCheckMovement(unittest.TestCase):
         self.assertEqual(check, True)
 
     def test_illegal_movement(self):
+        ''' test improper movement '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(1, 1)
         roll_value = 1
@@ -235,6 +276,7 @@ class TestCheckMovement(unittest.TestCase):
         self.assertEqual(check, False)
 
     def test_return_as_expected(self):
+        ''' test adjacent function '''
         gameboard = create_gameboard()
         gameboard[2][1] = 'B'
         gameboard[2][2] = 'X'
@@ -251,6 +293,7 @@ class TestCheckMovement(unittest.TestCase):
         self.assertEqual(adjacent['dr'], 8)
 
     def test_board_move_ht(self):
+        ''' test adjacent function on heavy tackle '''
         gameboard = create_gameboard()
         gameboard[10][1] = 0
         gameboard[10][2] = 0
@@ -261,6 +304,7 @@ class TestCheckMovement(unittest.TestCase):
         self.assertEqual(gameboard[11][2], 0)
 
     def test_board_move_other(self):
+        ''' test move '''
         gameboard = create_gameboard()
         gameboard[10][3] = 8
         move(gameboard, 8, 10, 3, 11, 3)
@@ -270,8 +314,9 @@ class TestCheckMovement(unittest.TestCase):
         self.assertEqual(gameboard[11][4], 'E')
 
 class TestTouchdown(unittest.TestCase):
-
+    ''' test touchdown functions '''
     def test_home_touchdown_row_31(self):
+        ''' test touchdown at row 31 '''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = True
         team = 'home'
@@ -280,6 +325,7 @@ class TestTouchdown(unittest.TestCase):
         self.assertEqual(scored, True)
 
     def test_home_touchdown_row_32(self):
+        ''' test touchdown at row 32 '''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = True
         team = 'home'
@@ -288,6 +334,7 @@ class TestTouchdown(unittest.TestCase):
         self.assertEqual(scored, True)
 
     def test_home_not_touchdown_row_31(self):
+        ''' test (not a) touchdown at row 31 '''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = False
         team = 'home'
@@ -295,15 +342,8 @@ class TestTouchdown(unittest.TestCase):
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
 
-    def test_home_touchdown_row_32(self):
-        piece = game_piece(20, 1, 'name')
-        piece.has_ball = False
-        team = 'home'
-        to_location = (32, 7)
-        scored = touchdown(piece, to_location, team)
-        self.assertEqual(scored, False)
-
     def test_away_touchdown_row_01(self):
+        ''' test away team touchdown at row 1'''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = True
         team = 'away'
@@ -312,6 +352,7 @@ class TestTouchdown(unittest.TestCase):
         self.assertEqual(scored, True)
 
     def test_away_touchdown_row_00(self):
+        ''' test away team touchdown at row 0 '''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = True
         team = 'away'
@@ -320,6 +361,7 @@ class TestTouchdown(unittest.TestCase):
         self.assertEqual(scored, True)
 
     def test_away_not_touchdown_row_01(self):
+        ''' test away team (not a) touchdown at row 1 '''
         piece = game_piece(20, 1, 'name')
         piece.has_ball = False
         team = 'away'
@@ -327,17 +369,10 @@ class TestTouchdown(unittest.TestCase):
         scored = touchdown(piece, to_location, team)
         self.assertEqual(scored, False)
 
-    def test_away_touchdown_row_00(self):
-        piece = game_piece(20, 1, 'name')
-        piece.has_ball = False
-        team = 'away'
-        to_location = (0, 7)
-        scored = touchdown(piece, to_location, team)
-        self.assertEqual(scored, False)
-
 class TestCheckMove(unittest.TestCase):
-
+    ''' test move '''
     def test_legal_move(self):
+        ''' test move legality '''
         piece = game_piece(20, 2, 'heavy tackle')
         location = (1, 4)
         gameboard = create_gameboard()
@@ -346,6 +381,7 @@ class TestCheckMove(unittest.TestCase):
         self.assertEqual(check, True)
 
     def test_move_heavy_tackle_off_column(self):
+        ''' test moving heavy tackle '''
         piece = game_piece(20, 2, 'heavy tackle')
         location = (1, 4)
         gameboard = create_gameboard()
@@ -354,6 +390,7 @@ class TestCheckMove(unittest.TestCase):
         self.assertEqual(check, True)
 
     def test_move_other_piece_off_column(self):
+        ''' test moving non heavy tackle '''
         piece = game_piece(20, 1, 'name')
         location = (1, 4)
         gameboard = create_gameboard()
@@ -361,6 +398,7 @@ class TestCheckMove(unittest.TestCase):
         self.assertEqual(check, True)
 
     def test_move_piece_off_top(self):
+        ''' test move piece off top '''
         piece = game_piece(20, 1, 'name')
         location = (-1, 4)
         gameboard = create_gameboard()
@@ -368,6 +406,7 @@ class TestCheckMove(unittest.TestCase):
         self.assertEqual(check, False)
 
     def test_move_piece_off_bottom(self):
+        ''' test move piece off bottom '''
         piece = game_piece(20, 1, 'name')
         location = (3, 4)
         gameboard = create_gameboard()
@@ -375,6 +414,7 @@ class TestCheckMove(unittest.TestCase):
         self.assertEqual(check, True)
 
     def test_move_piece_on_another_piece(self):
+        ''' test moving piece on another '''
         piece = game_piece(20, 1, 'name')
         location = (1, 4)
         gameboard = create_gameboard()

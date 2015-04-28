@@ -1,4 +1,4 @@
-
+''' views for the battleball app '''
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
 from battleball.forms import UserForm, UserProfileForm
@@ -11,50 +11,11 @@ from django.http import HttpResponse
 import json
 
 def index(request):
+    ''' returns startgame.html '''
     return render(request, 'startgame.html')
 
-#def register(request):
-
-    #registered = False
-
-    #if request.method == 'POST':
-        #user_form = UserForm(data=request.POST)
-        #profile_form = UserProfileForm(data=request.POST)
-
-        #if user_form.is_valid() and profile_form.is_valid():
-            #user = user_form.save()
-
-            #user.set_password(user.password)
-            #user.save()
-
-            #profile = profile_form.save(commit=False)
-            #profile.user = user
-
-            #if 'picture' in request.FILES:
-                    #profile.picture = request.FILES['picture']
-
-            #profile.save()
-
-            #registered = True
-
-        #else:
-            #print(user_form.errors, profile_form.errors)
-
-    #else:
-        #user_form = UserForm()
-        #profile_form = UserProfileForm()
-
-#<<<<<<< working copy
-    #return render(request,
-            #'battleball/register.html',
-           #{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
-
-
-    #return render(request,
-            #'battleball/register.html',
-            #{'user_form': user_form, 'profile_form': profile_form, 'registered': registered} )
-
 class UserProfileDetailView(DetailView):
+    ''' views for user profile '''
     model = get_user_model()
     slug_field = "username"
     template_name = "battleball/user_detail.html"
@@ -65,6 +26,7 @@ class UserProfileDetailView(DetailView):
         return user
 
 class UserProfileEditView(UpdateView):
+    ''' view for editing user profile '''
     model = UserProfile
     form_class = UserProfileForm
     template_name = "battleball/edit_profile.html"
@@ -76,6 +38,7 @@ class UserProfileEditView(UpdateView):
         return reverse("profile", kwargs={"slug": self.request.user})
 
 def board(request):
+    ''' views for gameboard '''
     return render(request, 'battleball/gameboard.html')
 
 class list_games(ListView):
@@ -85,9 +48,9 @@ class list_games(ListView):
     model = Game
     #return HttpResponse('This will be a list of all games')
 
-def load_game_html(request,game_id):
+def load_game_html(request, game_id):
     '''
-    This function will return the base html for the 
+    This function will return the base html for the
     game board
     '''
     game = Game.objects.get(id=game_id)
@@ -96,9 +59,9 @@ def load_game_html(request,game_id):
                     'away_team': game.awayTeam}
     return render(request, 'battleball/game.html', context_dict)
 
-def play_game(request,game_id):
+def play_game(request, game_id):
     '''
-    This function will return the status of the game 
+    This function will return the status of the game
     board using json
     '''
     game = Game.objects.get(id=game_id)
@@ -109,12 +72,12 @@ def play_game(request,game_id):
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
 
-def place_piece(request,game_id):
+def place_piece(request, game_id):
     '''
     This function will update a pieces position on json
     '''
     game = Game.objects.get(id=game_id)
-    piece = game.pieces['home'][2];
+    piece = game.pieces['home'][2]
     piece.str_position = '{"xpos":2,"ypos":2}'
     pos = json.loads(piece.str_position)
     piece.name = '2h'
