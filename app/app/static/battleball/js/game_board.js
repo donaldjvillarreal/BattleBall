@@ -20,6 +20,7 @@ var field_width = 12,
     ctx = null,
     HOME_TEAM = 0,
     AWAY_TEAM = 1,
+    tackle = false,
     currentTurn = HOME_TEAM;
 
 //these variables should not be changed
@@ -29,7 +30,7 @@ var hsqSize = sqSize/2,
 
 var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', '8h', 'E', '2h', 'E'],
+                ['E', '0h', 'E', '1h', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
@@ -37,7 +38,7 @@ var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', '2a', 'E', '8a', 'E'],
+                ['E', '1a', 'E', '0a', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E']      ];
 
@@ -100,11 +101,11 @@ function getPosition(event) {
     //select block that has been clicked
     var clickedBlock = position(x, y);
 
-    console.log(x + ' , ' + y);
-    console.log(clickedBlock.row +' , ' + clickedBlock.col);
+   
     
     // Check to see if block contains a piece
     if (selectedPiece === null) checkIfPieceClicked(clickedBlock);
+    else if(tackle) processTackle(clickedBlock);
     // if there is a selected piece, move it
     else processMove(clickedBlock);
 }
@@ -145,16 +146,29 @@ function fill_space(col, row, square_identifier) {
     */
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 1;
-    var team = square_identifier.charAt(square_identifier.length-1)
+    var team = square_identifier.charAt(square_identifier.length-1);
+    var ind = square_identifier.charAt(0);
     // Select color of space
     if (col === 0 && square_identifier === 'E') ctx.fillStyle = '#09D';
     else if (col == field_width && square_identifier === 'E') ctx.fillStyle = '#F55';
     else if (square_identifier === 'E') ctx.fillStyle = '#6C0';
     else if (square_identifier === 'B') ctx.fillStyle = 'yellow';
     else if (square_identifier === 'X') ctx.fillStyle = 'black';
-    else if (team === 'h') ctx.fillStyle = 'blue';
-    else if (team === 'a') ctx.fillStyle = 'red';
+    else if (team === 'h'){ 
+        ctx.fillStyle = 'blue';
+        //check if playerhas ball
+        if(home[ind].has_ball){
+            ctx.fillStyle = 'yellow';
+            }
+        }
+    else if (team === 'a'){
+         ctx.fillStyle = 'red';
+         if(away[ind].has_ball){
+            ctx.fillStyle = 'yellow';
+            }
+     }
     
+
     // get pieces coordinate and size
     var piece = coordinates(col, row);
 
@@ -227,7 +241,12 @@ function checkIfPieceClicked(clickedBlock) {
 }
 
 function getPieceAtBlock(clickedBlock) {
-    var team = (currentTurn === HOME_TEAM ? home : away);
+    if(tackle){
+        var team = (currentTurn === HOME_TEAM ? away : home);
+    }
+    else{
+        var team = (currentTurn === HOME_TEAM ? home : away);
+    }
 
     return getPieceAtBlockForTeam(team, clickedBlock);
 }
@@ -316,26 +335,23 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 //A better draw function thatn the one currently used
 function movePiece(clickedBlock) {
     
-    var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos];
+    var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos],
+        cur_team = ind.charAt(ind.length-1);
+        console.log(cur_team);
+    if(arr[clickedBlock.col][clickedBlock.row] === 'B'){
+        pickupBall(selectedPiece);
+    }
     // Clear the block in the original position
     fill_space(selectedPiece.position.xpos, selectedPiece.position.ypos, 'E');
     // fill next space
     fill_space(clickedBlock.col, clickedBlock.row, ind);
     
-    if(arr[clickedBlock.col][clickedBlock.row] === 'B'){
-        pickupBall(selectedPiece);
-    }
+    
     //update game board
     arr[clickedBlock.col][clickedBlock.row] = ind;
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     
-    // TODO: Tackle function
-    /*
-    occupied = surroundingSpaces(selectedPiece);
-    for(var i = 0; i < occupied.length; i++){
-
-    }
-    */
+    // TODO: Tackle function    
 
     // update piece object to match board status, possibly it's own function later
     var team = (currentTurn === AWAY_TEAM ? away : home),
@@ -344,10 +360,28 @@ function movePiece(clickedBlock) {
     team[selectedPiece.itr].position.xpos = clickedBlock.col;
     team[selectedPiece.itr].position.ypos = clickedBlock.row;
 
-    selectedPiece = null;
     
-    // change turn
-    currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+    var occupied = surroundingSpaces(selectedPiece);
+    for(var i = 0; i < occupied.length - 2; i++){
+        var space = occupied[i];
+        console.log(space);        
+        var adj_ind = arr[space.col][space.row];
+        console.log(adj_ind);
+        if(adj_ind !== 'E' && adj_ind !== 'B'){
+            var team = adj_ind.charAt(adj_ind.length-1);
+            console.log(team); 
+            if(team !== cur_team){
+                tackle = true;
+            }
+        }
+    }
+
+    
+    // change turn if not in tackle position
+    if(tackle === false){
+        selectedPiece = null;    
+        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+    }
 }
 
 function surroundingSpaces(selectedPiece){
@@ -388,3 +422,54 @@ function pickupBall(piece){
     // the game ball
     piece['has_ball'] = true;
 }
+
+function processTackle(clickedBlock){
+    //This function checks whether the clicked block has an enemy piece
+    // Then resolves the tackle
+    // updates field
+    var enemy_piece = getPieceAtBlock(clickedBlock);
+    if(enemy_piece !== null){
+        tackle_roll = roll(selectedPiece.roll_size);
+        defend_roll = roll(selectedPiece.roll_size);
+        alert('your piece rolled a ' + tackle_roll + ' the opposing team rolled a ' + defend_roll);
+        //if tackling piece wins
+        if(tackle_roll < defend_roll){
+            if(tackle_roll === 1){
+                enemy_piece.injured = 2;
+            }
+
+            enemy_piece.injured = 1;
+            fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
+            arr[clickedBlock.col][clickedBlock.row] = 'X';
+        }
+
+         //if defending piece wins
+        else if(tackle_roll > defend_roll){
+            if(defend_roll === 1){
+                selectedPiece.injured = 2;
+            }
+            selectedPiece.injured = 1;
+            fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
+            arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
+        }
+        
+        else {
+            if(defend_roll === 1){
+                selectedPiece.injured = 2;
+                enemy_piece.injured = 2;
+            }
+            else{
+                selectedPiece.injured = 1;
+                enemy_piece.injured = 1;
+                }
+            fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
+            fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X')
+            arr[clickedBlock.col][clickedBlock.row] = 'X';
+            arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
+        }
+        tackle = false;
+        selectedPiece = null;    
+        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+    }
+}
+
