@@ -3,41 +3,49 @@ This file tests the pieces object
 '''
 import unittest
 from mock import Mock, patch
-from game_cli.game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
-from game_cli.battle_board import create_gameboard, check_adjacent, move
+from battleball.game_cli.game_pieces import game_piece, instatiate_pieces, check_movement, touchdown, check_move
+from battleball.game_cli.battle_board import create_gameboard, check_adjacent, move
 
 class test_pieces(unittest.TestCase):
 
     def test_game_piece_has_ball_initialized(self):
+        ''' test ball_toggle '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(0, piece.has_ball)
 
     def test_game_piece_not_injured_initialized(self):
+        ''' test injury '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(0, piece.injured)
 
     def test_game_piece_ball_toggle(self):
+        ''' test ball toggle on game piece '''
         piece = game_piece(20, 1, 'name')
         piece.ball_toggle()
         self.assertEqual(1, piece.has_ball)
 
     def test_game_piece_x_position_initialized(self):
+        ''' test game_piece x position '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(-1, piece.position['xpos'])
 
     def test_game_piece_y_position_initialized(self):
+        ''' test game piece y position '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(-1, piece.position['ypos'])
 
     def test_game_piece_y_position2_psize2_initialize(self):
+        ''' test heavy tackle y2 position '''
         piece = game_piece(20, 2, 'name')
         self.assertEqual(-2, piece.position['ypos2'])
 
     def test_game_piece_roll_size_initialized(self):
+        ''' test roll size '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(20, piece.roll_size)
 
     def test_game_piece_psize_initialized(self):
+        ''' test piece size '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(1, piece.psize)
 

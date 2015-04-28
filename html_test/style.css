@@ -17,9 +17,9 @@ body{
 }
 
 .ten-yards-even{
-	width: 8.45%;
-	height: 100%;
-	float:left;
+    width: 8.45%;
+    height: 100%;
+    float:left;
 }
 
 .fifty-yard{
@@ -31,9 +31,9 @@ body{
 }
 
 .ten-yards-odd{
-	width: 8.45%;
-	height: 100%;
-	float: left;
+    width: 8.45%;
+    height: 100%;
+    float: left;
 }
 
 .fifty-yard div{

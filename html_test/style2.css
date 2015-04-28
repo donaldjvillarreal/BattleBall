@@ -10,15 +10,15 @@ body{
 }
 
 .ten-yards-even{
-	width: 129px;
-	height: 600px;
-	float:left;
+    width: 129px;
+    height: 600px;
+    float:left;
 }
 
 .ten-yards-odd{
-	width: 126px;
-	height: 600px;
-	float: left;
+    width: 126px;
+    height: 600px;
+    float: left;
 }
 .row {
     width: 40px;
@@ -44,6 +44,6 @@ body{
 }
 
 .border-top-bottom{
-	border-top: solid white 1px;
-	border-bottom: solid white 1px;
+    border-top: solid white 1px;
+    border-bottom: solid white 1px;
 }

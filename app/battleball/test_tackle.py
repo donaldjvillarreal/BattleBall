@@ -20,28 +20,28 @@ But, after the two players tackle, one gets injured
 '''
 class test_tackle(unittest.TestCase):
 
-	def test_tackle_function(self):
-		# instantiate two game piece objects
-		player1 = game_piece(20, 5, 'lineman')
-		player2 = game_piece(8, 17, 'running back')
-	
-		# make sure both the players are not injured initially
-		self.assertEqual(0, player1.injured)
-		self.assertEqual(0, player2.injured)
+    def test_tackle_function(self):
+        # instantiate two game piece objects
+        player1 = game_piece(20, 5, 'lineman')
+        player2 = game_piece(8, 17, 'running back')
+    
+        # make sure both the players are not injured initially
+        self.assertEqual(0, player1.injured)
+        self.assertEqual(0, player2.injured)
 
-		# now let the two players tackle by calling tackle function
-		# return player is one who lose the tackle
-		playerInjured = tackle(player1, player2)	
+        # now let the two players tackle by calling tackle function
+        # return player is one who lose the tackle
+        playerInjured = tackle(player1, player2)    
 
-		# now set the returned player's injured attribute as True
-		playerInjured.injured = 1
+        # now set the returned player's injured attribute as True
+        playerInjured.injured = 1
 
-		# make sure the player who lost tackle is injured and other is not
-		if playerInjured == player1:
-			self.assertEqual(1, player1.injured)
-			self.assertEqual(0, player2.injured)
-		else:
-			self.assertEqual(1, player2.injured)
-			self.assertEqual(0, player1.injured)
+        # make sure the player who lost tackle is injured and other is not
+        if playerInjured == player1:
+            self.assertEqual(1, player1.injured)
+            self.assertEqual(0, player2.injured)
+        else:
+            self.assertEqual(1, player2.injured)
+            self.assertEqual(0, player1.injured)
 
 

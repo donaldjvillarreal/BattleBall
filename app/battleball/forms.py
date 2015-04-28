@@ -10,14 +10,14 @@ class UserForm(forms.ModelForm):
     ''' Registration Form '''
     password = forms.CharField(widget=forms.PasswordInput())
 
-    class Meta:
+    class Meta(object):
         ''' additional fields '''
         model = User
         fields = ('username', 'email', 'password')
 
 class UserProfileForm(forms.ModelForm):
     ''' Profile Page '''
-    class Meta:
+    class Meta(object):
         ''' additional fields '''
         model = UserProfile
         exclude = ("user",)

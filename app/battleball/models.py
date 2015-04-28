@@ -5,9 +5,9 @@ Databases for battleball
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-# This block of code is added by Donald
 
 class UserProfile(models.Model):
+    ''' elements of the user profile '''
     user = models.OneToOneField(User, unique=True)
 
     picture = models.ImageField(upload_to='profile_images', blank=True)
@@ -16,6 +16,7 @@ class UserProfile(models.Model):
         return self.user.username
 
 def create_profile(sender, instance, created, **kwargs):
+    ''' created profile '''
     if created:
         profile, created = UserProfile.objects.get_or_create(user=instance)
 
@@ -75,7 +76,7 @@ class Game(models.Model):
                                 linebacker1_h, linebacker2_h, safety1_h, safety2_h,
                                 running_back1_h, running_back2_h, running_back3_h],
 
-                    'away': [heavy_tackle_a, tackle_a, lineman1_a, lineman2_a,
+                       'away': [heavy_tackle_a, tackle_a, lineman1_a, lineman2_a,
                                 linebacker1_a, linebacker2_a, safety1_a, safety2_a,
                                 running_back1_a, running_back2_a, running_back3_a]}
 
