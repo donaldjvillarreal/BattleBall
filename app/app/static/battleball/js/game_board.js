@@ -21,6 +21,7 @@ var field_width = 12,
     HOME_TEAM = 0,
     AWAY_TEAM = 1,
     tackle = false,
+    moves = -1,
     currentTurn = HOME_TEAM;
 
 //these variables should not be changed
@@ -83,32 +84,72 @@ function draw() {
         pieces.src = '/static/battleball/images/pieces.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
+        canvas.addEventListener("dblclick", roll_dice, false);
+        print_turn();
     }
     else alert("Canvas not supported!");
 }
 
+function print_turn() {
+    ctx.fillStyle = "white"
+    ctx.fillRect(border, long_row*sqSize+hsqSize,300,100);
+    var mytext = "Turn: "
+    if (currentTurn === 0) {
+        turn = "Home Team";
+        ctx.fillStyle="blue";
+    }
+    else {
+        turn = "Away Team";
+        ctx.fillStyle="red";
+    }
+    mytext += turn;
+    ctx.font = "30px Arial";
+    ctx.fillText(mytext, border, long_row*sqSize+sqSize)
+}
+
+function print_move() {
+    clear_print_move();
+    var mytext = "Moves left: ";
+    if (currentTurn === 0) ctx.fillStyle="blue";
+    else ctx.fillStyle="red";
+    mytext += moves;
+    ctx.font = "30px Arial";
+    ctx.fillText(mytext, border+400, long_row*sqSize+sqSize)
+}
+
+function clear_print_move() {
+    ctx.fillStyle = "white"
+    ctx.fillRect(border+400, long_row*sqSize+hsqSize,300,100);
+}
+
 //Returns the coordinates of the mouse
 function getPosition(event) {
+
     var rect = canvas.getBoundingClientRect();
     var x = event.clientX - rect.left;
     var y = event.clientY - rect.top;
     
     //select block that has been clicked
     var clickedBlock = position(x, y);
-    
+    print_turn();
     // Check to see if block contains a piece
     if (selectedPiece === null) {
         checkIfPieceClicked(clickedBlock);
-        if(selectedPiece !== null) moves = roll(selectedPiece.roll_size);
     }
     else if(tackle) processTackle(clickedBlock);
     // if there is a selected piece, move it
-    else {
+    else if (moves >= 0) {
+        print_move();
         processMove(clickedBlock);
-        moves-=1
     }
 }
 
+function roll_dice(event) {
+    if(selectedPiece !== null && moves === -1) {
+        moves = roll(selectedPiece.roll_size);
+        print_move();
+    }
+}
 
 function roll(roll_size) {
     /*
@@ -298,6 +339,7 @@ function processMove(clickedBlock) {
        Otherwise if the move is allowed, the piece is moved
     */
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
+
     if (pieceAtBlock !== null) {
         removeSelection(selectedPiece);
         checkIfPieceClicked(clickedBlock);
@@ -350,6 +392,8 @@ function movePiece(clickedBlock) {
     arr[clickedBlock.col][clickedBlock.row] = ind;
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     
+    moves-=1;
+    print_move();
     // TODO: Tackle function    
 
     // update piece object to match board status, possibly it's own function later
@@ -374,9 +418,13 @@ function movePiece(clickedBlock) {
             }
         }
     }
+
     if(tackle === false && moves === 0) {
-        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        clear_print_move();
         selectedPiece = null;
+        moves = -1;
+        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        print_turn();
     }
 }
 
@@ -464,8 +512,10 @@ function processTackle(clickedBlock){
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
         }
         tackle = false;
-        selectedPiece = null;    
+        selectedPiece = null;
+        moves = -1;
+        clear_print_move();
         currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        print_turn();
     }
 }
-

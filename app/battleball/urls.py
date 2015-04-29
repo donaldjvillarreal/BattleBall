@@ -11,7 +11,7 @@ from battleball.views import UserProfileEditView
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
     #url(r'^register/$', views.register, name='register'),
-        url(r'^board/$', views.board, name='board'), 
+    #    url(r'^board/$', views.board, name='board'), 
 
     url(r'^account/', include('registration.backends.simple.urls')),
     url(r"^login/$", "django.contrib.auth.views.login",
