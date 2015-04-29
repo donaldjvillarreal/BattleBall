@@ -80,7 +80,7 @@ function draw() {
     if (canvas.getContext) {
         ctx = canvas.getContext('2d');
         pieces = new Image();
-        pieces.src = '/static/battleball/images/pieces.png';
+        pieces.src = 'sprite.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
     }
