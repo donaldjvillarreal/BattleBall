@@ -142,6 +142,10 @@ function getPosition(event) {
         print_move();
         processMove(clickedBlock);
     }
+    else {
+        removeSelection(selectedPiece);
+        checkIfPieceClicked(clickedBlock);
+    }
 }
 
 function roll_dice(event) {
@@ -276,7 +280,7 @@ function position(posx, posy) {
 
 function checkIfPieceClicked(clickedBlock) {
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
-    if (pieceAtBlock !== null)
+    if (pieceAtBlock !== null && moves === -1)
         selectPiece(pieceAtBlock);
 }
 
@@ -340,7 +344,7 @@ function processMove(clickedBlock) {
     */
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
 
-    if (moves == -1) {
+    if (pieceAtBlock !== null) {
         removeSelection(selectedPiece);
         checkIfPieceClicked(clickedBlock);
     }
@@ -502,7 +506,7 @@ function processTackle(clickedBlock){
                 selectedPiece.injured = 2;
                 enemy_piece.injured = 2;
             }
-            else{
+            else {
                 selectedPiece.injured = 1;
                 enemy_piece.injured = 1;
                 }
