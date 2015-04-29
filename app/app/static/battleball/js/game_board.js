@@ -340,7 +340,7 @@ function processMove(clickedBlock) {
     */
     var pieceAtBlock = getPieceAtBlock(clickedBlock);
 
-    if (pieceAtBlock !== null) {
+    if (moves == -1) {
         removeSelection(selectedPiece);
         checkIfPieceClicked(clickedBlock);
     }
