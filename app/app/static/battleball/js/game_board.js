@@ -80,7 +80,7 @@ function draw() {
     if (canvas.getContext) {
         ctx = canvas.getContext('2d');
         pieces = new Image();
-        pieces.src = 'sprite.png';
+        pieces.src = '/static/battleball/images/pieces.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
     }
@@ -100,14 +100,18 @@ function getPosition(event) {
     
     //select block that has been clicked
     var clickedBlock = position(x, y);
-
-   
     
     // Check to see if block contains a piece
-    if (selectedPiece === null) checkIfPieceClicked(clickedBlock);
+    if (selectedPiece === null) {
+        checkIfPieceClicked(clickedBlock);
+        if(selectedPiece !== null) moves = roll(selectedPiece.roll_size);
+    }
     else if(tackle) processTackle(clickedBlock);
     // if there is a selected piece, move it
-    else processMove(clickedBlock);
+    else {
+        processMove(clickedBlock);
+        moves-=1
+    }
 }
 
 
@@ -375,12 +379,9 @@ function movePiece(clickedBlock) {
             }
         }
     }
-
-    
-    // change turn if not in tackle position
-    if(tackle === false){
-        selectedPiece = null;    
+    if(tackle === false && moves === 0) {
         currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        selectedPiece = null;
     }
 }
 
