@@ -90,13 +90,8 @@ function draw() {
 //Returns the coordinates of the mouse
 function getPosition(event) {
     var rect = canvas.getBoundingClientRect();
-    console.log(rect.top);
-    var x = event.pageX,
-        y = event.pageY - rect.top;
-    if (x === undefined) {
-        x = event.clientX + document.body.scrollLeft;// + document.documentElement.scrollLeft;
-        y = event.clientY + document.body.scrollTop;//    + document.documentElement.scrollTop;
-    }
+    var x = event.clientX - rect.left;
+    var y = event.clientY - rect.top;
     
     //select block that has been clicked
     var clickedBlock = position(x, y);
