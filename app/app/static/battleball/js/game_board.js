@@ -409,7 +409,7 @@ function movePiece(clickedBlock) {
 
     
     var occupied = surroundingSpaces(selectedPiece);
-    for(var i = 0; i < occupied.length - 2; i++){
+    for(var i = 0; i < occupied.length; i++){
         var space = occupied[i];
         console.log(space);        
         var adj_ind = arr[space.col][space.row];
@@ -446,22 +446,53 @@ function surroundingSpaces(selectedPiece){
     ur.col = dr.col = r.col = col+1;
     d.row = row-1;
     u.row = row+1;
-    //endzone 1
+    // Push only appropriate spots
     if(col === 0) {
+        r.row = row;
+        ur.row = row+1;
+        dr.row = row-1;
+        if(row === 0) occupied.push(u, ur, r);
+        else if(row == long_row) occupied.push(d, r, dr);
+        else occupied.push(u, ur, r, dr, d);
+    }
+    else if(col == field_width) {
+        l.row = row;
         ul.row = row+1;
+        dl.row = row-1;
+        if(row === 0) occupied.push(u, l, ul);
+        else if (row == long_row) occupied.push(d, l, dl);
+        else occupied.push(u, ul, l, dl, d);
+    }
+    else if(col == 1) {
         l.row = ur.row = row;
+        ul.row = row+1;
         dl.row = dr.row = row-1;
+        if(row === 0) occupied.push(l, ul, u, ur);
+        else if (row == long_row) occupied.push(l, dl, d, dr);
+        else occupied.push(u, ul, l, dl, d, dr, ur);
     }
-
+    else if(col == field_width-1) {
+        ul.row = r.row = row;
+        dl.row = dr.row = row-1;
+        ur.row =row+1;
+        if(row === 0) occupied.push(ul, u, ur, r);
+        else if (row == long_row) occupied.push(dl, d, dr, r);
+        else occupied.push(u, ul, dl, d, dr, r, ur);
+    }
+    else if(col%2 === 0) {
+        ul.row = ur.row = row+1;
+        dl.row = dr.row = row;
+        if(row === 0) occupied.push(dl, ul, u, ur, dr);
+        else if(row == short_row) occupied.push(ul, dl, d, dr, ur);
+        else occupied.push(u, ul, dl, d, dr, ur);
+    }
     else if(col%2 !== 0) {
-        dr.row = dl.row = row-1;
-        ur.row = ul.row = row;
+        ul.row = ur.row = row;
+        dl.row = dr.row = row-1;
+        if(row === 0) occupied.push(ul, u, ur);
+        else if(row == long_row) occupied.push(dl, d, dr);
+        else occupied.push(u, ul, dl, d, dr, ur);
     }
-    else {
-        dr.row = dl.row = row;
-        ur.row = ul.row = row+1;
-    }
-    occupied.push(u, d, ul, dl, ur, dr, l, r);
     return occupied
 }
 
@@ -523,3 +554,4 @@ function processTackle(clickedBlock){
         print_turn();
     }
 }
+
