@@ -414,7 +414,7 @@ function movePiece(clickedBlock) {
         console.log(space);        
         var adj_ind = arr[space.col][space.row];
         console.log(adj_ind);
-        if(adj_ind !== 'E' && adj_ind !== 'B'){
+        if(adj_ind !== 'E' && adj_ind !== 'B' && adj_ind !== 'X'){
             var team = adj_ind.charAt(adj_ind.length-1);
             console.log(team); 
             if(team !== cur_team){
