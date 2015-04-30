@@ -22,6 +22,11 @@ var field_width = 12,
     AWAY_TEAM = 1,
     tackle = false,
     moves = -1,
+    home_pieces = 2,
+    away_pieces = 2,
+    home_score = 0,
+    away_score = 0,
+    touchdown = false,
     currentTurn = HOME_TEAM;
 
 //these variables should not be changed
@@ -31,7 +36,7 @@ var hsqSize = sqSize/2,
 
 var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', '0h', 'E', '1h', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
@@ -39,18 +44,20 @@ var arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
-                ['E', '1a', 'E', '0a', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E'],
                 ['E', 'E', 'E', 'E', 'E', 'E']      ];
 
 var home = [
-                {"injured": 0,
+                {"type": 0,
+                 "injured": 0,
                  "name": "running back",
                  "psize": 1,
                  "has_ball": false,
                  "roll_size": 20,
                  "position": {"xpos": 2, "ypos": 1}},
-                {"injured": 0,
+                {"type": 1,
+                 "injured": 0,
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
@@ -58,13 +65,15 @@ var home = [
                  "position": {"xpos": 2, "ypos": 3}}
             ];
 var away =  [
-                {"injured": 0,
+                {"type": 0,
+                 "injured": 0,
                  "name": "running back",
                  "psize": 1,
                  "has_ball": false,
                  "roll_size": 20,
                  "position": {"xpos": 10, "ypos": 3}},
-                {"injured": 0,
+                {"type": 1,
+                 "injured": 0,
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
@@ -91,8 +100,7 @@ function draw() {
 }
 
 function print_turn() {
-    ctx.fillStyle = "white"
-    ctx.fillRect(border, long_row*sqSize+hsqSize,300,100);
+    clear_print_turn();
     var mytext = "Turn: "
     if (currentTurn === 0) {
         turn = "Home Team";
@@ -104,7 +112,12 @@ function print_turn() {
     }
     mytext += turn;
     ctx.font = "30px Arial";
-    ctx.fillText(mytext, border, long_row*sqSize+sqSize)
+    ctx.fillText(mytext, border, long_row*sqSize+sqSize);
+}
+
+function clear_print_turn() {
+    ctx.fillStyle = "white";
+    ctx.fillRect(border, long_row*sqSize+hsqSize,300,100);
 }
 
 function print_move() {
@@ -174,6 +187,20 @@ function gameboard() {
     // fill in endzones
     for (i = 0; i <= field_width; i+=field_width)
         for (j = 0; j <= long_row; j++) fill_space(i, j, arr[i][j]);
+
+    for (i = 0; i<home.length; i++) {
+        if (home[i].injured != 2) {
+            arr[home[i].position.xpos][home[i].position.ypos] =  home[i].type+'h';
+            fill_space(home[i].position.xpos, home[i].position.ypos, home[i].type+'h');
+        }
+    }
+
+    for (i = 0; i<away.length; i++) {
+        if (away[i].injured != 2) {
+            arr[away[i].position.xpos][away[i].position.ypos] =  i+'a';
+            fill_space(away[i].position.xpos, away[i].position.ypos, i+'a');
+        }
+    }
 }
 
 
@@ -423,7 +450,13 @@ function movePiece(clickedBlock) {
         }
     }
 
-    if(tackle === false && moves === 0) {
+    if (currentTurn === HOME_TEAM && selectedPiece.has_ball == true && clickedBlock.col == field_width)
+        process_touchdown(HOME_TEAM);
+
+    else if (currentTurn === AWAY_TEAM && selectedPiece.has_ball == true && clickedBlock.col == 0)
+        process_touchdown(AWAY_TEAM);
+
+    if(tackle === false && moves === 0 && touchdown === false) {
         clear_print_move();
         selectedPiece = null;
         moves = -1;
@@ -520,9 +553,6 @@ function processTackle(clickedBlock){
     // Then resolves the tackle
     // updates field
 
-    var team = (currentTurn === AWAY_TEAM ? away : home),
-        opposite = (currentTurn !== AWAY_TEAM ? away : home);
-
     var enemy_piece = getPieceAtBlock(clickedBlock);
     if(enemy_piece !== null){
         tackle_roll = roll(selectedPiece.roll_size);
@@ -556,8 +586,6 @@ function processTackle(clickedBlock){
                     arr[enemy_piece.position.xpos][enemy_piece.position.ypos]);
             }
             selectedPiece.injured = 1;
-            enemy_piece.has_ball = true;
-            selectedPiece.has_ball = false;
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
         }
@@ -586,4 +614,55 @@ function processTackle(clickedBlock){
         else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
         print_turn();
     }
+}
+
+function process_touchdown (team) {
+    if (team === HOME_TEAM) home_score++;
+    else if (team === AWAY_TEAM) away_score++;
+
+    arr = [     ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'B', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E'],
+                ['E', 'E', 'E', 'E', 'E', 'E']      ];
+
+    home[0].position.xpos = 2;
+    home[0].position.ypos = 1;
+    home[1].position.xpos = 2;
+    home[1].position.ypos = 3;
+    away[0].position.xpos = 10;
+    away[0].position.ypos = 1;
+    away[1].position.xpos = 10;
+    away[1].position.ypos = 3;
+
+    for (i = 0; i<home.length; i++) {
+        if(home[i].injured == 1) home[i].injured = 0;
+        else if(home[i].injured == 2) {
+            home[i].position.xpos = -1;
+            home[i].position.ypos = -1;
+        }
+        home[i].has_ball = false;
+    }
+
+    for (i = 0; i<away.length; i++) {
+        if(away[i].injured == 1) away[i].injured = 0;
+        else if(away[i].injured == 2) {
+            away[i].position.xpos = -1;
+            away[i].position.ypos = -1;
+        }
+        away[i].has_ball = false;
+    }
+
+    moves = 0;
+    currentTurn = ((home_score+away_score)%2 === 0 ? AWAY_TEAM : HOME_TEAM);
+    draw();
+
 }
