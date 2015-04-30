@@ -427,7 +427,10 @@ function movePiece(clickedBlock) {
         clear_print_move();
         selectedPiece = null;
         moves = -1;
-        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        number_pieces = count_pieces();
+        if (home_pieces === 0) currentTurn = AWAY_TEAM;
+        else if (away_pieces === 0) currentTurn = HOME_TEAM;
+        else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
         print_turn();
     }
 }
@@ -502,21 +505,40 @@ function pickupBall(piece){
     piece['has_ball'] = true;
 }
 
+function count_pieces() {
+    home_pieces = 0;
+    away_pieces = 0;
+    for (iPieceCounter = 0; iPieceCounter < 2; iPieceCounter++) {
+        if(home[iPieceCounter].injured === 0)
+            home_pieces += 1;
+        if(away[iPieceCounter].injured === 0)
+            away_pieces += 1;
+    }
+}
 function processTackle(clickedBlock){
     //This function checks whether the clicked block has an enemy piece
     // Then resolves the tackle
     // updates field
+
+    var team = (currentTurn === AWAY_TEAM ? away : home),
+        opposite = (currentTurn !== AWAY_TEAM ? away : home);
+
     var enemy_piece = getPieceAtBlock(clickedBlock);
     if(enemy_piece !== null){
         tackle_roll = roll(selectedPiece.roll_size);
-        defend_roll = roll(selectedPiece.roll_size);
+        defend_roll = roll(enemy_piece.roll_size);
         alert('your piece rolled a ' + tackle_roll + ' the opposing team rolled a ' + defend_roll);
         //if tackling piece wins
         if(tackle_roll < defend_roll){
             if(tackle_roll === 1){
                 enemy_piece.injured = 2;
             }
-
+            if(enemy_piece.has_ball == true) {
+                selectedPiece.has_ball = true;
+                enemy_piece.has_ball = false;
+                fill_space(selectedPiece.position.xpos, selectedPiece.position.ypos,
+                    arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
+            }
             enemy_piece.injured = 1;
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
             arr[clickedBlock.col][clickedBlock.row] = 'X';
@@ -527,7 +549,15 @@ function processTackle(clickedBlock){
             if(defend_roll === 1){
                 selectedPiece.injured = 2;
             }
+            if(selectedPiece.has_ball == true) {
+                enemy_piece.has_ball = true;
+                selectedPiece.has_ball = false;
+                fill_space(enemy_piece.position.xpos, enemy_piece.position.ypos,
+                    arr[enemy_piece.position.xpos][enemy_piece.position.ypos]);
+            }
             selectedPiece.injured = 1;
+            enemy_piece.has_ball = true;
+            selectedPiece.has_ball = false;
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
         }
@@ -550,8 +580,10 @@ function processTackle(clickedBlock){
         selectedPiece = null;
         moves = -1;
         clear_print_move();
-        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        number_pieces = count_pieces();
+        if (home_pieces === 0) currentTurn = AWAY_TEAM;
+        else if (away_pieces === 0) currentTurn = HOME_TEAM;
+        else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
         print_turn();
     }
 }
-
