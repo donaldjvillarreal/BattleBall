@@ -72,20 +72,18 @@ def play_game(request, game_id):
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
 
-def place_piece(request, game_id):
+def update_game_model(request, game_id):
     '''
-    This function will update a pieces position on json
+    This function will update the game model with
+    the board from the put request
     '''
+    new_board = request.content
     game = Game.objects.get(id=game_id)
-    piece = game.pieces['home'][2]
-    piece.str_position = '{"xpos":2,"ypos":2}'
-    pos = json.loads(piece.str_position)
-    piece.name = '2h'
     with open(str(game.boardFile), 'r+') as f:
         game_dict = json.load(f)
         game_dict[pos["xpos"]][pos["ypos"]] = piece.name
         f.seek(0)
-        f.write(json.dumps(game_dict))
+        f.write(json.dumps(new_board))
         f.truncate()
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
