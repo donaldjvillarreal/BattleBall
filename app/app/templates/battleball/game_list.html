@@ -1,15 +1,21 @@
 {% extends "battleball/index.html" %}
 
 {% block body_block %}
-<ol>
+<div class="container">
+<div class="jumbotron">
+<form>
+<ul class="list-group gamelist">
+<h2> Game Lobby </h2>
 {% for game in object_list %}
-	<li>
-	<a href="{{ game.id }}">
-		<b>{{ game.title }}</b>
-	</a>
-	<p>Home: {{ game.homeTeam }} Score: {{ game.homeScore }}</p>
-	<p>Away: {{ game.awayTeam }} Score: {{ game.awayScore }}</p>
-	</li>
+  <li class="list-group-item">
+  <button class="btn btn-default" style="width:400px" type="submit" formaction="{{ game.id }}">
+		<h4 class="list-group-item-heading">{{ game.title }}</h4>
+    <p>{{ game.homeTeam }} {{ game.homeScore }}-{{ game.awayScore }} {{ game.awayTeam }}</p>
+	</button>
+  </li>
 {% endfor %}
-</ol>
+</ul>
+</form>
+</div>
+</div>
 {% endblock %}
