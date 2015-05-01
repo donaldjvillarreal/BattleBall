@@ -404,6 +404,31 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
     return bNextRowEmpty;
 }
 
+function adjacentEnemy(selectedPiece, clickedBlock) {
+    var occupied = surroundingSpaces(selectedPiece);
+    var occounter, nextMove=[], bNextRowEmpty;
+    
+    nextMove.col = selectedPiece.position.xpos;
+    nextMove.row = selectedPiece.position.ypos;
+
+    for(occounter=0; occounter<occupied.length; occounter++) {
+        if (occupied[occounter].row == clickedBlock.row &&
+            occupied[occounter].col == clickedBlock.col &&
+            occupied[occounter].col>=0 && occupied[occounter].col<=field_width) {
+            nextMove = occupied[occounter];
+        }
+    }
+    var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos],
+        cur_team = ind.charAt(ind.length-1),
+        nextInd = arr[nextMove.col][nextMove.row],
+        nextSpaceTeam = nextInd.charAt(nextInd.length-1);
+    // Ensure next space is empty or has a ball on it ]
+    if(nextSpaceTeam != cur_team)
+        enemy = true;
+    else enemy = false;
+    return enemy;
+}
+
 //A better draw function thatn the one currently used
 function movePiece(clickedBlock) {
     
@@ -553,8 +578,9 @@ function processTackle(clickedBlock){
     // Then resolves the tackle
     // updates field
 
-    var enemy_piece = getPieceAtBlock(clickedBlock);
-    if(enemy_piece !== null){
+    var enemy_piece = getPieceAtBlock(clickedBlock),
+        neighbor = adjacentEnemy(selectedPiece, clickedBlock);
+    if(enemy_piece !== null && neighbor === true){
         tackle_roll = roll(selectedPiece.roll_size);
         defend_roll = roll(enemy_piece.roll_size);
         alert('your piece rolled a ' + tackle_roll + ' the opposing team rolled a ' + defend_roll);
