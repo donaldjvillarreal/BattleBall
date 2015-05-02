@@ -698,3 +698,17 @@ function processFumble(clickedBlock) {
     fumble_move-=1;
 
 }
+
+function removePlayer(loser){
+    /* This function will decrease
+       the number of players on the loser's team*/
+
+    if(loser === true){
+        if(currentTurn == HOME_TEAM) home_pieces -= 1;
+        else away_pieces -= 1;
+    }
+    else{
+        if(currentTurn == AWAY_TEAM) away_pieces -= 1;
+        else home_pieces -= 1;
+    }
+}
