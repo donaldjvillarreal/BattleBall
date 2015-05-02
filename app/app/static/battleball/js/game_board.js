@@ -686,7 +686,9 @@ function processTouchdown (team) {
         }
         away[i].has_ball = false;
     }
-
+    
+    home_pieces = 2;
+    away_pieces = 2;
     moves = 0;
     currentTurn = ((home_score+away_score+1)%2 === 0 ? AWAY_TEAM : HOME_TEAM);
     draw();
