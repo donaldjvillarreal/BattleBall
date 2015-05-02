@@ -232,17 +232,10 @@ function fill_space(col, row, square_identifier) {
     else if (square_identifier === 'X') ctx.fillStyle = 'black';
     else if (team === 'h'){ 
         ctx.fillStyle = 'blue';
-        //check if playerhas ball
-        if(home[ind].has_ball){
-            ctx.fillStyle = 'yellow';
-            }
         }
     else if (team === 'a'){
          ctx.fillStyle = 'red';
-         if(away[ind].has_ball){
-            ctx.fillStyle = 'yellow';
-            }
-     }
+         }
     
 
     // get pieces coordinate and size
@@ -252,10 +245,22 @@ function fill_space(col, row, square_identifier) {
     ctx.fillRect(border + piece.x, border + piece.y, sqSize, piece.size);
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
-    if (team === 'h') 
+    if (team === 'h'){
+        if(home[ind].has_ball){
+            ctx.drawImage(pieces,3*66,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+        else{
         ctx.drawImage(pieces,0,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
-    else if (team === 'a')
+        }
+    }
+    else if (team === 'a'){
+        if(away[ind].has_ball){
+            ctx.drawImage(pieces,3*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+        else{
         ctx.drawImage(pieces,1*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+    }
 }
 
 //This function will take in a row and column.
