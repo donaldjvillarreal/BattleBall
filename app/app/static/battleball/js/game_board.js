@@ -592,6 +592,7 @@ function processTackle(clickedBlock){
             enemy_piece.injured = 1;
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
             arr[clickedBlock.col][clickedBlock.row] = 'X';
+            removePlayer(false);
         }
 
          //if defending piece wins
@@ -608,6 +609,7 @@ function processTackle(clickedBlock){
             selectedPiece.injured = 1;
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
+            removePlayer(true);
         }
         
         else {
@@ -625,6 +627,8 @@ function processTackle(clickedBlock){
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
             fumble = true;
             fumble_move = 2;
+            removePlayer(true);
+            removePlayer(false);
         }
         tackle = false;
         selectedPiece = null;
@@ -703,12 +707,12 @@ function removePlayer(loser){
     /* This function will decrease
        the number of players on the loser's team*/
 
-    if(loser === true){
+    if(loser){
         if(currentTurn == HOME_TEAM) home_pieces -= 1;
         else away_pieces -= 1;
     }
     else{
-        if(currentTurn == AWAY_TEAM) away_pieces -= 1;
-        else home_pieces -= 1;
+        if(currentTurn == AWAY_TEAM) home_pieces -= 1;
+        else away_pieces -= 1;
     }
 }
