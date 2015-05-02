@@ -22,6 +22,7 @@ var field_width = 12,
     AWAY_TEAM = 1,
     tackle = false,
     pieces = new Image(),
+    football = new Image(),
     moves = -1,
     home_pieces = 2,
     away_pieces = 2,
@@ -93,6 +94,7 @@ function draw() {
     if (canvas.getContext) {
         ctx = canvas.getContext('2d');
         pieces.src = '/static/battleball/images/pieces.png';
+        football.src = '/static/battleball/images/football.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
         canvas.addEventListener("dblclick", roll_dice, false);
@@ -227,8 +229,7 @@ function fill_space(col, row, square_identifier) {
     // Select color of space
     if (col === 0 && square_identifier === 'E') ctx.fillStyle = '#09D';
     else if (col == field_width && square_identifier === 'E') ctx.fillStyle = '#F55';
-    else if (square_identifier === 'E') ctx.fillStyle = '#6C0';
-    else if (square_identifier === 'B') ctx.fillStyle = 'yellow';
+    else if (square_identifier === 'E' || square_identifier === 'B') ctx.fillStyle = '#6C0';
     else if (square_identifier === 'X') ctx.fillStyle = 'black';
     else if (team === 'h'){ 
         ctx.fillStyle = 'blue';
@@ -238,6 +239,7 @@ function fill_space(col, row, square_identifier) {
          }
     
 
+
     // get pieces coordinate and size
     var piece = coordinates(col, row);
 
@@ -245,6 +247,9 @@ function fill_space(col, row, square_identifier) {
     ctx.fillRect(border + piece.x, border + piece.y, sqSize, piece.size);
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
+    if(square_identifier === 'B'){
+        ctx.drawImage(football,0,0,128,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+    }
     if (team === 'h'){
         if(home[ind].has_ball){
             ctx.drawImage(pieces,3*66,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
