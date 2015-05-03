@@ -31,6 +31,7 @@ var field_width = 12,
     touchdown = false,
     fumble = false,
     fumble_move = 2,
+    fumble_pos = 0;
     currentTurn = HOME_TEAM;
 
 //these variables should not be changed
@@ -65,7 +66,7 @@ var home = [
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 8,
+                 "roll_size": 1,
                  "position": {"xpos": 2, "ypos": 3}}
             ];
 var away =  [
@@ -81,7 +82,7 @@ var away =  [
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 8,
+                 "roll_size": 1,
                  "position": {"xpos": 10, "ypos": 1}}
             ];
 
@@ -465,8 +466,7 @@ function movePiece(clickedBlock) {
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     
     moves-=1;
-    print_move();
-    // TODO: Tackle function    
+    print_move();   
 
     // update piece object to match board status, possibly it's own function later
     var team = (currentTurn === AWAY_TEAM ? away : home);
@@ -635,19 +635,32 @@ function processTackle(clickedBlock){
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
             arr[clickedBlock.col][clickedBlock.row] = 'X';
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
-            fumble = true;
-            fumble_move = 2;
+            if(selectedPiece.has_ball || enemy_piece.has_ball){
+                fumble = true;
+                fumble_move = 2;
+                if(selectedPiece.has_ball === true) fumble_pos = selectedPiece.position;
+                else fumble_pos = enemy_piece.position;
+            }            
             removePlayer(true);
             removePlayer(false);
         }
+
         tackle = false;
-        selectedPiece = null;
         moves = -1;
         clear_print_move();
-        if (home_pieces === 0) currentTurn = AWAY_TEAM;
-        else if (away_pieces === 0) currentTurn = HOME_TEAM;
-        else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
-        print_turn();
+        if(!fumble){            
+            selectedPiece = null;
+            if (home_pieces === 0) currentTurn = AWAY_TEAM;
+            else if (away_pieces === 0) currentTurn = HOME_TEAM;
+            else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+            print_turn();
+        }
+        // choose who resolves fumble
+        else{
+            if(selectedPiece.has_ball){
+                currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+            }
+        }
     }
 }
 
@@ -705,6 +718,10 @@ function processTouchdown (team) {
 }
 
 function processFumble(clickedBlock) {
+    // remember whose turn it was
+    var team_on_fumble = currentTurn;
+
+    // choose who resolves fumble
     if (selectedPiece.has_ball === false)
         currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
 
