@@ -12,7 +12,7 @@ import json
 
 def index(request):
     ''' returns startgame.html '''
-    return render(request, 'startgame.html')
+    return render(request, 'battleball/index.html')
 
 class UserProfileDetailView(DetailView):
     ''' views for user profile '''
