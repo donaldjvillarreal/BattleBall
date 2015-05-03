@@ -5,7 +5,18 @@
 <div class="jumbotron">
 <form>
 <ul class="list-group gamelist">
+
 <h2> Game Lobby </h2>
+
+<div class="container">
+    <div class="jumbotron">
+				<h2>Team 1:</h2><input type = "text" id="team1" placeholder="Type Team Name 1">
+				<h2>Team 2:</h2><input type = "text" id="team2" placeholder="Type Team Name 2">
+				<!-- start button will take to the 'board' function in view.py -->
+        <p><p><a href='board' class="btn btn-success" >Start Game</a></p></p> 
+		</div>
+</div>
+
 {% for game in object_list %}
   <li class="list-group-item">
   <button class="btn btn-default" style="width:400px" type="submit" formaction="{{ game.id }}">
