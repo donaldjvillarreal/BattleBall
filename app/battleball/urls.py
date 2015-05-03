@@ -26,6 +26,6 @@ urlpatterns = patterns('',
     url(r'^board/$', views.list_games.as_view(), name='games'),
     url(r'^board/(?P<game_id>[0-9]+)/$', views.load_game_html, name='load_game_html'),
     url(r'^board/(?P<game_id>[0-9]+)/game/$', views.play_game, name='play_game'),
-    #url(r'^board/(?P<game_id>[0-9]+)/move/$', views.place_piece, name='place_piece'),
+    url(r'^board/(?P<game_id>[0-9]+)/update_game/$', views.update_game_model, name='update_game'),
     #url(r'^gamelist/', views.list_games.as_view(), name='gamelist'),
     )
