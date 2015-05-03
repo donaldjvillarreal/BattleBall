@@ -22,6 +22,7 @@ var field_width = 12,
     AWAY_TEAM = 1,
     tackle = false,
     pieces = new Image(),
+    football = new Image(),
     moves = -1,
     home_pieces = 2,
     away_pieces = 2,
@@ -93,6 +94,7 @@ function draw() {
     if (canvas.getContext) {
         ctx = canvas.getContext('2d');
         pieces.src = '/static/battleball/images/pieces.png';
+        football.src = '/static/battleball/images/football.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
         canvas.addEventListener("dblclick", roll_dice, false);
@@ -227,23 +229,16 @@ function fill_space(col, row, square_identifier) {
     // Select color of space
     if (col === 0 && square_identifier === 'E') ctx.fillStyle = '#09D';
     else if (col == field_width && square_identifier === 'E') ctx.fillStyle = '#F55';
-    else if (square_identifier === 'E') ctx.fillStyle = '#6C0';
-    else if (square_identifier === 'B') ctx.fillStyle = 'yellow';
+    else if (square_identifier === 'E' || square_identifier === 'B') ctx.fillStyle = '#6C0';
     else if (square_identifier === 'X') ctx.fillStyle = 'black';
     else if (team === 'h'){ 
         ctx.fillStyle = 'blue';
-        //check if playerhas ball
-        if(home[ind].has_ball){
-            ctx.fillStyle = 'yellow';
-            }
         }
     else if (team === 'a'){
          ctx.fillStyle = 'red';
-         if(away[ind].has_ball){
-            ctx.fillStyle = 'yellow';
-            }
-     }
+         }
     
+
 
     // get pieces coordinate and size
     var piece = coordinates(col, row);
@@ -252,10 +247,25 @@ function fill_space(col, row, square_identifier) {
     ctx.fillRect(border + piece.x, border + piece.y, sqSize, piece.size);
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
-    if (team === 'h') 
+    if(square_identifier === 'B'){
+        ctx.drawImage(football,0,0,128,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+    }
+    if (team === 'h'){
+        if(home[ind].has_ball){
+            ctx.drawImage(pieces,3*66,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+        else{
         ctx.drawImage(pieces,0,2*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
-    else if (team === 'a')
+        }
+    }
+    else if (team === 'a'){
+        if(away[ind].has_ball){
+            ctx.drawImage(pieces,3*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+        else{
         ctx.drawImage(pieces,1*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        }
+    }
 }
 
 //This function will take in a row and column.
@@ -592,6 +602,7 @@ function processTackle(clickedBlock){
             enemy_piece.injured = 1;
             fill_space(enemy_piece.position.xpos,enemy_piece.position.ypos, 'X');
             arr[clickedBlock.col][clickedBlock.row] = 'X';
+            removePlayer(false);
         }
 
          //if defending piece wins
@@ -608,6 +619,7 @@ function processTackle(clickedBlock){
             selectedPiece.injured = 1;
             fill_space(selectedPiece.position.xpos,selectedPiece.position.ypos, 'X');
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
+            removePlayer(true);
         }
         
         else {
@@ -625,6 +637,8 @@ function processTackle(clickedBlock){
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
             fumble = true;
             fumble_move = 2;
+            removePlayer(true);
+            removePlayer(false);
         }
         tackle = false;
         selectedPiece = null;
@@ -682,7 +696,9 @@ function processTouchdown (team) {
         }
         away[i].has_ball = false;
     }
-
+    
+    home_pieces = 2;
+    away_pieces = 2;
     moves = 0;
     currentTurn = ((home_score+away_score+1)%2 === 0 ? AWAY_TEAM : HOME_TEAM);
     draw();
@@ -697,4 +713,18 @@ function processFumble(clickedBlock) {
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
     fumble_move-=1;
 
+}
+
+function removePlayer(loser){
+    /* This function will decrease
+       the number of players on the loser's team*/
+
+    if(loser){
+        if(currentTurn == HOME_TEAM) home_pieces -= 1;
+        else away_pieces -= 1;
+    }
+    else{
+        if(currentTurn == AWAY_TEAM) home_pieces -= 1;
+        else away_pieces -= 1;
+    }
 }
