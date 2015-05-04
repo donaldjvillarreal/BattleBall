@@ -8,7 +8,7 @@ class BattleballPageTest(unittest.TestCase):
     def tearDown(self):
         self.browser.quit()
 
-    def test_home_page(self):
+    def test_registration(self):
         # opening the page
         self.browser.get('http://localhost:8000/battleball/')
 
@@ -16,24 +16,32 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn('Battleball', self.browser.title)
 
         # navigation bar
-        driver.findElement(By.cssSelector("a[href*='long']")).click();
+        anchors = self.browser.find_elements_by_css_selector("a");
 
-        # header of the page
-        #header = self.browser.find_elements_by_tag_name('h1')
-        #self.assertIn('Battleball', header.text)
+        # registration page
+        anchors[3].click()
 
-        # input box for team 1
-        #inputboxteam1 = self.browser.find_element_by_id('team1')
-        #self.assertEqual(inputboxteam1.get_attribute('placeholder'), 'Type Team Name 1')
-        #inputboxteam1.send_keys('Giants')
+        # existing user
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.send_keys("testuser")
+        emailinput = self.browser.find_element_by_id("id_email")
+        emailinput.send_keys("testemail@email.com")
+        passwordinput = self.browser.find_element_by_id("id_password1")
+        passwordinput.send_keys("p")
+        password2input = self.browser.find_element_by_id("id_password2")
+        password2input.send_keys("p")
 
-        # input box for team 1
-        #inputboxteam2 = self.browser.find_element_by_id('team2')
-        #self.assertEqual(inputboxteam2.get_attribute('placeholder'), 'Type Team Name 2')
-        #inputboxteam2.send_keys('Jets')
+        # press submit
+        self.browser.find_element_by_class_name("btn").submit()
 
+        errorlist = self.browser.find_element_by_class_name("errorlist")
+        self.assertIn("A user with that username already exists.", errorlist.text)
 
+        # missing fields
+        self.browser.find_element_by_class_name("btn").submit()
 
+        errorslist = self.browser.find_elements_by_class_name("errorlist")
+        self.assertIn("This field is required.", errorslist[1].text)
 
     #def test_game_list_page(self):
         #self.browser.get('http://localhost:8000/battleball/board')
