@@ -125,6 +125,17 @@ class BattleballPageTest(unittest.TestCase):
         url = self.browser.current_url
         self.assertEqual("http://localhost:8000/battleball/login/", url)
 
+        # enter unregistered username and password
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.clear()
+        usernameinput.send_keys("otheruser")
+        passwordinput = self.browser.find_element_by_id("id_password")
+        passwordinput.clear()
+        passwordinput.send_keys("op")
+        self.browser.find_element_by_class_name("btn").submit()
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/login/", url)
+
         # enter valid info
         usernameinput = self.browser.find_element_by_id("id_username")
         usernameinput.clear()
@@ -153,6 +164,57 @@ class BattleballPageTest(unittest.TestCase):
         # back to log in page
         url = self.browser.current_url
         self.assertEqual("http://localhost:8000/battleball/login/", url)
+
+    def test_view_profile(self):
+        # opening the page
+        self.browser.get("http://localhost:8000/battleball/")
+
+        # title of the page
+        self.assertIn("Battleball", self.browser.title)
+
+        # navigation bar
+        anchors = self.browser.find_elements_by_css_selector("a");
+
+        # login page
+        anchors[4].click()
+
+        # enter valid info
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.clear()
+        usernameinput.send_keys("testuser")
+        passwordinput = self.browser.find_element_by_id("id_password")
+        passwordinput.clear()
+        passwordinput.send_keys("p")
+        self.browser.find_element_by_class_name("btn").submit()
+
+        # back to homepage
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/", url)
+
+        # new navigation bar
+        anchors = self.browser.find_elements_by_css_selector("a");
+
+        # click on view profile
+        anchors[3].click()
+
+        # heading
+        heading = self.browser.find_element_by_tag_name("h2")
+        self.assertEqual("testuser's Profile", heading.text)
+
+        # email
+        body = self.browser.find_element_by_tag_name("body")
+        self.assertIn('testemail@email.com', body.text)
+
+        # edit profile link
+        anchors = self.browser.find_elements_by_css_selector("a");
+        self.assertIn('Edit my profile', body.text)
+        anchors[6].click()
+
+        # edit profile page
+        url = self.browser.current_url
+        self.assertEqual(
+                "http://localhost:8000/battleball/edit_profile/",
+                url)
 
 if __name__ == "__main__":
     unittest.main()
