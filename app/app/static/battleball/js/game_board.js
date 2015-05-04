@@ -634,8 +634,14 @@ function processTackle(clickedBlock){
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
             if(selectedPiece.has_ball || enemy_piece.has_ball){
                 fumble = true;
-                if(selectedPiece.has_ball === true) fumble_pos = selectedPiece.position;
-                else fumble_pos = enemy_piece.position;
+                if(selectedPiece.has_ball === true){ 
+                    fumble_pos = selectedPiece.position;
+                    currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+                    print_turn();
+                }
+                else{ 
+                    fumble_pos = enemy_piece.position;
+                }
             }            
             removePlayer(true);
             removePlayer(false);
@@ -651,12 +657,7 @@ function processTackle(clickedBlock){
             else currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
             print_turn();
         }
-        // choose who resolves fumble
-        else{
-            if(selectedPiece.has_ball){
-                currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
-            }
-        }
+        
     }
 }
 
@@ -723,7 +724,7 @@ function processFumble(clickedBlock) {
         fill_space(clickedBlock.col,clickedBlock.row,'B');
 
         // Decide whose turn is next
-        if(selectedPiece.has_ball){
+        if(!selectedPiece.has_ball){
             currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
             }
         // Reset Necessary variables to start turn
