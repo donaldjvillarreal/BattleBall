@@ -1,12 +1,18 @@
-{% extends "battleball/index.html" %}
+{% extends "battleball/base.html" %}
 {% load staticfiles %}
 
+{% block css_block %}
+<link rel="stylesheet" type="text/css" href="{% static 'battleball/css/game.css' %}">
+{% endblock %}
 
 
 {% block body_block %}
 <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-<div id="log"></div>
-<p> Game {{ game_id }} - {{home_team}} vs {{away_team}} </p>
+<div id="scoreboard">
+    <div id="teams"> Game {{ game_id }} - {{home_team}} vs {{away_team}} </div>
+    <div id="score"></div>
+</div>
+
 <canvas id="canvas" width="1500" height="600"></canvas>
 <script type='text/javascript' src="{% static 'battleball/js/game_board.js' %}"></script>
 

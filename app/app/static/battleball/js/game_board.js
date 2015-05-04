@@ -101,6 +101,8 @@ function draw() {
         print_turn();
     }
     else alert("Canvas not supported!");
+    //set score
+   $("#score").text(home_score + ' - ' + away_score);
 }
 
 function print_turn() {
