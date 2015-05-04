@@ -391,19 +391,16 @@ function processMove(clickedBlock) {
         checkIfPieceClicked(clickedBlock);
     }
 
-    else if (canSelectedMoveToBlock(selectedPiece, clickedBlock) === true)
+    else if (canSelectedMoveToBlock(selectedPiece.position, clickedBlock) === true)
         //move(clickedBlock.col, clickedBlock.row, arr[clickedBlock.col][clickedBlock.row]);
         movePiece(clickedBlock);
 }
 
 //This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
-function canSelectedMoveToBlock(selectedPiece, clickedBlock)
+function canSelectedMoveToBlock(position, clickedBlock)
 {
-    var occupied = surroundingSpaces(selectedPiece.position);
+    var occupied = surroundingSpaces(position);
     var occounter, nextMove=[], bNextRowEmpty;
-    
-    nextMove.col = selectedPiece.position.xpos;
-    nextMove.row = selectedPiece.position.ypos;
 
     for(occounter=0; occounter<occupied.length; occounter++) {
         if (occupied[occounter].row == clickedBlock.row &&
@@ -416,6 +413,7 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
     if(arr[nextMove.col][nextMove.row]=='E' || arr[nextMove.col][nextMove.row] == 'B')
         bNextRowEmpty = true;
     else bNextRowEmpty = false;
+    console.log(bNextRowEmpty);
     return bNextRowEmpty;
 }
 
@@ -717,15 +715,23 @@ function processTouchdown (team) {
 
 function processFumble(clickedBlock) {
     
-    if(canSelectedMoveToBlock(fumble_pos, clickedBlock));
-    arr[clickedBlock.col][clickedBlock.row] = 'B';
-    arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
+    console.log('fumble function');
+    // Can the ball be placed on the current block
+    if(canSelectedMoveToBlock(fumble_pos, clickedBlock)){
+        
+        arr[clickedBlock.col][clickedBlock.row] = 'B';
+        fill_space(clickedBlock.col,clickedBlock.row,'B');
 
-    // Decide whose turn is next
-    if(selectedPiece.has_ball){
-        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+        // Decide whose turn is next
+        if(selectedPiece.has_ball){
+            currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+            }
+        // Reset Necessary variables to start turn
+        fumble = false;
+        selectedPiece.has_ball = false;
+        selectedPiece = null;
+        print_turn();
     }
-
 }
 
 function removePlayer(loser){
