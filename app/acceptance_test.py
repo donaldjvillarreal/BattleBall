@@ -10,25 +10,25 @@ class BattleballPageTest(unittest.TestCase):
 
     def test_home_page(self):
         # opening the page
-        self.browser.get('http://localhost:8000/battleball/')
+        self.browser.get("http://localhost:8000/battleball/")
 
         # title of the page
-        self.assertIn('Battleball', self.browser.title)
+        self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
         anchors = self.browser.find_elements_by_css_selector("a");
-        self.assertIn('Home', anchors[0].text)
-        self.assertIn('About', anchors[1].text)
-        self.assertIn('Contact', anchors[2].text)
-        self.assertIn('Register', anchors[3].text)
-        self.assertIn('Login', anchors[4].text)
+        self.assertEqual("Home", anchors[0].text)
+        self.assertEqual("About", anchors[1].text)
+        self.assertEqual("Contact", anchors[2].text)
+        self.assertEqual("Register", anchors[3].text)
+        self.assertEqual("Login", anchors[4].text)
 
     #def test_about_page(self):
         # opening the page
-        #self.browser.get('http://localhost:8000/battleball/')
+        #self.browser.get("http://localhost:8000/battleball/")
 
         # title of the page
-        #self.assertIn('Battleball', self.browser.title)
+        #self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
         #anchors = self.browser.find_elements_by_css_selector("a");
@@ -38,10 +38,10 @@ class BattleballPageTest(unittest.TestCase):
 
     #def test_contact_page(self):
         # opening the page
-        #self.browser.get('http://localhost:8000/battleball/')
+        #self.browser.get("http://localhost:8000/battleball/")
 
         # title of the page
-        #self.assertIn('Battleball', self.browser.title)
+        #self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
         #anchors = self.browser.find_elements_by_css_selector("a");
@@ -51,22 +51,13 @@ class BattleballPageTest(unittest.TestCase):
 
     def test_registration_page(self):
         # opening the page
-        self.browser.get('http://localhost:8000/battleball/')
+        self.browser.get("http://localhost:8000/battleball/")
 
         # title of the page
-        self.assertIn('Battleball', self.browser.title)
+        self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
         anchors = self.browser.find_elements_by_css_selector("a");
-
-        # home page
-        #anchors[0].click()
-
-        # about page
-        #anchors[1].click()
-
-        # contact page
-        #anchors[2].click()
 
         # registration page
         anchors[3].click()
@@ -85,26 +76,83 @@ class BattleballPageTest(unittest.TestCase):
         self.browser.find_element_by_class_name("btn").submit()
 
         errorlist = self.browser.find_element_by_class_name("errorlist")
-        self.assertIn("A user with that username already exists.", errorlist.text)
+        self.assertEqual(
+                "A user with that username already exists.",
+                errorlist.text)
 
         # missing fields
         self.browser.find_element_by_class_name("btn").submit()
 
         errorslist = self.browser.find_elements_by_class_name("errorlist")
-        self.assertIn("This field is required.", errorslist[1].text)
+        self.assertEqual("This field is required.", errorslist[1].text)
 
-    def test_login_page(self):
+    def test_login_logout(self):
         # opening the page
-        self.browser.get('http://localhost:8000/battleball/')
+        self.browser.get("http://localhost:8000/battleball/")
 
         # title of the page
-        self.assertIn('Battleball', self.browser.title)
+        self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
         anchors = self.browser.find_elements_by_css_selector("a");
 
-        # login
+        # login page
         anchors[4].click()
 
-if __name__ == '__main__':
+        # login header
+        heading = self.browser.find_element_by_tag_name("h2")
+        self.assertEqual("Login", heading.text)
+
+        # enter username only
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.send_keys("testuser")
+        self.browser.find_element_by_class_name("btn").submit()
+        # still at login page
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/login/", url)
+        # invalid info message
+        error = self.browser.find_element_by_tag_name("p")
+        self.assertEqual(
+                "Your username and password didn't match. Please try again.",
+                error.text)
+
+        # enter password only
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.clear()
+        passwordinput = self.browser.find_element_by_id("id_password")
+        passwordinput.send_keys("p")
+        self.browser.find_element_by_class_name("btn").submit()
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/login/", url)
+
+        # enter valid info
+        usernameinput = self.browser.find_element_by_id("id_username")
+        usernameinput.clear()
+        usernameinput.send_keys("testuser")
+        passwordinput = self.browser.find_element_by_id("id_password")
+        passwordinput.clear()
+        passwordinput.send_keys("p")
+        self.browser.find_element_by_class_name("btn").submit()
+
+        # back to homepage
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/", url)
+
+        # new navigation bar
+        anchors = self.browser.find_elements_by_css_selector("a");
+        self.assertEqual("Home", anchors[0].text)
+        self.assertEqual("About", anchors[1].text)
+        self.assertEqual("Contact", anchors[2].text)
+        self.assertEqual("View Profile", anchors[3].text)
+        self.assertEqual("Play Now", anchors[4].text)
+        self.assertEqual("Logout", anchors[5].text)
+
+        # logout
+        anchors[5].click()
+
+        # back to log in page
+        url = self.browser.current_url
+        self.assertEqual("http://localhost:8000/battleball/login/", url)
+
+if __name__ == "__main__":
     unittest.main()
