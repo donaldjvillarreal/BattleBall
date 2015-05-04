@@ -2,13 +2,26 @@ import unittest
 from selenium import webdriver
 
 class BattleballPageTest(unittest.TestCase):
+    '''
+    acceptance tests
+    '''
+
     def setUp(self):
+        '''
+        set driver to firefox
+        '''
         self.browser = webdriver.Firefox()
 
-    #def tearDown(self):
-        #self.browser.quit()
+    def tearDown(self):
+        '''
+        clean up when done by closing browser
+        '''
+        self.browser.quit()
 
     def test_home_page(self):
+        '''
+        acceptance test for the home page view
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -16,7 +29,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
         self.assertEqual("Home", anchors[0].text)
         self.assertEqual("About", anchors[1].text)
         self.assertEqual("Contact", anchors[2].text)
@@ -31,7 +44,7 @@ class BattleballPageTest(unittest.TestCase):
         #self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        #anchors = self.browser.find_elements_by_css_selector("a");
+        #anchors = self.browser.find_elements_by_css_selector("a")
 
         # about page
         #anchors[1].click()
@@ -44,12 +57,15 @@ class BattleballPageTest(unittest.TestCase):
         #self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        #anchors = self.browser.find_elements_by_css_selector("a");
+        #anchors = self.browser.find_elements_by_css_selector("a")
 
         # contact page
         #anchors[2].click()
 
     def test_registration_page(self):
+        '''
+        acceptance test for registration
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -57,7 +73,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # registration page
         anchors[3].click()
@@ -77,8 +93,8 @@ class BattleballPageTest(unittest.TestCase):
 
         errorlist = self.browser.find_element_by_class_name("errorlist")
         self.assertEqual(
-                "A user with that username already exists.",
-                errorlist.text)
+            "A user with that username already exists.",
+            errorlist.text)
 
         # missing fields
         self.browser.find_element_by_class_name("btn").submit()
@@ -87,6 +103,9 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("This field is required.", errorslist[1].text)
 
     def test_login_logout(self):
+        '''
+        acceptance test for login and logout
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -94,7 +113,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # login page
         anchors[4].click()
@@ -113,8 +132,8 @@ class BattleballPageTest(unittest.TestCase):
         # invalid info message
         error = self.browser.find_element_by_tag_name("p")
         self.assertEqual(
-                "Your username and password didn't match. Please try again.",
-                error.text)
+            "Your username and password didn't match. Please try again.",
+            error.text)
 
         # enter password only
         usernameinput = self.browser.find_element_by_id("id_username")
@@ -150,7 +169,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("http://localhost:8000/battleball/", url)
 
         # new navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
         self.assertEqual("Home", anchors[0].text)
         self.assertEqual("About", anchors[1].text)
         self.assertEqual("Contact", anchors[2].text)
@@ -166,6 +185,9 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("http://localhost:8000/battleball/login/", url)
 
     def test_view_profile(self):
+        '''
+        acceptance test for viewing user profile
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -173,7 +195,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # login page
         anchors[4].click()
@@ -192,7 +214,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("http://localhost:8000/battleball/", url)
 
         # new navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # click on view profile
         anchors[3].click()
@@ -206,17 +228,20 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn('testemail@email.com', body.text)
 
         # edit profile link
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
         self.assertIn('Edit my profile', body.text)
         anchors[6].click()
 
         # edit profile page
         url = self.browser.current_url
         self.assertEqual(
-                "http://localhost:8000/battleball/edit_profile/",
-                url)
+            "http://localhost:8000/battleball/edit_profile/",
+            url)
 
     def test_play_now(self):
+        '''
+        acceptance test for creating a game
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -224,7 +249,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # login page
         anchors[4].click()
@@ -243,7 +268,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("http://localhost:8000/battleball/", url)
 
         # new navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # click on play now
         anchors[4].click()
@@ -262,12 +287,12 @@ class BattleballPageTest(unittest.TestCase):
 
         team1input = self.browser.find_element_by_id("team1")
         self.assertEqual(
-                team1input.get_attribute("placeholder"),
-                "Type Team Name 1")
+            team1input.get_attribute("placeholder"),
+            "Type Team Name 1")
         team2input = self.browser.find_element_by_id("team2")
         self.assertEqual(
-                team2input.get_attribute("placeholder"),
-                "Type Team Name 2")
+            team2input.get_attribute("placeholder"),
+            "Type Team Name 2")
 
         # create game
         team1input.send_keys("Giants")
@@ -279,6 +304,9 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn('Giants vs Jets', body.text)
 
     def test_game_list(self):
+        '''
+        acceptance test for the game list view
+        '''
         # opening the page
         self.browser.get("http://localhost:8000/battleball/")
 
@@ -286,7 +314,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertIn("Battleball", self.browser.title)
 
         # navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # login page
         anchors[4].click()
@@ -305,7 +333,7 @@ class BattleballPageTest(unittest.TestCase):
         self.assertEqual("http://localhost:8000/battleball/", url)
 
         # new navigation bar
-        anchors = self.browser.find_elements_by_css_selector("a");
+        anchors = self.browser.find_elements_by_css_selector("a")
 
         # click on play now
         anchors[4].click()
@@ -324,12 +352,12 @@ class BattleballPageTest(unittest.TestCase):
 
         #team1input = self.browser.find_element_by_id("team1")
         #self.assertEqual(
-                #team1input.get_attribute("placeholder"),
-                #"Type Team Name 1")
+            #team1input.get_attribute("placeholder"),
+            #"Type Team Name 1")
         #team2input = self.browser.find_element_by_id("team2")
         #self.assertEqual(
-                #team2input.get_attribute("placeholder"),
-                #"Type Team Name 2")
+            #team2input.get_attribute("placeholder"),
+            #"Type Team Name 2")
 
         ## create game
         #team1input.send_keys("Giants")
