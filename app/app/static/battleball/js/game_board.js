@@ -400,8 +400,9 @@ function processMove(clickedBlock) {
 function canSelectedMoveToBlock(position, clickedBlock)
 {
     var occupied = surroundingSpaces(position);
-    var occounter, nextMove=[], bNextRowEmpty;
-
+    var occounter,  bNextRowEmpty;
+    var nextMove={'row':0,'col':0};
+    
     for(occounter=0; occounter<occupied.length; occounter++) {
         if (occupied[occounter].row == clickedBlock.row &&
             occupied[occounter].col == clickedBlock.col &&
