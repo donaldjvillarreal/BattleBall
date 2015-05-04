@@ -1,17 +1,26 @@
 {% extends "battleball/index.html" %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap-theme.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 
 {% block body_block %}
 
-<h2>New User?</h2>
+<div class="container">
+<div class="jumbotron">
+	<center>
+	<h2>New User?</h2>
+	{% if form.errors %}
+	<p>Invalid data. Please try again.</p>
+	{% endif %}
 
-{% if form.errors %}
-<p>Invalid data. Please try again.</p>
-{% endif %}
-
-<form method="post" action="">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Register" />
-</form>
+	<form method="post" action="">
+  	{% csrf_token %}
+  	{{ form.as_p }}
+  <input type="submit" class="btn btn-success" value="Register" />
+	</form>
+	</center>
+</div>
+</div>
 
 {% endblock %}
