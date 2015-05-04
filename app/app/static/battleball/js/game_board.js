@@ -30,7 +30,6 @@ var field_width = 12,
     away_score = 0,
     touchdown = false,
     fumble = false,
-    fumble_move = 2,
     fumble_pos = 0;
     currentTurn = HOME_TEAM;
 
@@ -400,7 +399,7 @@ function processMove(clickedBlock) {
 //This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
 function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 {
-    var occupied = surroundingSpaces(selectedPiece);
+    var occupied = surroundingSpaces(selectedPiece.position);
     var occounter, nextMove=[], bNextRowEmpty;
     
     nextMove.col = selectedPiece.position.xpos;
@@ -422,7 +421,7 @@ function canSelectedMoveToBlock(selectedPiece, clickedBlock)
 
 function adjacentEnemy(selectedPiece, clickedBlock) {
     var enemy,
-        occupied = surroundingSpaces(selectedPiece),
+        occupied = surroundingSpaces(selectedPiece.position),
         occounter, nextMove=[];
     
     nextMove.col = selectedPiece.position.xpos;
@@ -475,7 +474,7 @@ function movePiece(clickedBlock) {
     team[selectedPiece.itr].position.ypos = clickedBlock.row;
 
     
-    var occupied = surroundingSpaces(selectedPiece);
+    var occupied = surroundingSpaces(selectedPiece.position);
     for(var i = 0; i < occupied.length; i++){
         var space = occupied[i];
         console.log(space);        
@@ -507,13 +506,13 @@ function movePiece(clickedBlock) {
     }
 }
 
-function surroundingSpaces(selectedPiece){
+function surroundingSpaces(position){
     /* 
     This function returns a list of the surrounding spaces
     relative to the selected piece
     */
-    var col = selectedPiece.position.xpos,
-        row = selectedPiece.position.ypos,
+    var col = position.xpos,
+        row = position.ypos,
         u={}, d={}, ul={}, dl={}, ur={}, dr={}, l={}, r={},
         occupied=[];
     d.col = u.col = col;
@@ -637,7 +636,6 @@ function processTackle(clickedBlock){
             arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'X';
             if(selectedPiece.has_ball || enemy_piece.has_ball){
                 fumble = true;
-                fumble_move = 2;
                 if(selectedPiece.has_ball === true) fumble_pos = selectedPiece.position;
                 else fumble_pos = enemy_piece.position;
             }            
@@ -718,17 +716,15 @@ function processTouchdown (team) {
 }
 
 function processFumble(clickedBlock) {
-    // remember whose turn it was
-    var team_on_fumble = currentTurn;
-
-    // choose who resolves fumble
-    if (selectedPiece.has_ball === false)
-        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
-
-    var emptySpace = canSelectedMoveToBlock(selectedPiece, clickedBlock);
+    
+    if(canSelectedMoveToBlock(fumble_pos, clickedBlock));
     arr[clickedBlock.col][clickedBlock.row] = 'B';
     arr[selectedPiece.position.xpos][selectedPiece.position.ypos] = 'E';
-    fumble_move-=1;
+
+    // Decide whose turn is next
+    if(selectedPiece.has_ball){
+        currentTurn = (currentTurn === AWAY_TEAM ? HOME_TEAM : AWAY_TEAM);
+    }
 
 }
 
