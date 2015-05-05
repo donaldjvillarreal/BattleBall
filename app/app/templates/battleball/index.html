@@ -1,4 +1,5 @@
-<!--This html page will be the front/main page of the website.-->
+ <!--This html page will be the front/main page of the website.-->
+ {% load staticfiles %}
 <!DOCTYPE html>
 
 <html lang="en-us">
@@ -8,8 +9,31 @@
 	    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
 	    <link href="http://getbootstrap.com/examples/dashboard/dashboard.css" rel="stylesheet">
 	    {% block script_block %}{% endblock %}
+	    <style type="text/css">
+	    img{
+	    	display:block;
+	    	margin:auto;
+	    }
+	    p{
+	    	margin:auto;
+	    	font-size: 100px;
+	    }
+	    .center {
+	    margin-left: auto;
+	    margin-right: auto;
+	    width: 70%;
+		}
+		#title{
+			color: red;
+			font-family: Impact;
+			-webkit-text-fill-color: red; /* Will override color (regardless of order) */
+            -webkit-text-stroke-width: 1px;
+            -webkit-text-stroke-color: gold;
+		}
+	    </style>
     </head>
-		<body background = "http://www.gamersalliance.com/Fall%202003/battleball.jpg">
+		<!--<body background = "http://www.gamersalliance.com/Fall%202003/battleball.jpg">-->
+		<body background="{% static 'battleball/images/field.jpg' %}">
 	    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
 	      <div class="container-fluid">
 	        <div class="navbar-header">
@@ -46,13 +70,14 @@
 	    </div>
 
 	    <div class="container-fluid">
-	      <div class="row">
+	      
+	        <p id="title">BattleBall</p>
+	           <div class="center">
+                    
+	                <img src="{% static 'battleball/images/front-page.jpg' %}" width="800px">
+	            </div>
 	        
-	           <div>
-	                {% block body_block %}{% endblock %}
-	                </div>
-	        
-	      </div>
+	      
 	    </div>
     </body>
 

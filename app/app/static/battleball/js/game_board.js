@@ -58,14 +58,14 @@ var home = [
                  "name": "running back",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 20,
+                 "roll_size": 8,
                  "position": {"xpos": 2, "ypos": 1}},
                 {"type": 1,
                  "injured": 0,
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 1,
+                 "roll_size": 4,
                  "position": {"xpos": 2, "ypos": 3}}
             ];
 var away =  [
@@ -74,14 +74,14 @@ var away =  [
                  "name": "running back",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 20,
+                 "roll_size": 8,
                  "position": {"xpos": 10, "ypos": 3}},
                 {"type": 1,
                  "injured": 0,
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 1,
+                 "roll_size": 4,
                  "position": {"xpos": 10, "ypos": 1}}
             ];
 
