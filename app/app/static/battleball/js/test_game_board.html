@@ -27,18 +27,21 @@
 		*/
 
     QUnit.test( "testing function: coordinates(col, row)", function( assert ) {
-    var object1 = new Object({});
-    object1.x = 10;
-    object1.y = 15;
-    object1.size = 450;
-
+    var object1 = new Object({}); 
+		result1 = coordinates(7,15);
+		// result1 = {100, 700, -1050}
+		
     var object2 = new Object({});
-    object2.x = 83;
-    object2.y = 165;
-    object2.size = 1780;
+		result2 = coordinates(10,19);
+		// reusult2 = {100, 1000, -1050}
   
-    assert.equal( coordinates(10,15), object1, 'Expected value of object is 10, 15, 450');
-    assert.equal( coordinates(83,165), object2, 'Expected value of object is 83, 165, 1780');
+    assert.equal( result1.size, 100, 'Expected value object1.size is 100');
+    assert.equal( result1.x, 700, 'Expected value object1.x is 700');
+    assert.equal( result1.y, -1050, 'Expected value object1.y is -1050');
+
+    assert.equal( result2.size, 100, 'Expected value object2.size is 100');
+    assert.equal( result2.x, 1000, 'Expected value object2.x is 1000');
+    assert.equal( result2.y, -1500, 'Expected value object2.y is -1500');
   
     });
 
