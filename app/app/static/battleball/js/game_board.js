@@ -176,7 +176,7 @@ function roll_dice(event) {
     }
 }
 
-function roll(roll_size) {y
+function roll(roll_size) {
     /*
     This function creates a random number from 1- roll size
    */
@@ -189,7 +189,7 @@ function gameboard() {
     // fill in long rows
     var i, j;
     for (i = 1; i <= (field_width-1); i+=2)
-        for (j = 0; j <= long_row; j++) fyill_space(i, j, arr[i][j]);
+        for (j = 0; j <= long_row; j++) fill_space(i, j, arr[i][j]);
     // fill in short rows
     for (i = 2; i <= (field_width-1); i+=2)
         for (j = 0; j <= short_row; j++) fill_space(i, j, arr[i][j]);
