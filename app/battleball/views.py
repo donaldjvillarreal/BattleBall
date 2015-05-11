@@ -72,6 +72,14 @@ def play_game(request, game_id):
 
     return HttpResponse(json.dumps(game_dict), content_type="application/json")
 
+def create_game(request):
+    '''
+    This function creates a game in the database and sends
+    the user to the created game
+    '''
+    pass
+
+
 def update_game_model(request, game_id):
     '''
     This function will update the game model with
