@@ -95,7 +95,6 @@ function draw() {
     if (canvas.getContext) {
         ctx = canvas.getContext('2d');
         pieces.src = '/static/battleball/images/pieces.png';
-        football.src = '/static/battleball/images/football.png';
         gameboard();
         canvas.addEventListener("click", getPosition, false);
         canvas.addEventListener("dblclick", roll_dice, false);
@@ -143,7 +142,7 @@ function clear_print_move() {
 
 //Returns the coordinates of the mouse
 function getPosition(event) {
-    if(endGame == false) {
+    if(endGame === false) {
         var rect = canvas.getBoundingClientRect();
         var x = event.clientX - rect.left;
         var y = event.clientY - rect.top;
@@ -170,7 +169,7 @@ function getPosition(event) {
 }
 
 function roll_dice(event) {
-    if(selectedPiece !== null && moves === -1 && endGame == false) {
+    if(selectedPiece !== null && moves === -1 && endGame === false) {
         moves = roll(selectedPiece.roll_size);
         print_move();
     }
@@ -239,8 +238,6 @@ function fill_space(col, row, square_identifier) {
     else if (team === 'a'){
          ctx.fillStyle = 'red';
          }
-    
-
 
     // get pieces coordinate and size
     var piece = coordinates(col, row);
@@ -250,7 +247,10 @@ function fill_space(col, row, square_identifier) {
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
     if(square_identifier === 'B'){
-        ctx.drawImage(football,0,0,128,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+        ctx.drawImage(pieces,0,195,120,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+    }
+    if(square_identifier === 'X'){
+        ctx.drawImage(pieces,120,195,92,105 ,border + piece.x, border + piece.y, sqSize, piece.size);
     }
     if (team === 'h'){
         if(home[ind].has_ball){
@@ -262,10 +262,10 @@ function fill_space(col, row, square_identifier) {
     }
     else if (team === 'a'){
         if(away[ind].has_ball){
-            ctx.drawImage(pieces,3*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+            ctx.drawImage(pieces,3*66,60,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
         }
         else{
-        ctx.drawImage(pieces,1*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        ctx.drawImage(pieces,1*66,60,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
         }
     }
 }
