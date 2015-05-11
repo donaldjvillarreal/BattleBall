@@ -250,7 +250,10 @@ function fill_space(col, row, square_identifier) {
     ctx.strokeRect(border + piece.x, border + piece.y, sqSize, piece.size);
     //place sprite
     if(square_identifier === 'B'){
-        ctx.drawImage(football,0,0,128,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+        ctx.drawImage(pieces,0,3*66,120,128 ,border + piece.x, border + piece.y, sqSize, piece.size);
+    }
+    else if(square_identifier === 'X'){
+        ctx.drawImage(pieces,1*120,3*66,96,96,border + piece.x, border + piece.y, sqSize, piece.size);
     }
     if (team === 'h'){
         if(home[ind].has_ball){
@@ -262,10 +265,10 @@ function fill_space(col, row, square_identifier) {
     }
     else if (team === 'a'){
         if(away[ind].has_ball){
-            ctx.drawImage(pieces,3*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+            ctx.drawImage(pieces,3*66,1*66,66,63,border + piece.x, border + piece.y, sqSize, piece.size);
         }
         else{
-        ctx.drawImage(pieces,1*66,1*66,66,66,border + piece.x, border + piece.y, sqSize, piece.size);
+        ctx.drawImage(pieces,1*66,1*66,66,63,border + piece.x, border + piece.y, sqSize, piece.size);
         }
     }
 }
