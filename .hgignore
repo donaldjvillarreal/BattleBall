@@ -14,3 +14,8 @@ media/
 *.jpeg
 *.json
 .DS_store
+*.zip
+*.xcf
+*.PNG
+*.ttf
+.pylintrc
