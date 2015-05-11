@@ -1,7 +1,7 @@
 ''' views for the battleball app '''
 from django.views.generic import ListView, DetailView
 from django.contrib.auth import get_user_model
-from battleball.forms import UserForm, UserProfileForm
+from battleball.forms import UserForm, UserProfileForm, GameForm
 from battleball.models import UserProfile, Game, Piece
 from django.shortcuts import render
 from django.views.generic.edit import UpdateView
@@ -77,7 +77,13 @@ def create_game(request):
     This function creates a game in the database and sends
     the user to the created game
     '''
-    pass
+    if request.method == 'POST':
+        form = GameForm(request.POST)
+        if form.is_valid():
+            return HttpResponse(request,'battleball/game.html')
+    else:
+        form = GameForm()
+    return render(request, 'battleball/create_game.html', {'form': form})
 
 
 def update_game_model(request, game_id):

@@ -13,22 +13,6 @@
 <b>email: </b>  {{ user.email }} <br>
 <p><a href='{% url "edit_profile" %}'>Edit my profile</a></p>
 
-<p> Create Game <p>
-<form class="form" action="/board/create/" method="post">
-    <div class="form-group">
-    	<label for="game_name">Name your game</label>
-    	<input id="game_name" class="form-control" type="text" name="game_name" value="">
-    </div>
-    <div class="form-group">
-    	<label for="home_team">Home Team</label>
-    	<input id="home_team" class="form-control" type="text" name="home_team" value="">
-	</div>
-	<div class="form-group">
-    	<label for="away_team">Away Team</label>
-    	<input id="away_team" class="form-control" type="text" name="away_team" value="">
-	</div>
-	 <button type="submit" class="btn btn-primary">Create Game</button>
-</form>
 {% endif %}
 
 {% endblock %}

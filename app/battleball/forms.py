@@ -1,10 +1,9 @@
 '''
 This file contains all the set ups for forms
 '''
-
 from django import forms
 from django.contrib.auth.models import User
-from battleball.models import UserProfile
+from battleball.models import UserProfile, Game
 
 class UserForm(forms.ModelForm):
     ''' Registration Form '''
@@ -21,3 +20,11 @@ class UserProfileForm(forms.ModelForm):
         ''' additional fields '''
         model = UserProfile
         exclude = ("user",)
+
+class GameForm(forms.ModelForm):
+    '''
+    Create Game Form
+    '''
+    class Meta(object):
+        model = Game
+        exclude = ("url","boardFile","turn","homeScore","awayScore",)
