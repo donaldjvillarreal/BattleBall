@@ -19,31 +19,96 @@
     });
 
 		
-		/* Testing: coordinates(col, row)
-   		 This function will take in a row and column.
+		// Testing: coordinates(col, row)
+		
+   	/* This function will take in a row and column.
   	 	 The columns start from the left and the rows start from the bottom.
        The output is the x, y coordinates of the upper left pixel of the square
        and the size of the square
 		*/
 
     QUnit.test( "testing function: coordinates(col, row)", function( assert ) {
-    var object1 = new Object({}); 
-		result1 = coordinates(7,15);
-		// result1 = {100, 700, -1050}
+    	var object1 = new Object({}); 
+			result1 = coordinates(7,15);
+			// result1 = {100, 700, -1050}
 		
-    var object2 = new Object({});
-		result2 = coordinates(10,19);
-		// reusult2 = {100, 1000, -1050}
+   	 	var object2 = new Object({});
+			result2 = coordinates(10,19);
+			// reusult2 = {100, 1000, -1050}
   
-    assert.equal( result1.size, 100, 'Expected value object1.size is 100');
-    assert.equal( result1.x, 700, 'Expected value object1.x is 700');
-    assert.equal( result1.y, -1050, 'Expected value object1.y is -1050');
+   	 	assert.equal( result1.size, 100, 'Expected value object1.size is 100');
+    	assert.equal( result1.x, 700, 'Expected value object1.x is 700');
+    	assert.equal( result1.y, -1050, 'Expected value object1.y is -1050');
 
-    assert.equal( result2.size, 100, 'Expected value object2.size is 100');
-    assert.equal( result2.x, 1000, 'Expected value object2.x is 1000');
-    assert.equal( result2.y, -1500, 'Expected value object2.y is -1500');
+    	assert.equal( result2.size, 100, 'Expected value object2.size is 100');
+    	assert.equal( result2.x, 1000, 'Expected value object2.x is 1000');
+    	assert.equal( result2.y, -1500, 'Expected value object2.y is -1500');
   
     });
+
+
+
+		// Testing: roll(roll_size)	
+	
+		/* This function takes a number called roll_size  and returns a radnom number
+		   between 1 and roll_size
+		*/
+
+		QUnit.test( "testing function: roll(roll_size)", function( assert ) {
+			// just define some random numbers for testing
+			var n1 = Math.floor(Math.random() * 100);
+			var n2 = Math.floor(Math.random() * 2462);
+			var n3 = Math.floor(Math.random() * 97193);
+
+			// bool values to store the results
+			var b1 = false;
+			var b2 = false;
+			var b3 = false;
+	
+			// set the bools to true if result is in correct range
+			if (roll(n1) >= 1 && roll(n1) < n1)
+					b1 = true;
+			if (roll(n2) >= 1 && roll(n2) < n2)
+					b2 = true;
+			if (roll(n3) >= 1 && roll(n3) < n3)
+					b3 = true;
+
+			assert.ok( b1, 'Expected b1 to be true');		
+			assert.ok( b2, 'Expected b2 to be true');		
+			assert.ok( b3, 'Expected b3 to be true');		
+	
+		});
+
+		
+		// Testing: position(posx, posy)
+		
+		/* This function returns the coordinates of the space selected */
+
+		QUnit.test("testing function: position(posx, posy)", function( assert ) {
+			// just define some random x and y position for testing
+			var x1 = 789;
+			var x2 = 102;
+			var x3 = 7900;
+			var y1 = 232;
+			var y2 = 329;
+			var y3 = 50;
+
+			var result1 = position(x1,y1);
+			// result1 should be (row,col) = (3,7)	
+			var result2 = position(x2,y2);
+			// result2 should be (row, col) = (2, 0)
+			var result3 = position(x3,y3);
+			// result3 should be (row, col) = (4, 78)
+		
+			assert.equal( result1.row, 3, 'Expected value of result1.row is 3');		
+			assert.equal( result1.col, 7, 'Expected value of result1.col is 7');		
+			assert.equal( result2.row, 2, 'Expected value of result2.row is 2');		
+			assert.equal( result2.col, 0, 'Expected value of result2.col is 0');		
+			assert.equal( result3.row, 4, 'Expected value of result3.row is 4');		
+			assert.equal( result3.col, 78, 'Expected value of result3.col is 78');		
+
+		}); 		
+
 
 	</script>
 </head>
