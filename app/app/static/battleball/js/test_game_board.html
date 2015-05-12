@@ -19,8 +19,9 @@
     });
 
 		
-		/* Testing: coordinates(col, row)
-   		 This function will take in a row and column.
+		// Testing: coordinates(col, row)
+		
+   	/* This function will take in a row and column.
   	 	 The columns start from the left and the rows start from the bottom.
        The output is the x, y coordinates of the upper left pixel of the square
        and the size of the square
@@ -44,6 +45,41 @@
     assert.equal( result2.y, -1500, 'Expected value object2.y is -1500');
   
     });
+
+
+		// Testing: roll(roll_size)	
+	
+		/* This function takes a number called roll_size  and returns a radnom number
+		   between 1 and roll_size
+		*/
+
+		QUnit.test( "testing function: roll(roll_size)", function( assert ) {
+		// just define some random numbers for testing
+		var n1 = Math.floor(Math.random() * 100);
+		var n2 = Math.floor(Math.random() * 2462);
+		var n3 = Math.floor(Math.random() * 97193);
+
+		// bool values to store the results
+		var b1 = false;
+		var b2 = false;
+		var b3 = false;
+	
+		// set the bools to true if result is in correct range
+		if (roll(n1) >= 1 && roll(n1) < n1)
+				b1 = true;
+		if (roll(n2) >= 1 && roll(n2) < n2)
+				b2 = true;
+		if (roll(n3) >= 1 && roll(n3) < n3)
+				b3 = true;
+
+		assert.ok( b1, 'Expected b1 to be true');		
+		assert.ok( b2, 'Expected b2 to be true');		
+		assert.ok( b3, 'Expected b3 to be true');		
+	
+		});
+
+		
+		// 
 
 	</script>
 </head>
