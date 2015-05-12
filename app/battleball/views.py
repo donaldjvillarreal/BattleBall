@@ -85,7 +85,7 @@ def create_game(request):
             context_dict = {'game_id': game_id,
                             'home_team': game_object.homeTeam,
                              'away_team': game_object.awayTeam}
-            return render(request,'battleball/board/'+ str(game_id)+'/',context_dict)
+            return render(request,'battleball/game.html',context_dict)
     else:
         form = GameForm()
     return render(request, 'battleball/create_game.html', {'form': form})
