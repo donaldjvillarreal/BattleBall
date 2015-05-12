@@ -66,7 +66,7 @@ var home = [
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 4,
+                 "roll_size": 1,
                  "position": {"xpos": 2, "ypos": 3}}
             ];
 var away =  [
@@ -82,7 +82,7 @@ var away =  [
                  "name": "lineman",
                  "psize": 1,
                  "has_ball": false,
-                 "roll_size": 4,
+                 "roll_size": 1,
                  "position": {"xpos": 10, "ypos": 1}}
             ];
 
@@ -407,7 +407,7 @@ function canSelectedMoveToBlock(position, clickedBlock)
 {
     var occupied = surroundingSpaces(position);
     var occounter,  bNextRowEmpty;
-    var nextMove={'row':0,'col':0};
+    var nextMove=[];
     
     for(occounter=0; occounter<occupied.length; occounter++) {
         if (occupied[occounter].row == clickedBlock.row &&
