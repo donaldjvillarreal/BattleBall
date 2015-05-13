@@ -7,6 +7,7 @@ from django.shortcuts import render
 from django.views.generic.edit import UpdateView
 from django.core.urlresolvers import reverse
 from django.http import HttpResponse
+from django.conf import settings
 
 import json
 
@@ -16,7 +17,12 @@ def index(request):
 
 class UserProfileDetailView(DetailView):
     ''' views for user profile '''
-    model = get_user_model()
+    try:
+        from django.contrib.auth import get_user_model
+        model = settings.AUTH_USER_MODEL
+    except ImportError:
+        from django.contrib.auth.models import User
+    #model = get_user_model()
     slug_field = "username"
     template_name = "battleball/user_detail.html"
 

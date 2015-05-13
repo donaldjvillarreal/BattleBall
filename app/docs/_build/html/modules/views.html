@@ -52,8 +52,85 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <div class="section" id="views">
-<h1>Views<a class="headerlink" href="#views" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-battleball.views">
+<span id="views"></span><h1>Views<a class="headerlink" href="#module-battleball.views" title="Permalink to this headline">¶</a></h1>
+<p>views for the battleball app</p>
+<dl class="class">
+<dt id="battleball.views.UserProfileDetailView">
+<em class="property">class </em><code class="descclassname">battleball.views.</code><code class="descname">UserProfileDetailView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#UserProfileDetailView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.UserProfileDetailView" title="Permalink to this definition">¶</a></dt>
+<dd><p>views for user profile</p>
+<dl class="method">
+<dt id="battleball.views.UserProfileDetailView.get_user_model">
+<code class="descname">get_user_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#battleball.views.UserProfileDetailView.get_user_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the User model that is active in this project.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="battleball.views.UserProfileEditView">
+<em class="property">class </em><code class="descclassname">battleball.views.</code><code class="descname">UserProfileEditView</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#UserProfileEditView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.UserProfileEditView" title="Permalink to this definition">¶</a></dt>
+<dd><p>view for editing user profile</p>
+<dl class="attribute">
+<dt id="battleball.views.UserProfileEditView.form_class">
+<code class="descname">form_class</code><a class="headerlink" href="#battleball.views.UserProfileEditView.form_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">UserProfileForm</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="battleball.views.UserProfileEditView.model">
+<code class="descname">model</code><a class="headerlink" href="#battleball.views.UserProfileEditView.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">UserProfile</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="battleball.views.create_game">
+<code class="descclassname">battleball.views.</code><code class="descname">create_game</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#create_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.create_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function creates a game in the database and sends
+the user to the created game</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="battleball.views.index">
+<code class="descclassname">battleball.views.</code><code class="descname">index</code><span class="sig-paren">(</span><em>request</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns startgame.html</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="battleball.views.list_games">
+<em class="property">class </em><code class="descclassname">battleball.views.</code><code class="descname">list_games</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#list_games"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.list_games" title="Permalink to this definition">¶</a></dt>
+<dd><p>List all playable games in database</p>
+<dl class="attribute">
+<dt id="battleball.views.list_games.model">
+<code class="descname">model</code><a class="headerlink" href="#battleball.views.list_games.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal"><span class="pre">Game</span></code></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="battleball.views.load_game_html">
+<code class="descclassname">battleball.views.</code><code class="descname">load_game_html</code><span class="sig-paren">(</span><em>request</em>, <em>game_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#load_game_html"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.load_game_html" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will return the base html for the
+game board</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="battleball.views.play_game">
+<code class="descclassname">battleball.views.</code><code class="descname">play_game</code><span class="sig-paren">(</span><em>request</em>, <em>game_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#play_game"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.play_game" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will return the status of the game
+board using json</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="battleball.views.update_game_model">
+<code class="descclassname">battleball.views.</code><code class="descname">update_game_model</code><span class="sig-paren">(</span><em>request</em>, <em>game_id</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/battleball/views.html#update_game_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#battleball.views.update_game_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function will update the game model with
+the board from the put request</p>
+</dd></dl>
+
 </div>
 
 
