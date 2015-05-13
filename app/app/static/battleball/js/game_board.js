@@ -224,6 +224,8 @@ function fill_space(col, row, square_identifier) {
           square_identifier = E, X, B, #a, identifies what type of square
                                is created
 
+    Output: Canvas Generated baord
+
     */
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 1;
@@ -274,10 +276,12 @@ function fill_space(col, row, square_identifier) {
     }
 }
 
-//This function will take in a row and column.
-//The columns start from the left and the rows start from the bottom.
-//The output is the x, y coordinates of the upper left pixel of the square and the size of the square
 function coordinates(col, row) {
+    /*
+    This function will take in a row and column.
+    The columns start from the left and the rows start from the bottom.
+    The output is the x, y coordinates of the upper left pixel of the square and the size of the square
+    */
     var o = new Object({});
     o.x= sqSize*col;
     // If enzone or long row
@@ -344,7 +348,11 @@ function getPieceAtBlock(clickedBlock) {
 }
 
 function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
-    // Returns the piece located at a space, otherwise returns null
+    /*
+    Input: teamOfPieces = the team of the piece we are checking
+           clickedBlock = coordinates of the clicked block
+    Returns the piece located at a space, otherwise returns null
+    */
     var curPiece = null,
         iPieceCounter = 0,
         pieceAtBlock = null;
@@ -366,7 +374,12 @@ function getPieceAtBlockForTeam(teamOfPieces, clickedBlock) {
 
 
 function selectPiece(pieceAtBlock) {
-    // Draw outline around selected piece
+    /*
+    Input: pieceAtBlock = piece that is at the selected block
+
+    Output: Global variable 'selectedPiece' set to pieceAtBlock
+            white border areound the piece
+    */
     ctx.strokeStyle = 'white';
     ctx.lineWidth = 4;
 
@@ -378,14 +391,19 @@ function selectPiece(pieceAtBlock) {
 }
 
 function removeSelection(selectedPiece) {
+    /*
+    Input: selectedPiece = global selectedPiece variable
 
+    Functionality: Removes white border from selected piece
+    */
     fill_space(selectedPiece.position.xpos, selectedPiece.position.ypos,
         arr[selectedPiece.position.xpos][selectedPiece.position.ypos]);
     // add line to draw sprite
 }
 
 function processMove(clickedBlock) {
-    /* When a piece is selected this function checks whether
+    /* 
+       When a piece is selected this function checks whether
        There is a piece at the location clicked
        if there is it removes the current selection and selects the next piece
        Otherwise if the move is allowed, the piece is moved
@@ -402,9 +420,15 @@ function processMove(clickedBlock) {
         movePiece(clickedBlock);
 }
 
-//This function would check that the tile is not occupied by ally or X and that it's only 1 move away.
+
 function canSelectedMoveToBlock(position, clickedBlock)
 {
+    /*
+    Input: position = position of selectedPiece or ball
+           clickedBlock = block selected to move to
+
+    Output: bNextRowEmpty = True/False depending on whether a piece can move to clicked block
+    */
     var occupied = surroundingSpaces(position);
     var occounter,  bNextRowEmpty;
     var nextMove=[];
@@ -425,6 +449,12 @@ function canSelectedMoveToBlock(position, clickedBlock)
 }
 
 function adjacentEnemy(selectedPiece, clickedBlock) {
+    /*
+    Input: selectedPiece = Global selectedPiece variable
+           clickedBlock = coordinates of the clicked block selected
+
+    Outpu: enemy: boolean that's true if there is an enemy at the clicked block, false otherwise
+    */
     var enemy,
         occupied = surroundingSpaces(selectedPiece.position),
         occounter, nextMove=[];
@@ -450,9 +480,14 @@ function adjacentEnemy(selectedPiece, clickedBlock) {
     return enemy;
 }
 
-//A better draw function thatn the one currently used
+
 function movePiece(clickedBlock) {
-    
+    /*
+
+    Input: clickedBlock = coordinates of the block that have been clicked
+
+    This function moves the selected piece to the clickedBlock onthe canvas and global variable arr
+    */
     var ind = arr[selectedPiece.position.xpos][selectedPiece.position.ypos],
         cur_team = ind.charAt(ind.length-1);
         console.log(cur_team);
@@ -513,6 +548,9 @@ function movePiece(clickedBlock) {
 
 function surroundingSpaces(position){
     /* 
+
+    Input: position = coordinates {xpos: x, ypos: y} 
+    
     This function returns a list of the surrounding spaces
     relative to the selected piece
     */
