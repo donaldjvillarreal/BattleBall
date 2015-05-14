@@ -34,4 +34,5 @@ urlpatterns = patterns('', # pylint: disable=C0103
                        url(r'^board/(?P<game_id>[0-9]+)/update_game/$', views.update_game_model,
                            name='update_game'),
                        #url(r'^gamelist/', views.list_games.as_view(), name='gamelist'),
+											 url(r'^about/$', views.about, name='about'),
                       )

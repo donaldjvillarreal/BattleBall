@@ -31,6 +31,11 @@ class UserProfileDetailView(DetailView):
         UserProfile.objects.get_or_create(user=user)
         return user
 
+def about(request):
+		'''returns about.html that contains
+			 game instructions and rules'''
+		return render(request, 'battleball/about.html')
+
 class UserProfileEditView(UpdateView):
     ''' view for editing user profile '''
     model = UserProfile
