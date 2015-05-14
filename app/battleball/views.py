@@ -71,8 +71,8 @@ def play_game(request, game_id):
     board using json
     '''
     game = Game.objects.get(id=game_id)
-    with open(str(game.boardFile)) as f:
-        game_dict = json.load(f)
+    with open(str(game.boardFile)) as bfile:
+        game_dict = json.load(bfile)
 
 
 
@@ -90,8 +90,8 @@ def create_game(request):
             game_id = game_object.id
             context_dict = {'game_id': game_id,
                             'home_team': game_object.homeTeam,
-                             'away_team': game_object.awayTeam}
-            return render(request,'battleball/game.html',context_dict)
+                            'away_team': game_object.awayTeam}
+            return render(request, 'battleball/game.html', context_dict)
     else:
         form = GameForm()
     return render(request, 'battleball/create_game.html', {'form': form})
