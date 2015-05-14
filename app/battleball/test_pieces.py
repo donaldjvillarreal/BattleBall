@@ -399,15 +399,6 @@ class TestCheckMove(unittest.TestCase):
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, True)
 
-    def test_illegal_move_ht(self):
-        ''' test move legality '''
-        piece = game_piece(20, 2, 'heavy tackle')
-        location = (2, 15)
-        gameboard = create_gameboard()
-        gameboard[location[0]][location[1]] = 'E'
-        check = check_move(piece, location, gameboard)
-        self.assertEqual(check, True)
-
     def test_heavy_tackle_offcolumn(self):
         ''' test moving heavy tackle '''
         piece = game_piece(20, 2, 'heavy tackle')
@@ -429,6 +420,14 @@ class TestCheckMove(unittest.TestCase):
         ''' test move piece off top '''
         piece = game_piece(20, 1, 'name')
         location = (-1, 4)
+        gameboard = create_gameboard()
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, False)
+
+    def test_ht_off_right(self):
+        ''' test move piece off top '''
+        piece = game_piece(6, 2, 'heavy tackle')
+        location = (4, 14)
         gameboard = create_gameboard()
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, False)

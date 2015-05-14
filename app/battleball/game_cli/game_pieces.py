@@ -210,11 +210,11 @@ def check_move(piece, position, gameboard):
     if col < 0 or col > 32:
         print 'Row out of range'
         return False
-    if piece.name == 'heavy tackle':
+    if piece.psize == 2:
         if  row < 0 or row > 15 or row2 > 15:
             print 'Column out of range'
             return False
-        if col % 2 == 0 and row > 14 and row2 > 14:
+        if col % 2 == 0 and (row > 14 or row2 > 14):
             print 'Column out of range'
             return False
     else:
@@ -225,10 +225,6 @@ def check_move(piece, position, gameboard):
             print 'Column out of range'
             return False
     if not (gameboard[col][row] == 'E' or gameboard[col][row] == 'B'):
-        print 'Space is occupied'
-        return False
-    if (piece.name == 'heavy tackle' and
-            not (gameboard[col][row] == 'E' or gameboard[col][row] == 'B')):
         print 'Space is occupied'
         return False
     else:
