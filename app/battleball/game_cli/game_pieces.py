@@ -163,6 +163,7 @@ def calculate_move(piece, move):
     current_location = piece.position
     row = current_location['xpos']
     column = current_location['ypos']
+    newMove = {}
     if row % 2 == 0:
         if move == 'ul':
             row = row - 1
@@ -193,8 +194,9 @@ def calculate_move(piece, move):
             column = column - 1
         else:
             row = row + 1
-
-    return (row, column)
+    newMove['row'] = row
+    newMove['col'] = column
+    return newMove
 
 def check_move(piece, position, gameboard):
     '''

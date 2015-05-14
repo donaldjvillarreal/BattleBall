@@ -3,10 +3,11 @@ This file tests the pieces object
 '''
 import unittest
 from mock import patch
-from battleball.game_cli.game_pieces import game_piece, instatiate_pieces, \
-                                            check_movement, touchdown, check_move
+from app.battleball.game_cli.game_pieces import game_piece, instatiate_pieces, \
+                                                check_movement, touchdown, check_move, \
+                                                calculate_move
 
-from battleball.game_cli.battle_board import create_gameboard, check_adjacent, move
+from app.battleball.game_cli.battle_board import create_gameboard, check_adjacent, move
 
 class TESTGAMEPIECES(unittest.TestCase):
     ''' testing of pieces '''
@@ -275,7 +276,7 @@ class TestCheckMovement(unittest.TestCase):
         check = check_movement(piece, roll_value, to_position)
         self.assertEqual(check, False)
 
-    def test_return_as_expected(self):
+    def test_return_expected_odd(self):
         ''' test adjacent function '''
         gameboard = create_gameboard()
         gameboard[2][1] = 'B'
@@ -285,6 +286,23 @@ class TestCheckMovement(unittest.TestCase):
         gameboard[4][1] = 10
         gameboard[4][2] = 8
         adjacent = check_adjacent(gameboard, 3, 2)
+        self.assertEqual(adjacent['ul'], 'B')
+        self.assertEqual(adjacent['ur'], 'X')
+        self.assertEqual(adjacent['l'], 'E')
+        self.assertEqual(adjacent['r'], 2)
+        self.assertEqual(adjacent['dl'], 10)
+        self.assertEqual(adjacent['dr'], 8)
+
+    def test_return_expected_even(self):
+        ''' test adjacent function '''
+        gameboard = create_gameboard()
+        gameboard[1][2] = 'B'
+        gameboard[1][3] = 'X'
+        gameboard[2][1] = 'E'
+        gameboard[2][3] = 2
+        gameboard[3][2] = 10
+        gameboard[3][3] = 8
+        adjacent = check_adjacent(gameboard, 2, 2)
         self.assertEqual(adjacent['ul'], 'B')
         self.assertEqual(adjacent['ur'], 'X')
         self.assertEqual(adjacent['l'], 'E')
@@ -421,3 +439,102 @@ class TestCheckMove(unittest.TestCase):
         gameboard[location[0]][location[1]] = '1'
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, False)
+
+
+class TestCalculateMove(unittest.TestCase):
+    ''' test move '''
+    def test_even_ul(self):
+        ''' test ul move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'ul')
+        self.assertEqual(new_move['row'], 1)
+        self.assertEqual(new_move['col'], 2)
+
+    def test_even_ur(self):
+        ''' test ur move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'ur')
+        self.assertEqual(new_move['row'], 1)
+        self.assertEqual(new_move['col'], 3)
+
+    def test_even_l(self):
+        ''' test l move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'l')
+        self.assertEqual(new_move['row'], 2)
+        self.assertEqual(new_move['col'], 1)
+
+    def test_even_r(self):
+        ''' test r move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'r')
+        self.assertEqual(new_move['row'], 2)
+        self.assertEqual(new_move['col'], 3)
+
+    def test_even_dl(self):
+        ''' test dl move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'dl')
+        self.assertEqual(new_move['row'], 3)
+        self.assertEqual(new_move['col'], 2)
+
+    def test_even_dr(self):
+        ''' test dr move for piece in even row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(2, 2)
+        new_move = calculate_move(piece, 'dr')
+        self.assertEqual(new_move['row'], 3)
+        self.assertEqual(new_move['col'], 3)
+
+    def test_odd_ul(self):
+        ''' test ul move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'ul')
+        self.assertEqual(new_move['row'], 2)
+        self.assertEqual(new_move['col'], 1)
+
+    def test_odd_ur(self):
+        ''' test ur move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'ur')
+        self.assertEqual(new_move['row'], 2)
+        self.assertEqual(new_move['col'], 2)
+
+    def test_odd_l(self):
+        ''' test l move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'l')
+        self.assertEqual(new_move['row'], 3)
+        self.assertEqual(new_move['col'], 1)
+
+    def test_odd_r(self):
+        ''' test r move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'r')
+        self.assertEqual(new_move['row'], 3)
+        self.assertEqual(new_move['col'], 3)
+
+    def test_odd_dl(self):
+        ''' test dl move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'dl')
+        self.assertEqual(new_move['row'], 4)
+        self.assertEqual(new_move['col'], 1)
+
+    def test_odd_dr(self):
+        ''' test dr move for piece in odd row '''
+        piece = game_piece(20, 1, 'name')
+        piece.place_on_board(3, 2)
+        new_move = calculate_move(piece, 'dr')
+        self.assertEqual(new_move['row'], 4)
+        self.assertEqual(new_move['col'], 2)

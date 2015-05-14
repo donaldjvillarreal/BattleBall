@@ -30,6 +30,7 @@ def create_gameboard():
 
     return gameboard
 
+
 def print_board(gameboard):
     '''
     This function takes the current game board and prints it neatly to
@@ -46,6 +47,7 @@ def print_board(gameboard):
 
     print " ".join(gameboard[12])
     print '      Away       '
+
 
 def place_piece(piece_index, location, gameboard):
     '''

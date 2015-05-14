@@ -1,18 +1,21 @@
+'''
+acceptance testing
+'''
 import unittest
 from selenium import webdriver
 
-class BattleballPageTest(unittest.TestCase):
+class BATTLEBALLTESTCASE(unittest.TestCase):
     '''
     acceptance tests
     '''
 
-    def setUp(self):
+    def test_setup(self):
         '''
         set driver to firefox
         '''
         self.browser = webdriver.Firefox()
 
-    def tearDown(self):
+    def test_teardown(self):
         '''
         clean up when done by closing browser
         '''
