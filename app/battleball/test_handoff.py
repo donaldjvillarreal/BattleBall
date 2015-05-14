@@ -29,10 +29,10 @@ print 'player2 has ball? ', player2.has_ball
 '''
 
 import unittest
-from game_cli.handoff import handoff
-from game_cli.game_pieces import game_piece
+from battleball.game_cli.handoff import handoff
+from battleball.game_cli.game_pieces import game_piece
 
-class test_handoff(unittest.TestCase):
+class TEST_HANDOFF(unittest.TestCase):
     '''
     Two instances of game piece (player) are created. Each with differnt roll size (dice) and
     position. Then initially, both the player doesn't have the ball. But, then one gets the ball
@@ -40,6 +40,9 @@ class test_handoff(unittest.TestCase):
     differently.
     '''
     def test_handoff_function(self):
+        '''
+        testing handoff function
+        '''
         # instantiate two players
         player1 = game_piece(6, 13, 'running back')
         player2 = game_piece(20, 1, 'lineman 1')

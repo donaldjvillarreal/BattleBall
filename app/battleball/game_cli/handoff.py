@@ -3,7 +3,7 @@ This program implements the ball handoff function between two players.
 'handoff' function is the main/only function of the program
 '''
 
-from game_pieces import game_piece
+from battleball.game_cli.game_pieces import game_piece
 
 def handoff(player1, player2):
     '''

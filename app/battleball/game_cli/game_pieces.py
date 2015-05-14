@@ -3,7 +3,7 @@ This file controls the game_piece objects, which are placed on the board.
 '''
 import random
 
-class game_piece:
+class game_piece(object):
     '''
     Below is the game_piece class which contains it's own roll, move, place_on_board
     and injury functions.
