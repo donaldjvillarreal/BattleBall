@@ -258,6 +258,7 @@ class TestCheckMovement(unittest.TestCase):
         ''' test creation of tackle, home team '''
         players = instatiate_pieces()
         self.assertEqual(players['home'][1].name, 'tackle')
+
     def test_legal_movement(self):
         ''' proper movement '''
         piece = game_piece(20, 1, 'name')
@@ -389,10 +390,19 @@ class TestTouchdown(unittest.TestCase):
 
 class TestCheckMove(unittest.TestCase):
     ''' test move '''
-    def test_legal_move(self):
+    def test_legal_move_ht(self):
         ''' test move legality '''
         piece = game_piece(20, 2, 'heavy tackle')
         location = (1, 4)
+        gameboard = create_gameboard()
+        gameboard[location[0]][location[1]] = 'E'
+        check = check_move(piece, location, gameboard)
+        self.assertEqual(check, True)
+
+    def test_illegal_move_ht(self):
+        ''' test move legality '''
+        piece = game_piece(20, 2, 'heavy tackle')
+        location = (2, 15)
         gameboard = create_gameboard()
         gameboard[location[0]][location[1]] = 'E'
         check = check_move(piece, location, gameboard)
