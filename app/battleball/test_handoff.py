@@ -7,32 +7,11 @@ the resulting number is different, then player A passes the
 ball to player B; otherwise, resolve fumble function is called.
 '''
 
-'''
-####### uncomment this to print some command line test #######
-############################################################
-from game_pieces import game_piece
-from handoff import handoff
-import random
-
-player1 = game_piece(6, 13, 'running back')
-player2 = game_piece(20, 1, 'linemam 1')
-
-# suppose player1 has the ball, and player2 doesn't
-player1.ball_toggle()
-print 'player1 has ball? ', player1.has_ball
-print 'player2 has ball? ', player2.has_ball
-
-# now test the handoff function
-handoff(player1, player2)
-print 'player1 has ball? ', player1.has_ball
-print 'player2 has ball? ', player2.has_ball
-'''
-
 import unittest
 from battleball.game_cli.handoff import handoff
 from battleball.game_cli.game_pieces import game_piece
 
-class TEST_HANDOFF(unittest.TestCase):
+class TESTHANDOFF(unittest.TestCase):
     '''
     Two instances of game piece (player) are created. Each with differnt roll size (dice) and
     position. Then initially, both the player doesn't have the ball. But, then one gets the ball

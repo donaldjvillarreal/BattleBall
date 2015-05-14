@@ -37,10 +37,3 @@ def handoff(player1, player2):
             print
             player1.ball_toggle()
             player2.ball_toggle()
-
-    else:
-        '''
-        if results of dice rolls are same,
-        then resolve fumble fucntion is called,
-        which is yet to be implemented.
-        '''
