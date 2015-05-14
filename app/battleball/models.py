@@ -48,6 +48,9 @@ class Game(models.Model):
     awayScore = models.IntegerField(default=0)
 
     def instatiate_pieces():
+        '''
+        All 20 pieces for full game
+        '''
         heavy_tackle_h = Piece(roll_size=6, piece_size=2, name='heavy tackle')
         tackle_h = Piece(roll_size=6, piece_size=1, name='tackle')
         lineman1_h = Piece(roll_size=8, piece_size=1, name='lineman 1')

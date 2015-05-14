@@ -2,8 +2,8 @@
 This file contains  functions that create
 the game file used by the Game
 '''
-import battle_board as bb
-import game_pieces as gp
+import battleball.game_cli.battle_board as bb
+import battleball.game_cli.game_pieces as gp
 import json
 
 def create_game_file(game_id):

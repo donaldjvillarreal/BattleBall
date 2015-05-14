@@ -16,18 +16,21 @@ class Gametest(unittest.TestCase):
         self.away_piece = gp.create_piece
 
     def test_board(self):
+        ''' test json board '''
         filename = ga.create_game_file(1)
         with open(filename) as wfile:
             test = json.load(wfile)
         self.assertEqual(test['game']['board'], self.board)
 
     def test_home(self):
+        ''' test home team dictionary '''
         filename = ga.create_game_file(1)
         with open(filename) as wfile:
             test = json.load(wfile)
         self.assertEqual(test['game']['home'], self.home_piece)
 
     def test_away(self):
+        ''' test away team dictionary '''
         filename = ga.create_game_file(1)
         with open(filename) as wfile:
             test = json.load(wfile)

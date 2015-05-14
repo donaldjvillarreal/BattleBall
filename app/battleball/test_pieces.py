@@ -8,14 +8,14 @@ from battleball.game_cli.game_pieces import game_piece, instatiate_pieces, \
 
 from battleball.game_cli.battle_board import create_gameboard, check_adjacent, move
 
-class test_game_pieces(unittest.TestCase):
+class TESTGAMEPIECES(unittest.TestCase):
     ''' testing of pieces '''
-    def test_game_piece_has_ball_initialized(self):
+    def test_has_ball_initialized(self):
         ''' test ball_toggle '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(0, piece.has_ball)
 
-    def test_game_piece_not_injured_initialized(self):
+    def test_not_injured_initialized(self):
         ''' test injury '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(0, piece.injured)
@@ -26,39 +26,39 @@ class test_game_pieces(unittest.TestCase):
         piece.ball_toggle()
         self.assertEqual(1, piece.has_ball)
 
-    def test_game_piece_x_position_initialized(self):
+    def test_x_position_initialized(self):
         ''' test game_piece x position '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(-1, piece.position['xpos'])
 
-    def test_game_piece_y_position_initialized(self):
+    def test_y_position_initialized(self):
         ''' test game piece y position '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(-1, piece.position['ypos'])
 
-    def test_game_piece_y_position2_psize2_initialize(self):
+    def test_y_p2_psize2_initialize(self):
         ''' test heavy tackle y2 position '''
         piece = game_piece(20, 2, 'name')
         self.assertEqual(-2, piece.position['ypos2'])
 
-    def test_game_piece_roll_size_initialized(self):
+    def test_roll_size_initialized(self):
         ''' test roll size '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(20, piece.roll_size)
 
-    def test_game_piece_psize_initialized(self):
+    def test_psize_initialized(self):
         ''' test piece size '''
         piece = game_piece(20, 1, 'name')
         self.assertEqual(1, piece.psize)
 
-    def test_game_piece_place_on_board(self):
+    def test_place_on_board(self):
         ''' test placement of piece on board '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(3, 2)
         self.assertEqual(3, piece.position['xpos'])
         self.assertEqual(2, piece.position['ypos'])
 
-    def test_game_piece_place_psize2_on_board(self):
+    def test_place_psize2_on_board(self):
         ''' test placement of size 2 piece on board '''
         piece = game_piece(20, 2, 'name')
         piece.place_on_board(3, 2)
@@ -66,7 +66,7 @@ class test_game_pieces(unittest.TestCase):
         self.assertEqual(2, piece.position['ypos'])
         self.assertEqual(3, piece.position['ypos2'])
 
-    def test_game_piece_movement(self):
+    def test_gp_movement(self):
         ''' test movement of piece '''
         piece = game_piece(20, 1, 'name')
         piece.place_on_board(5, 2)
@@ -74,7 +74,7 @@ class test_game_pieces(unittest.TestCase):
         self.assertEqual(6, piece.position['xpos'])
         self.assertEqual(4, piece.position['ypos'])
 
-    def test_game_piece_psize2_movement(self):
+    def test_psize2_movement(self):
         ''' test movement of size 2 piece '''
         piece = game_piece(20, 2, 'name')
         piece.place_on_board(5, 2)
@@ -83,13 +83,13 @@ class test_game_pieces(unittest.TestCase):
         self.assertEqual(4, piece.position['ypos'])
         self.assertEqual(5, piece.position['ypos2'])
 
-    def test_game_piece_low_injury(self):
+    def test_low_injury(self):
         ''' test mild injury '''
         piece = game_piece(20, 1, 'name')
         piece.injury(1)
         self.assertEqual(1, piece.injured)
 
-    def test_game_piece_high_injury(self):
+    def test_high_injury(self):
         ''' test severe injury '''
         piece = game_piece(20, 1, 'name')
         piece.injury(2)
@@ -380,7 +380,7 @@ class TestCheckMove(unittest.TestCase):
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, True)
 
-    def test_move_heavy_tackle_off_column(self):
+    def test_heavy_tackle_offcolumn(self):
         ''' test moving heavy tackle '''
         piece = game_piece(20, 2, 'heavy tackle')
         location = (1, 4)
@@ -389,7 +389,7 @@ class TestCheckMove(unittest.TestCase):
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, True)
 
-    def test_move_other_piece_off_column(self):
+    def test_other_off_column(self):
         ''' test moving non heavy tackle '''
         piece = game_piece(20, 1, 'name')
         location = (1, 4)
@@ -413,7 +413,7 @@ class TestCheckMove(unittest.TestCase):
         check = check_move(piece, location, gameboard)
         self.assertEqual(check, True)
 
-    def test_move_piece_on_another_piece(self):
+    def test_piece_on_another_piece(self):
         ''' test moving piece on another '''
         piece = game_piece(20, 1, 'name')
         location = (1, 4)
