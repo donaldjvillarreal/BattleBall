@@ -47,6 +47,7 @@ def print_board(gameboard):
 
     print " ".join(gameboard[12])
     print '      Away       '
+    return True
 
 
 def place_piece(piece_index, location, gameboard):

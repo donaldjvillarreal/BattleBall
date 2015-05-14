@@ -129,6 +129,11 @@ class BoardTest(unittest.TestCase):
         ''' Test individual spots created '''
         self.assertEqual(len(br.create_gameboard()[12]), 6)
 
+    def test_print_board(self):
+        board = br.create_gameboard()
+        printed = br.print_board(board)
+        self.assertEqual(printed, True)
+
 class TestPlacePiece(unittest.TestCase):
     '''
     Test placement of piece on board
@@ -152,21 +157,23 @@ class TestResolveFumble(unittest.TestCase):
     '''
     Test fumble function
     '''
-    def test_place_piece_fumble(self):
+    def test_fumble_resolved(self):
         ''' test placement of piece after a fumble '''
         board = br.create_gameboard()
         location = (1, 1)
-        br.resolve_fumble(location, board)
+        resolved = br.resolve_fumble(location, board)
         self.assertEqual(board[1][1], 'B')
+        self.assertEqual(resolved, True)
 
-    def test_place_piece_fumble(self):
+    def test_fumble_not_resolved(self):
         ''' test placement of piece after a fumble '''
         board = br.create_gameboard()
         location = (1, 1)
         br.place_piece('0', location, board)
         location = (1, 1)
-        br.resolve_fumble(location, board)
+        resolved = br.resolve_fumble(location, board)
         self.assertEqual(board[1][1], '0')
+        self.assertEqual(resolved, False)
 
 class TestEmptySpace(unittest.TestCase):
     '''
